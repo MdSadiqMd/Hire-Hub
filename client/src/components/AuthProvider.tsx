@@ -6,7 +6,7 @@ import { Session } from "next-auth";
 
 interface AuthProviderProps {
   children?: ReactNode;
-  session?: Session;
+  session?: Session | null;
 }
 
 const AuthProvider = ({ children, session }: AuthProviderProps) => {
