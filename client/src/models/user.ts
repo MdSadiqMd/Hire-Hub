@@ -1,8 +1,8 @@
 import { Schema, model, Document, models } from "mongoose";
 
-enum Designation {
-  EMPLOYEE = 'In Search of Job',
-  MANAGER = 'To Hire'
+export enum Designation {
+  EMPLOYEE = "In Search of Job",
+  MANAGER = "To Hire",
 }
 
 interface IUser extends Document {
@@ -12,11 +12,13 @@ interface IUser extends Document {
 }
 
 const userSchema = new Schema<IUser>({
-  name: { type: String, required: true },
-  email: { type: String, required: true },
-  designation: { type: String, enum: Object.values(Designation), required: true }
+  name: { type: String, required: true, unique: true },
+  email: { type: String, required: true, unique: true },
+  designation: {
+    type: String,
+    enum: Object.values(Designation),
+    required: true,
+  },
 });
 
-const UserModel = models.User || model<IUser>('User', userSchema);
-
-export default UserModel;
+export default models.User || model<IUser>("User", userSchema);
