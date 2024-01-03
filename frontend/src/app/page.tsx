@@ -1,9 +1,10 @@
+'use client'
 import React from "react";
 import { FcGoogle } from "react-icons/fc";
 import { signIn, useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 
-const Home: React.FC = () => {
+const Home = () => {
   const { data: session } = useSession();
   const router = useRouter();
 
