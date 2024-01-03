@@ -1,12 +1,13 @@
-import './App.css'
-import { Button } from './components/ui/button'
+import "./App.css";
+import { Button } from "./components/ui/button";
+import { ThemeProvider } from "@/components/theme-provider";
 
 function App() {
   return (
-    <>
-    <Button>Click Me</Button>
-    </>
-  )
+    <ThemeProvider defaultTheme="white" storageKey="vite-ui-theme">
+      <Button>Click Me</Button>
+    </ThemeProvider>
+  );
 }
 
-export default App
+export default App;
