@@ -1,12 +1,10 @@
 import "./App.css";
-import { Button } from "./components/ui/button";
 import { ThemeProvider } from "@/components/theme-provider";
+import AuthenticationPage from "./pages/UserAuthForm";
 
 function App() {
   return (
-    <ThemeProvider defaultTheme="white" storageKey="vite-ui-theme">
-      <Button>Click Me</Button>
-    </ThemeProvider>
+    <AuthenticationPage/>
   );
 }
 
