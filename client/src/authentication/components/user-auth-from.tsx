@@ -1,10 +1,11 @@
 "use client"
 
-import * as React from "react"
-import { cn } from "@/lib/utils"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
+import * as React from "react";
+import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Icons } from "@/components/ui/icons";
 
 interface UserAuthFormProps extends React.HTMLAttributes<HTMLDivElement> {}
 
@@ -39,9 +40,9 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
             />
           </div>
           <Button disabled={isLoading}>
-            {/*isLoading && (
-              <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
-            )*/}
+            {isLoading && (
+              <Icons imageLink="https://icons8.com/icon/xS10HpCgrmSD/fidget-spinner" className="mr-2 h-4 w-4 animate-spin" />
+            )}
             Sign In with Email
           </Button>
         </div>
@@ -57,13 +58,13 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
         </div>
       </div>
       <Button variant="outline" type="button" disabled={isLoading}>
-        {/*{isLoading ? (
-          <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
+        {isLoading ? (
+          <Icons imageLink="https://icons8.com/icon/xS10HpCgrmSD/fidget-spinner" className="mr-2 h-4 w-4 animate-spin" />
         ) : (
-          <Icons.gitHub className="mr-2 h-4 w-4" />
-        )}{" "}*/}
+          <Icons imageLink="https://icons8.com/icon/17949/google" className="mr-2 h-4 w-4" />
+        )}{" "}
         Github
       </Button>
     </div>
-  )
+  );
 }
