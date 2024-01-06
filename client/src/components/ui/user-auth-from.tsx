@@ -25,7 +25,7 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
     <div className={cn("grid gap-6", className)} {...props}>
       <form onSubmit={onSubmit}>
         <div className="grid gap-2">
-          <div className="grid gap-1">
+        <div className="grid gap-1">
             <Label className="sr-only" htmlFor="email">
               Email
             </Label>
@@ -35,6 +35,20 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
               type="email"
               autoCapitalize="none"
               autoComplete="email"
+              autoCorrect="off"
+              disabled={isLoading}
+            />
+          </div>
+          <div className="grid gap-1">
+            <Label className="sr-only" htmlFor="email">
+              password
+            </Label>
+            <Input
+              id="password"
+              placeholder="Enter your password"
+              type="password"
+              autoCapitalize="none"
+              autoComplete="password"
               autoCorrect="off"
               disabled={isLoading}
             />

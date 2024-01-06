@@ -33,7 +33,7 @@ export async function POST(req: Request) {
         }
         const privateKey = crypto.randomUUID();
         const name = isUserPresent.name;
-        const token = jwt.sign({ email, name }, privateKey)
+        const token = jwt.sign({ email, name }, process.env.JWT_TOKEN_SECRET)
         const response = NextResponse.json({ msg: "User successfull login", success: true }, { status: 200 })
         response.cookies.set("token", token, {
             httpOnly: true

@@ -32,7 +32,7 @@ export async function POST(req: Request) {
         let user = new User({ email, password: hashPassword, name });
         const res = await user.save();
         const privateKey = crypto.randomUUID();
-        const token = jwt.sign({ email, name }, privateKey)
+        const token = jwt.sign({ email, name }, process.env.JWT_TOKEN_SECRET)
         const response = NextResponse.json({ mgs: "ok", success: true }, { status: 201 })
         response.cookies.set("token", token, {
             httpOnly: true
