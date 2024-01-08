@@ -1,45 +1,52 @@
-"use client";
-import Link from "next/link";
-import { useRouter } from "next/navigation"; // from "next Navigation"
-import React, { useEffect } from "react";
-import axios from "axios";
-import toast from "react-hot-toast";
-import * as React from "react";
-import { cn } from "@/lib/utils";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Icons } from "@/components/ui/icons";
-import { Metadata } from "next";
-import Image from "next/image";
-import { cn } from "@/lib/utils";
+"use client"
+import className from 'classnames';
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import React, { useState } from 'react';
+import axios from 'axios';
+import toast from 'react-hot-toast';
+import { cn } from '@/lib/utils';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Icons } from '@/components/ui/icons';
+import Image from 'next/image';
 
-// ***In app directory we need to create a folder for every page and a file with name of "page.tsx" only then the nextJS will create that page without neccessarly us needed to create route for that page
-// If we give any name other than page.tsx tha app crashes
-// Don't Need to bother about routes this page inside app will automatically create a route no manually route creating steps required
 const LoginPage = () => {
   const router = useRouter();
-  const [user, setUser] = React.useState({
-    email: "",
-    password: "",
+  const [user, setUser] = useState({
+    email: '',
+    password: '',
   });
-  export const metadata: Metadata = {
-    title: "Authentication",
-    description: "Authentication forms built using the components.",
+
+  const [isLoading, setIsLoading] = useState(false);
+
+  const onSubmit = async (event: React.SyntheticEvent) => {
+    event.preventDefault();
+    setIsLoading(true);
+
+    setTimeout(() => {
+      setIsLoading(false);
+    }, 3000);
   };
 
   const onLogin = async () => {
     try {
-      setLoading(true);
-      const response = await axios.post("/api/users/login", user);
-      console.log("login Sucess", response.data);
-      router.push("/profile");
+      setIsLoading(true);
+      const response = await axios.post('/api/users/login', user);
+      console.log('Login Success', response.data);
+      router.push('/profile');
     } catch (error: any) {
-      console.log("login failed");
+      console.log('Login failed');
       toast.error(error.message);
     } finally {
-      setLoading(false);
+      setIsLoading(false);
     }
+  };
+
+  const metadata: Metadata = {
+    title: "Authentication",
+    description: "Authentication forms built using the components.",
   };
 
   {
@@ -73,17 +80,6 @@ const LoginPage = () => {
         </div>
     </div>
   )*/
-  }
-
-  const [isLoading, setIsLoading] = React.useState<boolean>(false);
-
-  async function onSubmit(event: React.SyntheticEvent) {
-    event.preventDefault();
-    setIsLoading(true);
-
-    setTimeout(() => {
-      setIsLoading(false);
-    }, 3000);
   }
 
   return (
@@ -139,7 +135,7 @@ const LoginPage = () => {
                 Enter your email below to create your account
               </p>
             </div>
-            <div className={cn("grid gap-6", className)} {...props}>
+            <div className={cn("grid gap-6", className)}>
               <form onSubmit={onSubmit}>
                 <div className="grid gap-2">
                   <div className="grid gap-1">

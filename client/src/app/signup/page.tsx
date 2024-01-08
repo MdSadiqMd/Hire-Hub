@@ -8,7 +8,14 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import React from "react";
+import className from 'classnames';
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import React, { useState } from 'react';
+import axios from 'axios';
+import toast from 'react-hot-toast';
+import Image from 'next/image';
+import { cn } from '@/lib/utils';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -76,16 +83,16 @@ export default function SignupPage() {
                 </CardDescription>
               </CardHeader>
               <CardContent className="grid gap-4">
-                <div className="grid grid-cols-2 gap-6">
+                {/*<div className="grid grid-cols-2 gap-6">
                   <Button variant="outline">
-                    <Icons.gitHub className="mr-2 h-4 w-4" />
+                    <Icons gitHub className="mr-2 h-4 w-4" />
                     Github
                   </Button>
                   <Button variant="outline">
                     <Icons.google className="mr-2 h-4 w-4" />
                     Google
                   </Button>
-                </div>
+  </div>*/}
                 <div className="relative">
                   <div className="absolute inset-0 flex items-center">
                     <span className="w-full border-t" />
