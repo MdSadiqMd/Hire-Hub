@@ -8,20 +8,42 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import className from 'classnames';
-import Link from 'next/link';
-import { useRouter } from 'next/navigation';
-import React, { useState } from 'react';
-import axios from 'axios';
-import toast from 'react-hot-toast';
-import Image from 'next/image';
-import { cn } from '@/lib/utils';
+import className from "classnames";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import React, { useState } from "react";
+import axios from "axios";
+import toast from "react-hot-toast";
+import Image from "next/image";
+import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Icons } from "@/components/ui/icons";
 
 export default function SignupPage() {
+  const router = useRouter();
+  const [user, setUser] = React.useState({
+    email: "",
+    password: "",
+    username: "",
+  });
+
+  const [loading, isLoading] = React.useState(false);
+
+  const onSignup = async () => {
+    try {
+      setLoading(true);
+      const response = await axios.post("/api/users/signup", user);
+      console.log("signup Sucess", response.data);
+      router.push("/login");
+    } catch (error: any) {
+      console.log("Signup failed");
+      toast.error(error.message);
+    } finally {
+      setLoading(false);
+    }
+  };
   return (
     <>
       <div className="md:hidden">
@@ -83,16 +105,36 @@ export default function SignupPage() {
                 </CardDescription>
               </CardHeader>
               <CardContent className="grid gap-4">
-                {/*<div className="grid grid-cols-2 gap-6">
-                  <Button variant="outline">
-                    <Icons gitHub className="mr-2 h-4 w-4" />
+                <div className="grid grid-cols-2 gap-6">
+                  <Button variant="outline" type="button" disabled={isLoading}>
+                    {isLoading ? (
+                      <Icons
+                        imageLink="https://icons8.com/icon/xS10HpCgrmSD/fidget-spinner"
+                        className="mr-2 h-4 w-4 animate-spin"
+                      />
+                    ) : (
+                      <Icons
+                        imageLink="https://icons8.com/icon/WCL5hPLvhUjQ/github"
+                        className="mr-2 h-4 w-4"
+                      />
+                    )}{" "}
                     Github
                   </Button>
-                  <Button variant="outline">
-                    <Icons.google className="mr-2 h-4 w-4" />
+                  <Button variant="outline" type="button" disabled={isLoading}>
+                    {isLoading ? (
+                      <Icons
+                        imageLink="https://icons8.com/icon/xS10HpCgrmSD/fidget-spinner"
+                        className="mr-2 h-4 w-4 animate-spin"
+                      />
+                    ) : (
+                      <Icons
+                        imageLink="https://icons8.com/icon/17949/google"
+                        className="mr-2 h-4 w-4"
+                      />
+                    )}{" "}
                     Google
                   </Button>
-  </div>*/}
+                </div>
                 <div className="relative">
                   <div className="absolute inset-0 flex items-center">
                     <span className="w-full border-t" />
@@ -105,11 +147,26 @@ export default function SignupPage() {
                 </div>
                 <div className="grid gap-2">
                   <Label htmlFor="email">Email</Label>
-                  <Input id="email" type="email" placeholder="m@example.com" />
+                  <Input
+                    id="email"
+                    type="email"
+                    placeholder="m@example.com"
+                    value={user.username}
+                    onChange={(e) =>
+                      setUser({ ...user, username: e.target.value })
+                    }
+                  />
                 </div>
                 <div className="grid gap-2">
                   <Label htmlFor="password">Password</Label>
-                  <Input id="password" type="password" />
+                  <Input
+                    id="password"
+                    type="password"
+                    value={user.email}
+                    onChange={(e) =>
+                      setUser({ ...user, email: e.target.value })
+                    }
+                  />
                 </div>
               </CardContent>
               <CardFooter>
