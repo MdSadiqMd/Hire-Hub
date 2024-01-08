@@ -3,7 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 
 import { cn } from "@/lib/utils";
-import { UserAuthForm } from "../../components/ui/user-auth-from";
+import { UserAuthForm } from "../../components/ui/user-auth-form";
 
 export const metadata: Metadata = {
   title: "Authentication",
