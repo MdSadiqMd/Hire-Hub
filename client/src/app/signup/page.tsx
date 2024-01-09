@@ -33,7 +33,7 @@ export default function SignupPage() {
 
   const onSignup = async () => {
     try {
-      setLoading(true);
+      isLoading(true);
       const response = await axios.post("/api/users/signup", user);
       console.log("signup Sucess", response.data);
       router.push("/login");
@@ -41,7 +41,7 @@ export default function SignupPage() {
       console.log("Signup failed");
       toast.error(error.message);
     } finally {
-      setLoading(false);
+      isLoading(false);
     }
   };
   return (
@@ -89,14 +89,14 @@ export default function SignupPage() {
         </div>
         <div className="lg:p-8">
           <div className="mx-auto flex w-full flex-col justify-center space-y-6 sm:w-[350px]">
-            <div className="flex flex-col space-y-2 text-center">
+            {/*<div className="flex flex-col space-y-2 text-center">
               <h1 className="text-2xl font-semibold tracking-tight">
                 Create an account
               </h1>
               <p className="text-sm text-muted-foreground">
                 Enter your email below to create your account
               </p>
-            </div>
+            </div>*/}
             <Card>
               <CardHeader className="space-y-1">
                 <CardTitle className="text-2xl">Create an account</CardTitle>
@@ -170,7 +170,9 @@ export default function SignupPage() {
                 </div>
               </CardContent>
               <CardFooter>
-                <Button className="w-full">Create account</Button>
+                <Button className="w-full" onClick={onSignup} disabled={loading}>
+                  Create account
+                </Button>
               </CardFooter>
             </Card>
           </div>

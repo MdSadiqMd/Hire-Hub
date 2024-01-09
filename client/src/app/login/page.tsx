@@ -35,7 +35,7 @@ const LoginPage = () => {
       setIsLoading(true);
       const response = await axios.post('/api/users/login', user);
       console.log('Login Success', response.data);
-      router.push('/profile');
+      router.push({ pathname: '/profile' });
     } catch (error: any) {
       console.log('Login failed');
       toast.error(error.message);
@@ -43,6 +43,7 @@ const LoginPage = () => {
       setIsLoading(false);
     }
   };
+  
 
   const metadata: Metadata = {
     title: "Authentication",
