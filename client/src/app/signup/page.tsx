@@ -26,7 +26,6 @@ export default function SignupPage() {
   const [user, setUser] = React.useState({
     email: "",
     password: "",
-    username: "",
   });
   console.log(process.env.PORT);
 
@@ -36,6 +35,8 @@ export default function SignupPage() {
     try {
       isLoading(true);
       const response = await axios.post("/api/users/signup", user);
+      console.log("request received");
+      
       console.log("signup Success", response.data);
       router.push("/login");
     } catch (error: any) {
@@ -152,9 +153,9 @@ export default function SignupPage() {
                     id="email"
                     type="email"
                     placeholder="m@example.com"
-                    value={user.username}
+                    value={user.email}
                     onChange={(e) =>
-                      setUser({ ...user, username: e.target.value })
+                      setUser({ ...user, email: e.target.value })
                     }
                   />
                 </div>

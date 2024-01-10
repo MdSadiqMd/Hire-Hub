@@ -1,3 +1,4 @@
+"use client"
 {/*import { PhotoIcon, UserCircleIcon } from '@heroicons/react/24/solid';
 import axios from 'axios';
 import Link from 'next/link';

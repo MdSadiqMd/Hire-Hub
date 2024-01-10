@@ -1,7 +1,7 @@
 import {connect} from '@/db/config';
 import User from '@/Models/userModels'
 import { NextRequest,NextResponse} from "next/server"
-import bycrypt from 'bcryptjs';
+import bcryptjs from 'bcryptjs';
 import jwt from 'jsonwebtoken'
 
 connect();
@@ -17,12 +17,15 @@ export async function POST(request:NextRequest){
         if(!user){
             return NextResponse.json({error:"User not Exist"},{status:400})
         }
+        console.log("User Exists");
+        
 
         //check if password is correct
-        const validatePassword=await bycrypt.compare(password,user.password)
+        const validatePassword=await bcryptjs.compare(password,user.password)
         if(!validatePassword){
             return NextResponse.json({error:"Password is Invalid"},{status:400})
         }
+        console.log(user);
 
         // create token data
         const tokenData={
@@ -38,6 +41,7 @@ export async function POST(request:NextRequest){
             message:"Login Succesfull",
             success:true,
         })
+        
         response.cookies.set("token",token,{
             httpOnly:true,
         })

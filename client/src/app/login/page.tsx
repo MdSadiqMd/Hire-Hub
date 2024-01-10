@@ -15,8 +15,8 @@ import Image from 'next/image';
 const LoginPage = () => {
   const router = useRouter();
   const [user, setUser] = useState({
-    email: '',
-    password: '',
+    email: "",
+    password: "",
   });
 
   const [isLoading, setIsLoading] = useState(false);
@@ -108,7 +108,7 @@ const LoginPage = () => {
       </div>
       <div className="container relative hidden h-[800px] flex-col items-center justify-center md:grid lg:max-w-none lg:grid-cols-2 lg:px-0">
         <Link
-          href="/signup"
+          href="/profile"
           className={cn("absolute right-4 top-4 md:right-8 md:top-8")}
         >
           signIn
@@ -142,7 +142,7 @@ const LoginPage = () => {
               </p>
             </div>
             <div className={cn("grid gap-6", className)}>
-              <form onSubmit={onSubmit}>
+              <form>
                 <div className="grid gap-2">
                   <div className="grid gap-1">
                     <Label className="sr-only" htmlFor="email">
