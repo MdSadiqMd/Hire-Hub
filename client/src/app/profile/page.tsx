@@ -414,8 +414,8 @@ return (
             </div>
           </fieldset>
         </div>
-</div>*/}
-   {/*} </div>
+      </div>*/}
+      {/*} </div>
 
     <div className="mt-6 flex items-center justify-end gap-x-6">
       <button type="button" className="text-sm font-semibold leading-6 text-gray-900">
@@ -432,7 +432,6 @@ return (
 )
 }*/}
 
-import { PhotoIcon, UserCircleIcon } from '@heroicons/react/24/solid';
 import axios from 'axios';
 import Link from 'next/link';
 import React, { useState, useEffect } from 'react';

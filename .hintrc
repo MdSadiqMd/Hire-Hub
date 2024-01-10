@@ -5,6 +5,18 @@
   "hints": {
     "typescript-config/is-valid": "off",
     "button-type": "off",
-    "disown-opener": "off"
+    "disown-opener": "off",
+    "axe/parsing": [
+      "default",
+      {
+        "duplicate-id-aria": "off"
+      }
+    ],
+    "axe/forms": [
+      "default",
+      {
+        "autocomplete-valid": "off"
+      }
+    ]
   }
 }

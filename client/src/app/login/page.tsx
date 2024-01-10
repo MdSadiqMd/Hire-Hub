@@ -35,7 +35,7 @@ const LoginPage = () => {
       setIsLoading(true);
       const response = await axios.post('/api/users/login', user);
       console.log('Login Success', response.data);
-      router.push({ pathname: '/profile' });
+      router.push("/profile");
     } catch (error: any) {
       console.log('Login failed');
       toast.error(error.message);
@@ -44,11 +44,16 @@ const LoginPage = () => {
     }
   };
   
-
+  interface Metadata {
+    title: string;
+    description: string;
+  }
+  
   const metadata: Metadata = {
     title: "Authentication",
     description: "Authentication forms built using the components.",
   };
+  
 
   {
     /*return (

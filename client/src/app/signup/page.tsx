@@ -28,14 +28,15 @@ export default function SignupPage() {
     password: "",
     username: "",
   });
+  console.log(process.env.PORT);
 
-  const [loading, isLoading] = React.useState(false);
+  const [loading, isLoading] = useState(false);
 
   const onSignup = async () => {
     try {
       isLoading(true);
       const response = await axios.post("/api/users/signup", user);
-      console.log("signup Sucess", response.data);
+      console.log("signup Success", response.data);
       router.push("/login");
     } catch (error: any) {
       console.log("Signup failed");
@@ -106,8 +107,8 @@ export default function SignupPage() {
               </CardHeader>
               <CardContent className="grid gap-4">
                 <div className="grid grid-cols-2 gap-6">
-                  <Button variant="outline" type="button" disabled={isLoading}>
-                    {isLoading ? (
+                  <Button variant="outline" type="button" disabled={loading}>
+                    {loading ? (
                       <Icons
                         imageLink="https://icons8.com/icon/xS10HpCgrmSD/fidget-spinner"
                         className="mr-2 h-4 w-4 animate-spin"
@@ -120,8 +121,8 @@ export default function SignupPage() {
                     )}{" "}
                     Github
                   </Button>
-                  <Button variant="outline" type="button" disabled={isLoading}>
-                    {isLoading ? (
+                  <Button variant="outline" type="button" disabled={loading}>
+                    {loading ? (
                       <Icons
                         imageLink="https://icons8.com/icon/xS10HpCgrmSD/fidget-spinner"
                         className="mr-2 h-4 w-4 animate-spin"
@@ -162,9 +163,9 @@ export default function SignupPage() {
                   <Input
                     id="password"
                     type="password"
-                    value={user.email}
+                    value={user.password}
                     onChange={(e) =>
-                      setUser({ ...user, email: e.target.value })
+                      setUser({ ...user, password: e.target.value })
                     }
                   />
                 </div>
