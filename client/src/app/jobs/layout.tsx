@@ -1,7 +1,13 @@
 "use client";
-import React, {useState,useEffect,Fragment} from "react";
+import React, { useState, useEffect, Fragment } from "react";
 import { Disclosure, Menu, Transition } from "@headlessui/react";
 import { BellIcon, Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
 
 export const navigation = [
   { name: "Home", href: "#", current: true },
@@ -15,7 +21,6 @@ export function classNames(...classes: string[]) {
 }
 
 export const Navbar: React.FC<{ children?: React.ReactNode }> = (props) => {
-
   const [isSearchBarVisible, setIsSearchBarVisible] = useState<Boolean>(true);
   useEffect(() => {
     const handleResize = () => {
@@ -102,7 +107,9 @@ export const Navbar: React.FC<{ children?: React.ReactNode }> = (props) => {
                       x="0px"
                       y="0px"
                       viewBox="0 0 56.966 56.966"
-                      style={{ enableBackground: "new 0 0 56.966 56.966" } as any}
+                      style={
+                        { enableBackground: "new 0 0 56.966 56.966" } as any
+                      }
                       xmlSpace="preserve"
                       width="512px"
                       height="512px"
@@ -214,6 +221,36 @@ export const Navbar: React.FC<{ children?: React.ReactNode }> = (props) => {
           </>
         )}
       </Disclosure>
+      {/*Side bar Menu */}
+      <div className="h-screen bg-gray-900 w-[15vw] overflow-hidden text-white p-[6px] flex flex-col">
+        <Accordion type="single" collapsible>
+          <AccordionItem value="item-1">
+            <AccordionTrigger>Is it accessible?</AccordionTrigger>
+            <AccordionContent>
+              Yes. It adheres to the WAI-ARIA design pattern.
+            </AccordionContent>
+            <AccordionContent>
+              Yes. It adheres to the WAI-ARIA design pattern.
+            </AccordionContent>
+          </AccordionItem>
+        </Accordion>
+        <Accordion type="single" collapsible>
+          <AccordionItem value="item-1">
+            <AccordionTrigger>Is it accessible?</AccordionTrigger>
+            <AccordionContent>
+              Yes. It adheres to the WAI-ARIA design pattern.
+            </AccordionContent>
+          </AccordionItem>
+        </Accordion>
+        <Accordion type="single" collapsible>
+          <AccordionItem value="item-1">
+            <AccordionTrigger>Is it accessible?</AccordionTrigger>
+            <AccordionContent>
+              Yes. It adheres to the WAI-ARIA design pattern.
+            </AccordionContent>
+          </AccordionItem>
+        </Accordion>
+      </div>
       <div>{props.children}</div>
     </>
   );
