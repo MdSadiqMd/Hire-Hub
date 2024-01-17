@@ -5,20 +5,17 @@ import Link from "next/link";
 import Image from "next/image";
 
 const Page: React.FC = () => {
-    /*.storyholder::-webkit-scrollbar {
-            display: none; /*Removing scroll bar but it scrolls
-        }*/
   return (
     <>
-<section className="bg-gray-900 h-screen w-full overflow-full flex items-center justify-center scrollbar-hide">
+      <section className="bg-gray-900 h-screen w-full overflow-full flex items-center justify-center scrollbar-hide">
         <div className="grid max-w-screen-xl px-4 lg:gap-8 xl:gap-0 lg:grid-cols-12">
           <div className="flex flex-col justify-center lg:col-span-7">
             <h1 className="max-w-2xl mb-6 text-4xl font-extrabold tracking-wide leading-none md:text-5xl xl:text-6xl text-transparent bg-clip-text bg-gradient-to-r from-[#818cf8] via-[#e0e7ff] to-[#38bdf8]">
-              Payments tool for software companies
+             Connecting Talent Globally
             </h1>
             <p className="max-w-2xl mb-6 font-light text-gray-500 lg:mb-8 md:text-lg lg:text-xl dark:text-gray-400">
-              From checkout to global sales tax compliance, companies around the
-              world use Flowbite to simplify their payment stack.
+            Elevate Hiring with Hire Hub. Simplify recruitment globally,
+             from application to integration.
             </p>
 
             <div className="flex flex-col lg:flex-row space-x-10">
@@ -43,7 +40,7 @@ const Page: React.FC = () => {
                 </Link>
               </Button>
 
-              <Button variant="primary" className="h-12">
+              <Button variant="primary" className="h-12  border-white">
                 <Link
                   href="#"
                   className="inline-flex items-center justify-center px-5 py-3 text-base font-medium text-center text-white"
