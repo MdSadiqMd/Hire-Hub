@@ -7,6 +7,10 @@ const nextConfig = {
                 protocol:'https',
                 hostname:'icons8.com'
             },
+            {
+                protocol:'http',
+                hostname:'www.w3.org'
+            },
         ],
     },
 }
