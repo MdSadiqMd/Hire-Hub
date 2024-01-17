@@ -214,7 +214,7 @@ export const Navbar: React.FC<{ children?: React.ReactNode }> = (props) => {
           </>
         )}
       </Disclosure>
-      <div className="p-4">{props.children}</div>
+      <div>{props.children}</div>
     </>
   );
 };

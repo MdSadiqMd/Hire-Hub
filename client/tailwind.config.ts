@@ -15,6 +15,6 @@ const config: Config = {
       },
     },
   },
-  plugins: [require("@tailwindcss/forms"), require("tailwindcss-animate")],
+  plugins: [require("@tailwindcss/forms"), require("tailwindcss-animate"),require('tailwind-scrollbar-hide')],
 };
 export default config;
