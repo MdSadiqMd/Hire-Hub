@@ -1,5 +1,5 @@
 "use client";
-import React, { Fragment } from "react";
+import React, {useState,useEffect,Fragment} from "react";
 import { Disclosure, Menu, Transition } from "@headlessui/react";
 import { BellIcon, Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 
@@ -15,6 +15,19 @@ export function classNames(...classes: string[]) {
 }
 
 export const Navbar: React.FC<{ children?: React.ReactNode }> = (props) => {
+
+  const [isSearchBarVisible, setIsSearchBarVisible] = useState<Boolean>(true);
+  useEffect(() => {
+    const handleResize = () => {
+      setIsSearchBarVisible(window.innerWidth > 786);
+    };
+    handleResize();
+    window.addEventListener("resize", handleResize);
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+
   return (
     <>
       <Disclosure as="nav" className="bg-gray-800">
@@ -62,9 +75,14 @@ export const Navbar: React.FC<{ children?: React.ReactNode }> = (props) => {
                     </div>
                   </div>
                 </div>
-                
+
                 {/*Search Bar */}
-                <div className="pt-2 relative mx-auto text-gray-600">
+                <div
+                  className="searchBar pt-2 relative mx-auto text-gray-600"
+                  style={{
+                    display: isSearchBarVisible ? "block" : "none",
+                  }}
+                >
                   <input
                     className="border-2 border-gray-300 bg-white h-10 px-5 pr-16 rounded-lg text-sm focus:outline-none"
                     type="search"
