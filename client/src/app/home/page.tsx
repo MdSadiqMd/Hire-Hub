@@ -11,11 +11,11 @@ const Page: React.FC = () => {
         <div className="grid max-w-screen-xl px-4 lg:gap-8 xl:gap-0 lg:grid-cols-12">
           <div className="flex flex-col justify-center lg:col-span-7">
             <h1 className="max-w-2xl mb-6 text-4xl font-extrabold tracking-wide leading-none md:text-5xl xl:text-6xl text-transparent bg-clip-text bg-gradient-to-r from-[#818cf8] via-[#e0e7ff] to-[#38bdf8]">
-             Connecting Talent Globally
+              Connecting Talent Globally
             </h1>
             <p className="max-w-2xl mb-6 font-light text-gray-500 lg:mb-8 md:text-lg lg:text-xl dark:text-gray-400">
-            Elevate Hiring with Hire Hub. Simplify recruitment globally,
-             from application to integration.
+              Elevate Hiring with Hire Hub. Simplify recruitment globally, from
+              application to integration.
             </p>
 
             <div className="flex flex-col lg:flex-row space-x-10">
@@ -64,10 +64,11 @@ const Page: React.FC = () => {
           </div>
           <div className="hidden lg:mt-0 lg:col-span-5 lg:flex">
             <Image
-              src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/hero/phone-mockup.png"
+              src="/hero.svg"
               alt="mockup"
-              width={500}
-              height={500}
+              width={2000}
+              height={2000}
+              className="w-full h-auto" 
             />
           </div>
         </div>
