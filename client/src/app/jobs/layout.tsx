@@ -14,7 +14,7 @@ const JobsLayout: React.FC<{ children?: React.ReactNode }> = (props) => {
       <Navbar />
       {/*Side bar Menu */}
       <div className="flex">
-        <div className="h-screen bg-gray-900 text-white p-[6px] w-[15vw] overflow-hidden flex flex-col m-4 rounded-xl">
+        <div className="h-[39vw] bg-gray-900 text-white p-[8px] w-[15vw] overflow-hidden flex flex-col m-4 rounded-xl">
           <Accordion type="single" collapsible>
             <AccordionItem value="item-1">
               <AccordionTrigger>Is it accessible?</AccordionTrigger>
@@ -43,7 +43,7 @@ const JobsLayout: React.FC<{ children?: React.ReactNode }> = (props) => {
             </AccordionItem>
           </Accordion>
         </div>
-        <div className='p-5'>{props.children}</div>
+        <div className='p-5 max-h-screen overflow-auto'>{props.children}</div>
       </div>
     </div>
   );
