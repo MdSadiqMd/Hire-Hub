@@ -1,5 +1,6 @@
 "use client";
 import React, { useState, useEffect, Fragment } from "react";
+import { Navbar } from "@/components/ui/navbar";
 import {
   Accordion,
   AccordionContent,
