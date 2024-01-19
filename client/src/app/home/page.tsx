@@ -1,10 +1,10 @@
 "use client";
-import React from "react";
+import type { NextPage } from "next";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import Image from "next/image";
 
-const Page: React.FC = () => {
+const Page: NextPage = () => {
   return (
     <>
       <section className="bg-gray-900 h-screen w-full overflow-full flex items-center justify-center scrollbar-hide">
@@ -68,7 +68,7 @@ const Page: React.FC = () => {
               alt="mockup"
               width={2000}
               height={2000}
-              className="w-full h-auto" 
+              className="w-full h-auto"
             />
           </div>
         </div>
