@@ -10,10 +10,10 @@ interface JobInterface extends Document {
   freshersEligible: boolean;
   isVerified: boolean;
   isAvailable: boolean;
-  postedAt?: Date;
-  updatedAt?: Date;
-  online?: boolean;
-  workType?: boolean;
+  postedAt: Date;
+  updatedAt: Date;
+  online: boolean;
+  workType: boolean;
   internship: boolean;
 }
 
