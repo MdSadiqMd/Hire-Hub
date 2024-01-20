@@ -1,4 +1,4 @@
-import { Document, Schema, model, Model } from "mongoose";
+import mongoose,{ Document, Schema, model, Model } from "mongoose";
 
 interface JobInterface extends Document {
   title: string;
@@ -90,6 +90,6 @@ const jobSchema = new Schema<JobInterface>(
     timestamps: true as const,
   }
 );
-const Job: Model<JobInterface> = model("Job", jobSchema);
+const Job: Model<JobInterface> = mongoose.models['Job']|| mongoose.model("Job", jobSchema);
 
 export default Job;
