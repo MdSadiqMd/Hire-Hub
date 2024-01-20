@@ -1,9 +1,25 @@
-"use client";
 import React, { useState, useEffect } from "react";
 import type { NextPage } from "next";
 
+interface JobData {
+  title: string;
+  location: string;
+  skillsRequired: string[];
+  jobDesignation: string;
+  educationQualification: string;
+  experience: number;
+  freshersEligible: boolean;
+  isVerified: boolean;
+  isAvailable: boolean;
+  postedAt: Date;
+  updatedAt: Date | null;
+  online: boolean;
+  workType: boolean;
+  internship: boolean;
+}
+
 const Page: NextPage = () => {
-  const [data, setData] = useState([]);
+  const [data, setData] = useState<JobData[]>([]); 
   const fetchData = async () => {
     try {
       const res = await fetch("http://localhost:3000/api/jobs", {
@@ -12,10 +28,12 @@ const Page: NextPage = () => {
           "Content-Type": "application/json",
         },
       });
+
       if (res.ok) {
         const responseData = await res.json();
         console.log("API Response Data:", responseData);
         const fetchedData = responseData.result || [];
+
         if (Array.isArray(fetchedData)) {
           setData(fetchedData);
         } else {

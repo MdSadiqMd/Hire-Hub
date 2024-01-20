@@ -1,4 +1,4 @@
-import mongoose, { Document, Schema } from "mongoose";
+import { Document, Schema, model, Model } from "mongoose";
 
 interface JobInterface extends Document {
   title: string;
@@ -11,7 +11,7 @@ interface JobInterface extends Document {
   isVerified: boolean;
   isAvailable: boolean;
   postedAt: Date;
-  updatedAt: Date;
+  updatedAt: Date | null; 
   online: boolean;
   workType: boolean;
   internship: boolean;
@@ -71,6 +71,7 @@ const jobSchema = new Schema<JobInterface>(
     },
     updatedAt: {
       type: Date,
+      default: null,
     },
     online: {
       type: Boolean,
@@ -86,10 +87,9 @@ const jobSchema = new Schema<JobInterface>(
     },
   },
   {
-    timestamps: true,
+    timestamps: true as const,
   }
 );
-
-const Job = mongoose.models.Job || mongoose.model<JobInterface>("Job", jobSchema);
+const Job: Model<JobInterface> = model("Job", jobSchema);
 
 export default Job;
