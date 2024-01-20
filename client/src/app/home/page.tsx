@@ -62,13 +62,13 @@ const Page: NextPage = () => {
               </Button>
             </div>
           </div>
-          <div className="hidden lg:mt-0 lg:col-span-5 lg:flex">
+          <div className="hidden lg:mt-[-20%] lg:col-span-5 lg:flex">
             <Image
               src="/hero.svg"
               alt="mockup"
               width={2000}
               height={2000}
-              className="w-full h-auto"
+              className="w-[40vw] h-auto scale-150"
             />
           </div>
         </div>
