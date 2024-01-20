@@ -1,20 +1,25 @@
-import mongoose,{ Document, Schema, model, Model } from "mongoose";
+import mongoose, { Document, Schema, Model } from 'mongoose';
 
 interface JobInterface extends Document {
   title: string;
   location: string;
+  salary: number[];
   skillsRequired: string[];
-  jobDesignation: string;
+  jobDescription: string;
   educationQualification: string;
   experience: number;
   freshersEligible: boolean;
   isVerified: boolean;
   isAvailable: boolean;
   postedAt: Date;
-  updatedAt: Date | null; 
-  online: boolean;
-  workType: boolean;
+  updatedAt: Date | null;
+  workType: string;
   internship: boolean;
+  companyLogo: {
+    filename: string;
+    contentType: string;
+    data: Buffer;
+  } | null;
 }
 
 const jobSchema = new Schema<JobInterface>(
@@ -26,7 +31,7 @@ const jobSchema = new Schema<JobInterface>(
       unique: true,
       validate: {
         validator: (value: string) => /^[a-zA-Z0-9\s]*$/.test(value),
-        message: "Title can only contain alphanumeric characters and spaces.",
+        message: 'Title can only contain alphanumeric characters and spaces.',
       },
     },
     location: {
@@ -34,15 +39,18 @@ const jobSchema = new Schema<JobInterface>(
       required: true,
       trim: true,
     },
+    salary: {
+      type: [{ type: Number, default: 0 }],
+      required: true,
+    },
     skillsRequired: {
       type: [String],
       required: true,
     },
-    jobDesignation: {
+    jobDescription: {
       type: String,
       required: true,
       trim: true,
-      unique: true,
     },
     educationQualification: {
       type: String,
@@ -73,23 +81,26 @@ const jobSchema = new Schema<JobInterface>(
       type: Date,
       default: null,
     },
-    online: {
-      type: Boolean,
-      default: false,
-    },
     workType: {
-      type: Boolean,
-      default: true,
+      type: String,
+      default: 'true',
+      enum: ['Hybrid', 'Remote','On-Site'],
     },
     internship: {
       type: Boolean,
       required: true,
+    },
+    companyLogo: {
+      filename: String,
+      contentType: String,
+      data: Buffer,
     },
   },
   {
     timestamps: true as const,
   }
 );
-const Job: Model<JobInterface> = mongoose.models['Job']|| mongoose.model("Job", jobSchema);
+
+const Job: Model<JobInterface> = mongoose.models['Job'] || mongoose.model('Job', jobSchema);
 
 export default Job;
