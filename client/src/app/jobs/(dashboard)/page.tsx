@@ -1,6 +1,7 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import type { NextPage } from "next";
+import { Badge } from "@/components/ui/badge";
 
 interface JobData {
   title: string;
@@ -84,8 +85,12 @@ const Page: NextPage = () => {
                       <h4 className="text-white">{job.jobDesignation}</h4>
                     </div>
                     <div>
-                      <h5 className="text-white">
-                        Skills required: {job.skillsRequired.join(", ")}
+                      <h5 className="text-white space-x-2">
+                        {job.skillsRequired.map((skill, index) => (
+                          <Badge key={index} variant="outline">
+                            {skill}
+                          </Badge>
+                        ))}
                       </h5>
                     </div>
                   </div>
