@@ -11,8 +11,6 @@ interface JobInterface extends Document {
   freshersEligible: boolean;
   isVerified: boolean;
   isAvailable: boolean;
-  postedAt: Date;
-  updatedAt: Date | null;
   workType: string;
   internship: boolean;
   companyLogo: {
@@ -72,14 +70,6 @@ const jobSchema = new Schema<JobInterface>(
     isAvailable: {
       type: Boolean,
       default: true,
-    },
-    postedAt: {
-      type: Date,
-      default: Date.now,
-    },
-    updatedAt: {
-      type: Date,
-      default: null,
     },
     workType: {
       type: String,
