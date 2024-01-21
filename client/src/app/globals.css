@@ -70,12 +70,10 @@
   * {
     @apply border-border;
   }
+  *::-webkit-scrollbar{
+    display: none;
+  }
   body {
     @apply bg-background text-foreground;
-    scrollbar-width: thin; /* Firefox */
-    scrollbar-color: var(--ring) var(--background); /* Firefox */
-  }
-  body::-webkit-scrollbar {
-    display: none; /* Safari and Chrome */
   }
 }
