@@ -13,8 +13,6 @@ interface JobData {
   freshersEligible: boolean;
   isVerified: boolean;
   isAvailable: boolean;
-  postedAt: Date;
-  updatedAt: Date | null;
   online: boolean;
   workType: boolean;
   internship: boolean;
@@ -30,6 +28,7 @@ const Page: NextPage = () => {
           "Content-Type": "application/json",
         },
       });
+
       if (res.ok) {
         const responseData = await res.json();
         console.log("API Response Data:", responseData);

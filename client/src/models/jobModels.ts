@@ -11,13 +11,11 @@ interface JobInterface extends Document {
   freshersEligible: boolean;
   isVerified: boolean;
   isAvailable: boolean;
+  postedAt: Date;
+  updatedAt: Date | null;
   workType: string;
   internship: boolean;
-  companyLogo: {
-    filename: string;
-    contentType: string;
-    data: Buffer;
-  } | null;
+  companyLogo: string | null;
 }
 
 const jobSchema = new Schema<JobInterface>(
@@ -71,6 +69,14 @@ const jobSchema = new Schema<JobInterface>(
       type: Boolean,
       default: true,
     },
+    postedAt: {
+      type: Date,
+      default: Date.now,
+    },
+    updatedAt: {
+      type: Date,
+      default: null,
+    },
     workType: {
       type: String,
       default: 'true',
@@ -81,9 +87,7 @@ const jobSchema = new Schema<JobInterface>(
       required: true,
     },
     companyLogo: {
-      filename: String,
-      contentType: String,
-      data: Buffer,
+      type: String,
     },
   },
   {
@@ -91,6 +95,6 @@ const jobSchema = new Schema<JobInterface>(
   }
 );
 
-const Job: Model<JobInterface> = mongoose.models['Job'] || mongoose.model('Job', jobSchema);
+const Job: Model<JobInterface> = mongoose.models['jobs'] || mongoose.model('jobs', jobSchema);
 
 export default Job;
