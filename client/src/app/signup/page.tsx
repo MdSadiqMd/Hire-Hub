@@ -36,7 +36,6 @@ export default function SignupPage() {
       isLoading(true);
       const response = await axios.post("/api/users/signup", user);
       console.log("request received");
-
       console.log("signup Success", response.data);
       router.push("/login");
     } catch (error: any) {
@@ -199,7 +198,7 @@ export default function SignupPage() {
               <CardFooter>
                 <Button
                   className="w-full"
-                  onClick={() => onSignup}
+                  onClick={() => onSignup()}
                   disabled={loading}
                 >
                   Create account
