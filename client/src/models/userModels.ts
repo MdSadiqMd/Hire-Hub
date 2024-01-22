@@ -1,5 +1,4 @@
-import mongoose, { Document, Schema } from "mongoose";
-import bycrypt from 'bcryptjs';
+import mongoose, { Document, Model, Schema } from "mongoose";
 
 interface UserInterface extends Document {
   username: string;
@@ -46,23 +45,8 @@ const userSchema = new Schema<UserInterface>({
   verifyTokenExpiry: Date,
 });
 
-// middleware
-userSchema.pre("save", async function(next) {
-  const user = this as UserInterface; 
-  if (user.isModified("password")) {
-    user.password = await bycrypt.hash(user.password, 10);
-  }
-  next();
-});
-userSchema.methods.comparePassword = async function (string_pass:string) {
-  const isMatch:boolean=await bycrypt.compare(string_pass,this.password);
-  return isMatch;
-}
-userSchema.methods.updatePassword = async function (string_pass:string) {
-  const password:string=await bycrypt.hash(string_pass,10);
-  return password;
-}
-
-const User = mongoose.models.User || mongoose.model<UserInterface>("User", userSchema);
+const User: Model<UserInterface> =
+  mongoose.models['users'] ||
+  mongoose.model<UserInterface>('users', userSchema);
 
 export default User;
