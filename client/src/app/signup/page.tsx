@@ -11,7 +11,7 @@ import {
 import className from "classnames";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import React, { useState } from "react";
+import React, { ChangeEvent, FormEvent, useState } from "react";
 import axios from "axios";
 import toast from "react-hot-toast";
 import Image from "next/image";
@@ -24,14 +24,29 @@ import { Icons } from "@/components/ui/icons";
 export default function SignupPage() {
   const router = useRouter();
   const [user, setUser] = React.useState({
+    name:"",
     email: "",
     password: "",
   });
-  console.log(process.env.PORT);
 
   const [loading, isLoading] = useState(false);
 
-  const onSignup = async () => {
+  const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
+    setUser({ ...user, [e.target.value]: e.target.value });
+  };
+
+  const onSubmitHandler = async(e: FormEvent<HTMLFormElement>) => {
+    const response=await axios.post('/api/signup');
+    const data=await response.data;
+    e.preventDefault();
+    try {
+      toast.success("SignUp Successful");
+    } catch (error: any) {
+      toast.error(error.message);
+    }
+  };
+
+  /*const onSignup = async () => {
     try {
       isLoading(true);
       const response = await axios.post("/api/users/signup", user);
@@ -45,7 +60,7 @@ export default function SignupPage() {
     } finally {
       isLoading(false);
     }
-  };
+  };*/
   return (
     <>
       <div className="md:hidden">
@@ -148,15 +163,23 @@ export default function SignupPage() {
                   </div>
                 </div>
                 <div className="grid gap-2">
+                  <Label htmlFor="email">UserName</Label>
+                  <Input
+                    id="name"
+                    type="test"
+                    placeholder="Username"
+                    onChange={onChangeHandler}
+                    value={user.name}
+                  />
+                </div>
+                <div className="grid gap-2">
                   <Label htmlFor="email">Email</Label>
                   <Input
                     id="email"
                     type="email"
                     placeholder="m@example.com"
+                    onChange={onChangeHandler}
                     value={user.email}
-                    onChange={(e) =>
-                      setUser({ ...user, email: e.target.value })
-                    }
                   />
                 </div>
                 <div className="grid gap-2">
@@ -164,15 +187,17 @@ export default function SignupPage() {
                   <Input
                     id="password"
                     type="password"
+                    onChange={onChangeHandler}
                     value={user.password}
-                    onChange={(e) =>
-                      setUser({ ...user, password: e.target.value })
-                    }
                   />
                 </div>
               </CardContent>
               <CardFooter>
-                <Button className="w-full" onClick={onSignup} disabled={loading}>
+                <Button
+                  className="w-full"
+                  onClick={() => onSubmitHandler}
+                  disabled={loading}
+                >
                   Create account
                 </Button>
               </CardFooter>
