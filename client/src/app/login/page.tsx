@@ -2,7 +2,7 @@
 import className from "classnames";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import React, { FormEvent, useState } from "react";
+import React, { FormEvent, useState, useEffect } from "react";
 import axios from "axios";
 import toast from "react-hot-toast";
 import { cn } from "@/lib/utils";
@@ -21,8 +21,7 @@ const LoginPage = () => {
 
   const [isLoading, setIsLoading] = useState(false);
 
-  async function onLogin(e: FormEvent<HTMLFormElement>) {
-    e.preventDefault();
+  const onLogin = async () => {
     try {
       if (!user.email || !user.password) {
         toast.error("Please fill all feilds");
@@ -30,6 +29,7 @@ const LoginPage = () => {
       setIsLoading(true);
       const response = await axios.post("/api/users/login", user);
       console.log("Login Success", response.data);
+      toast.success("Login Successfull");
       router.push("/profile");
     } catch (error: any) {
       console.log("Login failed");
@@ -37,7 +37,15 @@ const LoginPage = () => {
     } finally {
       setIsLoading(false);
     }
-  }
+  };
+
+  useEffect(() => {
+    if (user.email.length > 0 && user.password.length > 0) {
+      setIsLoading(false);
+    } else {
+      setIsLoading(true);
+    }
+  }, [user]);
 
   interface Metadata {
     title: string;
@@ -49,8 +57,7 @@ const LoginPage = () => {
     description: "Authentication forms built using the components.",
   };
 
-  {
-    /*return (
+  {/*return (
     <div>
         <div className="flex flex-col items-center justify-center min-h-screen py-2">
         <h1>{loading?"Loading":"Login page"}</h1>
@@ -79,8 +86,7 @@ const LoginPage = () => {
             <Link href="/signup">Visit Signup Page</Link>
         </div>
     </div>
-  )*/
-  }
+  )*/}
 
   return (
     <>
@@ -174,7 +180,7 @@ const LoginPage = () => {
                       }
                     />
                   </div>
-                  <Button disabled={isLoading} onClick={()=>onLogin}>
+                  <Button disabled={isLoading} onClick={() => onLogin()}>
                     {isLoading && (
                       <Icons
                         imageLink="https://icons8.com/icon/xS10HpCgrmSD/fidget-spinner"
