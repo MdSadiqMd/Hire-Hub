@@ -1,16 +1,16 @@
-"use client"
-import className from 'classnames';
-import Link from 'next/link';
-import { useRouter } from 'next/navigation';
-import React, { useState } from 'react';
-import axios from 'axios';
-import toast from 'react-hot-toast';
-import { cn } from '@/lib/utils';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Icons } from '@/components/ui/icons';
-import Image from 'next/image';
+"use client";
+import className from "classnames";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import React, { FormEvent, useState } from "react";
+import axios from "axios";
+import toast from "react-hot-toast";
+import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Icons } from "@/components/ui/icons";
+import Image from "next/image";
 
 const LoginPage = () => {
   const router = useRouter();
@@ -21,39 +21,33 @@ const LoginPage = () => {
 
   const [isLoading, setIsLoading] = useState(false);
 
-  const onSubmit = async (event: React.SyntheticEvent) => {
-    event.preventDefault();
-    setIsLoading(true);
-
-    setTimeout(() => {
-      setIsLoading(false);
-    }, 3000);
-  };
-
-  const onLogin = async () => {
+  async function onLogin(e: FormEvent<HTMLFormElement>) {
+    e.preventDefault();
     try {
+      if (!user.email || !user.password) {
+        toast.error("Please fill all feilds");
+      }
       setIsLoading(true);
-      const response = await axios.post('/api/users/login', user);
-      console.log('Login Success', response.data);
+      const response = await axios.post("/api/users/login", user);
+      console.log("Login Success", response.data);
       router.push("/profile");
     } catch (error: any) {
-      console.log('Login failed');
+      console.log("Login failed");
       toast.error(error.message);
     } finally {
       setIsLoading(false);
     }
-  };
-  
+  }
+
   interface Metadata {
     title: string;
     description: string;
   }
-  
+
   const metadata: Metadata = {
     title: "Authentication",
     description: "Authentication forms built using the components.",
   };
-  
 
   {
     /*return (
@@ -108,7 +102,7 @@ const LoginPage = () => {
       </div>
       <div className="container relative hidden h-[800px] flex-col items-center justify-center md:grid lg:max-w-none lg:grid-cols-2 lg:px-0">
         <Link
-          href="/profile"
+          href="/signup"
           className={cn("absolute right-4 top-4 md:right-8 md:top-8")}
         >
           signIn
@@ -180,7 +174,7 @@ const LoginPage = () => {
                       }
                     />
                   </div>
-                  <Button disabled={isLoading} onClick={onLogin}>
+                  <Button disabled={isLoading} onClick={()=>onLogin}>
                     {isLoading && (
                       <Icons
                         imageLink="https://icons8.com/icon/xS10HpCgrmSD/fidget-spinner"

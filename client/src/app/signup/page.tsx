@@ -36,6 +36,10 @@ export default function SignupPage() {
   };
 
   const onSubmitHandler = async(e: FormEvent<HTMLFormElement>) => {
+    if(!user.name || !user.email || !user.password){
+      toast.error("Please fill all feilds");
+    }
+    
     const response=await axios.post('/api/signup');
     const data=await response.data;
     e.preventDefault();
