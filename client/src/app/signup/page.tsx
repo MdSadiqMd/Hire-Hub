@@ -24,32 +24,14 @@ import { Icons } from "@/components/ui/icons";
 export default function SignupPage() {
   const router = useRouter();
   const [user, setUser] = React.useState({
-    name:"",
+    username: "",
     email: "",
     password: "",
   });
 
   const [loading, isLoading] = useState(false);
 
-  const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
-    setUser({ ...user, [e.target.value]: e.target.value });
-  };
-
-  const onSubmitHandler = async(e: FormEvent<HTMLFormElement>) => {
-    if(!user.name || !user.email || !user.password){
-      toast.error("Please fill all feilds");
-    }
-    const response=await axios.post('/api/signup',user);
-    const data=await response.data;
-    e.preventDefault();
-    try {
-      toast.success("SignUp Successful");
-    } catch (error: any) {
-      toast.error(error.message);
-    }
-  };
-
-  /*const onSignup = async () => {
+  const onSignup = async () => {
     try {
       isLoading(true);
       const response = await axios.post("/api/users/signup", user);
@@ -63,7 +45,8 @@ export default function SignupPage() {
     } finally {
       isLoading(false);
     }
-  };*/
+  };
+
   return (
     <>
       <div className="md:hidden">
@@ -171,8 +154,10 @@ export default function SignupPage() {
                     id="name"
                     type="test"
                     placeholder="Username"
-                    onChange={onChangeHandler}
-                    value={user.name}
+                    value={user.username}
+                    onChange={(e) =>
+                      setUser({ ...user, username: e.target.value })
+                    }
                   />
                 </div>
                 <div className="grid gap-2">
@@ -181,8 +166,10 @@ export default function SignupPage() {
                     id="email"
                     type="email"
                     placeholder="m@example.com"
-                    onChange={onChangeHandler}
                     value={user.email}
+                    onChange={(e) =>
+                      setUser({ ...user, email: e.target.value })
+                    }
                   />
                 </div>
                 <div className="grid gap-2">
@@ -190,15 +177,17 @@ export default function SignupPage() {
                   <Input
                     id="password"
                     type="password"
-                    onChange={onChangeHandler}
                     value={user.password}
+                    onChange={(e) =>
+                      setUser({ ...user, password: e.target.value })
+                    }
                   />
                 </div>
               </CardContent>
               <CardFooter>
                 <Button
                   className="w-full"
-                  onClick={() => onSubmitHandler}
+                  onClick={() => onSignup}
                   disabled={loading}
                 >
                   Create account
