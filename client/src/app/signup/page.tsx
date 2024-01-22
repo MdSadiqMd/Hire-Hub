@@ -39,8 +39,7 @@ export default function SignupPage() {
     if(!user.name || !user.email || !user.password){
       toast.error("Please fill all feilds");
     }
-    
-    const response=await axios.post('/api/signup');
+    const response=await axios.post('/api/signup',user);
     const data=await response.data;
     e.preventDefault();
     try {
