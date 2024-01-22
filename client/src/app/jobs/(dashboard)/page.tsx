@@ -14,6 +14,8 @@ interface JobData {
   isVerified: boolean;
   isAvailable: boolean;
   online: boolean;
+  postedAt: Date;
+  updatedAt: Date | null;
   workType: boolean;
   internship: boolean;
 }

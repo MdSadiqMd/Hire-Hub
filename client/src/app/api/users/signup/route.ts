@@ -1,26 +1,23 @@
-import { connect } from "@/db/config";
+import connectDB from "@/db/config";
 import User from "@/Models/userModels";
 import { NextRequest, NextResponse } from "next/server";
 import bcryptjs from "bcryptjs";
-connect();
+
+connectDB();
 
 export async function POST(request: NextRequest) {
   try {
     const reqBody = await request.json();
-    const { email, password } = reqBody;
-    
+    const { username, email, password } = reqBody;
+
     // Check if user exists
     const user = await User.findOne({ email });
-    if (!user) {
-      console.log("User not found");
-      return NextResponse.json(
-        {
-          error: "User Not Found",
-        },
-        { status: 500 }
-      );
-    } else {
+    if (user) {
       console.log("User found");
+      return NextResponse.json(
+        { error: "User already Found" },
+        { status: 400 }
+      );
     }
 
     // Hashing
@@ -28,6 +25,7 @@ export async function POST(request: NextRequest) {
     const hashedPassword = await bcryptjs.hash(password, salt);
 
     const newUser = new User({
+      username,
       password: hashedPassword,
       email,
     });

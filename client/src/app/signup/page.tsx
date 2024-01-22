@@ -11,7 +11,7 @@ import {
 import className from "classnames";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import React, { ChangeEvent, FormEvent, useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import toast from "react-hot-toast";
 import Image from "next/image";
@@ -36,7 +36,7 @@ export default function SignupPage() {
       isLoading(true);
       const response = await axios.post("/api/users/signup", user);
       console.log("request received");
-      
+
       console.log("signup Success", response.data);
       router.push("/login");
     } catch (error: any) {
@@ -46,6 +46,18 @@ export default function SignupPage() {
       isLoading(false);
     }
   };
+
+  useEffect(() => {
+    if (
+      user.email.length > 0 &&
+      user.password.length > 0 &&
+      user.username.length > 0
+    ) {
+      isLoading(false);
+    } else {
+      isLoading(true);
+    }
+  }, [user]);
 
   return (
     <>
