@@ -2,7 +2,7 @@
 import className from "classnames";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import React, { FormEvent, useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import toast from "react-hot-toast";
 import { cn } from "@/lib/utils";
@@ -27,7 +27,7 @@ const LoginPage = () => {
         toast.error("Please fill all feilds");
       }
       setIsLoading(true);
-      const response = await axios.post("/api/users/login", user);
+      const response = await axios.post("/api/auth/login", user);
       console.log("Login Success", response.data);
       toast.success("Login Successfull");
       router.push("/profile");
@@ -155,7 +155,6 @@ const LoginPage = () => {
                       autoCapitalize="none"
                       autoComplete="email"
                       autoCorrect="off"
-                      disabled={isLoading}
                       value={user.email}
                       onChange={(e) =>
                         setUser({ ...user, email: e.target.value })
@@ -173,7 +172,6 @@ const LoginPage = () => {
                       autoCapitalize="none"
                       autoComplete="password"
                       autoCorrect="off"
-                      disabled={isLoading}
                       value={user.password}
                       onChange={(e) =>
                         setUser({ ...user, password: e.target.value })
