@@ -1,7 +1,11 @@
 "use client";
-import React, {useState,useEffect,Fragment} from "react";
+import React, { useState, useEffect, Fragment } from "react";
 import { Disclosure, Menu, Transition } from "@headlessui/react";
 import { BellIcon, Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
+import axios from "axios";
+import Link from "next/link";
+import { toast } from "react-hot-toast";
+import { useRouter } from "next/navigation";
 
 export const navigation = [
   { name: "Home", href: "#", current: true },
@@ -15,8 +19,9 @@ export function classNames(...classes: string[]) {
 }
 
 export const Navbar: React.FC<{ children?: React.ReactNode }> = (props) => {
-
   const [isSearchBarVisible, setIsSearchBarVisible] = useState<Boolean>(true);
+  const router = useRouter();
+
   useEffect(() => {
     const handleResize = () => {
       setIsSearchBarVisible(window.innerWidth > 786);
@@ -27,6 +32,17 @@ export const Navbar: React.FC<{ children?: React.ReactNode }> = (props) => {
       window.removeEventListener("resize", handleResize);
     };
   }, []);
+
+  const logout = async () => {
+    try {
+      await axios.get("api/auth/signout");
+      toast.success("Logout Sucessful");
+      router.push("/signup");
+    } catch (error: any) {
+      console.log(error.message);
+      toast.error(error.message);
+    }
+  };
 
   return (
     <>
@@ -102,7 +118,9 @@ export const Navbar: React.FC<{ children?: React.ReactNode }> = (props) => {
                       x="0px"
                       y="0px"
                       viewBox="0 0 56.966 56.966"
-                      style={{ enableBackground: "new 0 0 56.966 56.966" } as any}
+                      style={
+                        { enableBackground: "new 0 0 56.966 56.966" } as any
+                      }
                       xmlSpace="preserve"
                       width="512px"
                       height="512px"
@@ -147,7 +165,7 @@ export const Navbar: React.FC<{ children?: React.ReactNode }> = (props) => {
                       <Menu.Items className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-gray-800 py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
                         <Menu.Item>
                           {({ active }) => (
-                            <a
+                            <Link
                               href="#"
                               className={classNames(
                                 active ? "bg-gray-900" : "",
@@ -155,12 +173,12 @@ export const Navbar: React.FC<{ children?: React.ReactNode }> = (props) => {
                               )}
                             >
                               Your Profile
-                            </a>
+                            </Link>
                           )}
                         </Menu.Item>
                         <Menu.Item>
                           {({ active }) => (
-                            <a
+                            <Link
                               href="#"
                               className={classNames(
                                 active ? "bg-gray-900" : "",
@@ -168,20 +186,21 @@ export const Navbar: React.FC<{ children?: React.ReactNode }> = (props) => {
                               )}
                             >
                               Settings
-                            </a>
+                            </Link>
                           )}
                         </Menu.Item>
                         <Menu.Item>
                           {({ active }) => (
-                            <a
+                            <Link
                               href="#"
                               className={classNames(
                                 active ? "bg-gray-900" : "",
                                 "block px-4 py-2 text-sm text-gray-300"
                               )}
+                              onClick={() => logout()}
                             >
                               Sign out
-                            </a>
+                            </Link>
                           )}
                         </Menu.Item>
                       </Menu.Items>
