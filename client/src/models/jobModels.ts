@@ -2,6 +2,7 @@ import mongoose, { Document, Schema, Model } from 'mongoose';
 
 interface JobInterface extends Document {
   title: string;
+  companyName:string;
   location: string;
   salary: number[];
   skillsRequired: string[];
@@ -29,6 +30,11 @@ const jobSchema = new Schema<JobInterface>(
         validator: (value: string) => /^[a-zA-Z0-9\s]*$/.test(value),
         message: 'Title can only contain alphanumeric characters and spaces.',
       },
+    },
+    companyName: {
+      type: String,
+      required: true,
+      trim: true,
     },
     location: {
       type: String,

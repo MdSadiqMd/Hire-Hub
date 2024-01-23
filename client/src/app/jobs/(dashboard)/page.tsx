@@ -2,12 +2,15 @@
 import React, { useState, useEffect } from "react";
 import type { NextPage } from "next";
 import { Badge } from "@/components/ui/badge";
+import Link from "next/link";
 
 interface JobData {
   title: string;
+  companyName: string;
   location: string;
+  salary: number[];
   skillsRequired: string[];
-  jobDesignation: string;
+  jobDescription: string;
   educationQualification: string;
   experience: number;
   freshersEligible: boolean;
@@ -18,6 +21,7 @@ interface JobData {
   updatedAt: Date | null;
   workType: boolean;
   internship: boolean;
+  companyLogo: string | null;
 }
 
 const Page: NextPage = () => {
@@ -62,47 +66,78 @@ const Page: NextPage = () => {
     return new Date(date).toLocaleDateString("en-US", options);
   }
 
+  function formatSalaryRange(salary: number[]): string {
+    const formatNumber = (num: number): string => {
+      if (num >= 1000 && num < 1000000) {
+        return (num / 1000).toFixed(0) + "k";
+      } else if (num >= 1000000) {
+        return (num / 1000000).toFixed(1) + "M";
+      }
+      return num.toString();
+    };
+
+    return `${formatNumber(salary[0])} - ${formatNumber(salary[1])}`;
+  }
+
   return (
     <>
       <main className="mt-5">
         {data.map((job, i) => (
           <div key={i}>
-            <div className="w-[570px] h-[235px] bg-slate-600 p-4 rounded-2xl shadow-slate-200 shadow-2xl ">
-              <div className="flex flex-col space-y-2 mb-4 p-2 ml-0">
-                <div className="space-y-1">
-                  <h1 className="text-xl font-bold text-white">{job.title}</h1>
-                  <h3 className="text-white">{job.location}</h3>
+            <div className="group mx-2 mt-4 grid max-w-screen-md grid-cols-12 space-x-8 overflow-hidden rounded-lg border py-8 text-gray-700 shadow transition hover:shadow-lg sm:mx-auto">
+              <Link
+                href="#"
+                passHref
+                className="order-2 col-span-1 mt-4 -ml-14 text-left text-gray-600 hover:text-gray-700 sm:-order-1 sm:ml-4"
+              >
+                <div className="group relative h-16 w-16 overflow-hidden rounded-lg">
+                  <img
+                    src={job.companyLogo ?? "/default-logo.png"} // Use a default value if companyLogo is null
+                    alt=""
+                    className="h-full w-full object-cover text-gray-700"
+                  />
                 </div>
-                <div className="flex flex-col space-x-4 space-y-2">
-                  <div className="flex items-center space-x-2">
-                    <h3 className="text-white">{job.experience} yrs</h3>
-                    <hr className="border-t border-white w-4 mx-2 rotate-90" />
-                    <h3 className="text-white">Salary</h3>
-                    <hr className="border-t border-white w-4 mx-2 rotate-90" />
-                    <h3 className="text-white">{job.workType}</h3>
+              </Link>
+              <div className="col-span-11 flex flex-col pr-8 text-left sm:pl-4">
+                <h3 className="text-sm text-gray-600">{job.companyName}</h3>
+                <Link
+                  href="#"
+                  className="mb-3 overflow-hidden pr-7 text-lg font-semibold sm:text-xl"
+                >
+                  {job.title}
+                </Link>
+                <p className="overflow-hidden pr-2 text-sm">
+                  {job.jobDescription}
+                </p>
+                <div className="mt-5 flex flex-col space-y-3 text-sm font-medium text-gray-500 sm:flex-row sm:items-center sm:space-y-0 sm:space-x-2">
+                  <div>
+                    Experience:
+                    <span className="ml-2 mr-3 rounded-full bg-green-100 px-2 py-0.5 text-green-900">
+                      {job.experience}
+                    </span>
                   </div>
-                  <div className="space-y-4">
-                    <div>
-                      <h4 className="text-white">{job.jobDesignation}</h4>
-                    </div>
-                    <div>
-                      <h5 className="text-white space-x-2">
-                        {job.skillsRequired.map((skill, index) => (
-                          <Badge key={index} variant="outline">
-                            {skill}
-                          </Badge>
-                        ))}
-                      </h5>
-                    </div>
+                  <div>
+                    Salary:
+                    <span className="ml-2 mr-3 rounded-full bg-blue-100 px-2 py-0.5 text-blue-900">
+                      {formatSalaryRange(job.salary)}
+                    </span>
                   </div>
                 </div>
-              </div>
-              <div className="text-xs text-gray-400">
-                {job.updatedAt ? (
-                  <p>Updated At: {formatDate(job.updatedAt)}</p>
-                ) : (
-                  <p>Posted At: {formatDate(job.postedAt)}</p>
-                )}
+                <div>
+                  <h5 className="text-white space-x-2 mt-2">
+                    {job.skillsRequired.map((skill, index) => (
+                      <Badge key={index} variant="outline">
+                        {skill}
+                      </Badge>
+                    ))}
+                  </h5>
+                </div>
+                <div className="flex mt-2 items-center text-sm font-medium text-gray-500">
+                  <p>
+                    {job.updatedAt ? "Updated At: " : "Published At: "}
+                    {formatDate(job.updatedAt ?? job.postedAt)}
+                  </p>
+                </div>
               </div>
             </div>
           </div>
