@@ -1,4 +1,4 @@
-//import { getDataFromToken } from "@/helpers/getDataFromToken";
+import { getDataFromToken } from "@/helpers/getDataFromToken";
 import { NextRequest, NextResponse } from "next/server";
 import User from "@/Models/userModels";
 import connectDB from "@/db/config";
@@ -8,7 +8,7 @@ connectDB();
 export async function GET(request: NextRequest) {
   try {
     const userId = await getDataFromToken(request);
-    const user = await User.findOne({ _id: userId }).select("-password");
+    const user = await User.findOne({ _id: userId }).select("-password"); // Need only Id excluding password 
     return NextResponse.json({
       message: "User found",
       data: user,
