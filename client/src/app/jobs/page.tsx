@@ -3,8 +3,10 @@ import React, { useState, useEffect } from "react";
 import type { NextPage } from "next";
 import { Badge } from "@/components/ui/badge";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 interface JobData {
+  [x: string]: any;
   title: string;
   companyName: string;
   location: string;
@@ -26,6 +28,7 @@ interface JobData {
 
 const Page: NextPage = () => {
   const [data, setData] = useState<JobData[]>([]);
+  const router=useRouter();
   const fetchData = async () => {
     try {
       const res = await fetch("http://localhost:3000/api/jobs", {
@@ -79,11 +82,15 @@ const Page: NextPage = () => {
     return `${formatNumber(salary[0])} - ${formatNumber(salary[1])}`;
   }
 
+  const handleClick = (jobId: any) => {
+    router.push(`/jobs/${jobId}`);
+  };
+
   return (
     <>
       <main className="mt-5">
         {data.map((job, i) => (
-          <div key={i}>
+          <div key={i} onClick={() => handleClick(job._id)} style={{ cursor: "pointer" }}>
             <div className="group mx-2 mt-4 grid max-w-screen-md grid-cols-12 space-x-8 overflow-hidden rounded-lg border py-8 text-gray-700 shadow transition hover:shadow-lg sm:mx-auto">
               <Link
                 href="#"
