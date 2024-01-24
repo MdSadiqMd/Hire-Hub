@@ -1,17 +1,7 @@
-import type { NextPage } from "next";
-import { useRouter } from "next/router";
+"use client";
 
-const Page: NextPage = (params:any) => {
-  const router = useRouter();
-
-  // Get the query parameter from the URL
-  const { keyword } = router.query;
-
-  return (
-    <div>
-      The Search Keyword {keyword}.
-    </div>
-  );
-};
+function Page({ params }: { params: { slug: string } }) {
+  return <div>The Search Keyword {params.slug}.</div>;
+}
 
 export default Page;
