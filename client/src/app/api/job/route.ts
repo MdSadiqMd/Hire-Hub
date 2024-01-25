@@ -1,36 +1,42 @@
+// Import necessary modules and types
 import { ObjectId } from "mongodb";
 import connectDB from "@/db/config";
 import jobModel from "@/Models/jobModels";
-import { NextRequest, NextResponse } from "next/server";
+import { NextApiRequest, NextApiResponse } from "next";
 
-export async function GET(req: NextRequest, {params}) {
+// Define the handler function
+export async function GET(req: NextApiRequest, res: NextApiResponse) {
   try {
     console.log("Connecting to the database");
     await connectDB();
     console.log("Connected to the database");
-    console.log(params.id)
 
-    const jobId: string = params.id as string;
+    const jobId: string | string[] = req.query.id as string | string[];
     console.log("Received jobId:", jobId);
 
+    // If jobId is an array (e.g., for multiple query parameters with the same name), handle accordingly
+    const firstJobId = Array.isArray(jobId) ? jobId[0] : jobId;
+
     // Validate that jobId is a valid ObjectId
-    if (!ObjectId.isValid(jobId)) {
+    if (!ObjectId.isValid(firstJobId)) {
       console.log("Invalid job ID");
-      return NextResponse.json({ msg: "Invalid job ID" }, { status: 400 });
+      res.status(400).json({ msg: "Invalid job ID" });
+      return;
     }
 
-    console.log("Valid job ID:", jobId);
+    console.log("Valid job ID:", firstJobId);
 
-    const job = await jobModel.findOne({ id: ObjectId(jobId) });
+    const job = await jobModel.findOne({ _id: new ObjectId(firstJobId) });
     if (!job) {
       console.log("Job not found");
-      return NextResponse.json({ msg: "Job not found" }, { status: 404 });
+      res.status(404).json({ msg: "Job not found" });
+      return;
     }
 
     console.log("Job found:", job);
-    return NextResponse.json({ result: job }, { status: 200 });
+    res.status(200).json({ result: job });
   } catch (error) {
     console.error("Error fetching job:", error);
-    return NextResponse.json({ msg: "Something went wrong" }, { status: 500 });
+    res.status(500).json({ msg: "Something went wrong" });
   }
 }

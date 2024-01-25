@@ -31,7 +31,7 @@ export default function Page() {
 
   const fetchData = async () => {
     try {
-      const res = await axios.get('http://localhost:3000/api/job', { slug: id });
+      const res = await axios.get('http://localhost:3000/api/job', { params: { id } });
 
       if (res.status === 200) {
         const responseData = res.data;
