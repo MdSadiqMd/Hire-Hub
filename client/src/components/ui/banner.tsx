@@ -1,6 +1,7 @@
-"use client";
+"use client"
 import Link from "next/link";
 import { useState } from "react";
+import Image from "next/image"; 
 
 export const Banner: React.FC<{ children?: React.ReactNode }> = (props) => {
   const [display, setDisplay] = useState(true);
@@ -14,26 +15,23 @@ export const Banner: React.FC<{ children?: React.ReactNode }> = (props) => {
       {display && (
         <div
           id="marketing-banner"
-          className="fixed z-100 flex flex-col md:flex-row justify-between w-[calc(50%-2rem)] p-4 -translate-x-1/2 bg-white border border-gray-100 rounded-lg shadow-sm lg:max-w-7xl left-1/2 top-6 dark:bg-gray-700 dark:border-gray-600"
+          className="fixed z-100 flex flex-col md:flex-row justify-between w-[calc(50%-2rem)] p-4 -translate-x-1/2 bg-slate-800 border border-gray-700 rounded-lg shadow-sm lg:max-w-7xl left-1/2 top-6 light:bg-slate-100 light:border-gray-100"
         >
           <div className="flex flex-col items-start mb-3 me-4 md:items-center md:flex-row md:mb-0">
-            <a
-              href="https://flowbite.com/"
+            <Link
+              href="#"
               className="flex items-center mb-2 border-gray-200 md:pe-4 md:me-4 md:border-e md:mb-0 dark:border-gray-600"
             >
-              <Link href={""}>
-                <img
-                  src="https://flowbite.com/docs/images/logo.svg"
-                  className="h-6 me-2"
-                  alt="Flowbite Logo"
-                />
-              </Link>
-              <span className="self-center text-lg font-semibold whitespace-nowrap dark:text-white">
-                Flowbite
-              </span>
-            </a>
-            <p className="flex items-center text-sm font-normal text-gray-500 dark:text-gray-400">
-            post a job now and tap into a pool of exceptional talent!
+              <Image
+                src="/banner.svg"
+                alt="mockup"
+                width={50}
+                height={40}
+                className="scale-150"
+              />
+            </Link>
+            <p className="flex items-center text-sm font-normal text-gray-300 dark:text-gray-400">
+              Post a job now and tap into a pool of exceptional talent!
             </p>
           </div>
           <div className="flex items-center flex-shrink-0">
@@ -46,7 +44,7 @@ export const Banner: React.FC<{ children?: React.ReactNode }> = (props) => {
             <button
               data-dismiss-target="#marketing-banner"
               type="button"
-              className="flex-shrink-0 inline-flex justify-center w-7 h-7 items-center text-gray-400 hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 dark:hover:bg-gray-600 dark:hover:text-white"
+              className="flex-shrink-0 inline-flex justify-center w-7 h-7 items-center text-gray-400 hover:bg-gray-500 hover:text-gray-900 rounded-lg text-sm p-1.5 dark:hover:bg-gray-600 dark:hover:text-white"
               onClick={handleBanner}
             >
               <svg
