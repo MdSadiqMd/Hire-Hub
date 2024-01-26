@@ -1,3 +1,4 @@
+"use client";
 import React, { useState, useEffect, FC } from "react";
 import axios from "axios";
 import Link from "next/link"; // Import Link from 'next/link'
@@ -31,7 +32,6 @@ interface PageProps {
 
 const Page: FC<PageProps> = ({ params }) => {
   const [data, setData] = useState<JobData | null>(null);
-
   useEffect(() => {
     const fetchData = async () => {
       try {
