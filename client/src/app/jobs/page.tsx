@@ -5,6 +5,7 @@ import { Badge } from "@/components/ui/badge";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { formatSalaryRange } from "@/helpers/formatSalary";
+import { formatDate } from "@/helpers/formatDate";
 
 interface JobData {
   [x: string]: any;
@@ -60,16 +61,7 @@ const Page: NextPage = () => {
   useEffect(() => {
     fetchData();
   }, []);
-
-  function formatDate(date: Date): string {
-    const options: Intl.DateTimeFormatOptions = {
-      day: "numeric",
-      month: "short",
-      year: "numeric",
-    };
-    return new Date(date).toLocaleDateString("en-US", options);
-  }
-
+  
   const handleClick = (jobId: any) => {
     router.push(`/jobs/${jobId}`);
   };
