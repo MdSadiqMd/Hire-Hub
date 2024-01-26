@@ -1,6 +1,5 @@
 "use client";
-import React, { useState, useEffect } from 'react';
-import { useParams } from 'next/navigation';
+import React, { useState, useEffect,FC } from 'react';
 import axios from 'axios';
 
 interface JobData {
@@ -24,46 +23,55 @@ interface JobData {
   companyLogo: string | null;
 }
 
-export default function Page() {
-  const { id } = useParams<{ id: string }>();
-  console.log(id);
-  const [data, setData] = useState<JobData[]>([]);
+interface PageProps {
+  params: { slug: string };
+}
 
-  const fetchData = async () => {
-    try {
-      const res = await axios.get(`http://localhost:3000/api/jobs/${id}`,{params:{id}});
-
-      if (res.status === 200) {
-        const responseData = res.data;
-        console.log("API Response Data:", responseData);
-        const fetchedData = responseData.result || [];
-
-        if (Array.isArray(fetchedData)) {
-          setData(fetchedData);
-        } else {
-          console.error("Data is not an array:", fetchedData);
-        }
-      } else {
-        console.error("Failed to fetch data");
-      }
-    } catch (error) {
-      console.error("Error fetching data:", error);
-    }
-  };
+const Page: FC<PageProps> = ({ params }) => {
+  const [data, setData] = useState<JobData | null>(null); 
 
   useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const res = await axios.get(`/api/jobs/${params.slug}`, { params: { slug: params.slug } });
+        console.log(res);
+        
+        setData(res.data.result);
+      } catch (error) {
+        console.error('Error fetching job data:', error);
+      }
+    };
+
     fetchData();
-  }, [id]);
+  }, [params.slug]);
+
+  if (!data) {
+    return <div>Loading...</div>;
+  }
 
   return (
-    <>
-      {data.map((item) => (
-        <div key={item._id}>
-          <h1>{item.title}</h1>
-          <p>{item.companyName}</p>
-          {/* Add more fields as needed */}
-        </div>
-      ))}
-    </>
+    <div>
+      <h1>{data.title}</h1>
+      <p>Company: {data.companyName}</p>
+      <p>Location: {data.location}</p>
+      <p>Salary: ${data.salary[0]} - ${data.salary[1]}</p>
+      <p>Skills Required: {data.skillsRequired.join(', ')}</p>
+      <p>Job Description: {data.jobDescription}</p>
+      <p>Education Qualification: {data.educationQualification}</p>
+      <p>Experience: {data.experience} years</p>
+      <p>Freshers Eligible: {data.freshersEligible ? 'Yes' : 'No'}</p>
+      <p>Verified: {data.isVerified ? 'Yes' : 'No'}</p>
+      <p>Available: {data.isAvailable ? 'Yes' : 'No'}</p>
+      <p>Work Type: {data.workType}</p>
+      <p>Internship: {data.internship ? 'Yes' : 'No'}</p>
+      <p>Posted At: {new Date(data.postedAt).toLocaleDateString()}</p>
+      {/*{data.updatedAt && <p>Updated At: {new Date(data.updatedAt).toLocaleDateString()}</p>}
+      {data.workType == 'Remote' && <p>This is a remote position.</p>}
+      {data.internship && <p>This is an internship position.</p>}
+  <img src={data.companyLogo} alt={`${data.companyName} Logo`} />*/}
+    </div>
   );
-}
+};
+
+export default Page;
+
