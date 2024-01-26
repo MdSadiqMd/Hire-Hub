@@ -1,8 +1,7 @@
 "use client";
 import React, { useState, useEffect, FC } from "react";
 import axios from "axios";
-import Link from "next/link"; // Import Link from 'next/link'
-import { Badge } from "@/components/ui/badge";
+import Link from "next/link"; 
 import { formatSalaryRange } from "@/helpers/formatSalary";
 import { formatDate } from "@/helpers/formatDate";
 
@@ -115,13 +114,19 @@ const Page: FC<PageProps> = ({ params }) => {
             <span className="font-bold">Education Qualifications:</span> <br />
             {data.educationQualification}
           </h2>
+          <h2>
+            <span className="font-bold">Freshers Eligible:</span>{" "}
+            {data.freshersEligible}
+          </h2>
           <div>
             <span className="font-bold">Key Skills:</span> <br />
             <h5 className="text-white space-x-2 mt-2">
               {data.skillsRequired.map((skill, index) => (
-                <Badge key={index} variant="outline">
-                  {skill}
-                </Badge>
+                <div key={index}>
+                  <span className="bg-gray-100 text-gray-800 text-sm font-medium me-2 px-2.5 py-0.5 rounded dark:bg-gray-700 dark:text-gray-300">
+                    {skill}
+                  </span>
+                </div>
               ))}
             </h5>
           </div>
