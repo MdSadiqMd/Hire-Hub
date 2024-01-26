@@ -1,7 +1,7 @@
 "use client";
 import React, { useState, useEffect, Fragment } from "react";
 import { Disclosure, Menu, Transition } from "@headlessui/react";
-import { BellIcon, Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
+import { BellIcon, MenuIcon, XIcon } from "@heroicons/react/outline";
 import axios from "axios";
 import Link from "next/link";
 import { toast } from "react-hot-toast";
@@ -57,9 +57,9 @@ export const Navbar: React.FC<{ children?: React.ReactNode }> = (props) => {
                     <span className="absolute -inset-0.5" />
                     <span className="sr-only">Open main menu</span>
                     {open ? (
-                      <XMarkIcon className="block h-6 w-6" aria-hidden="true" />
+                      <XIcon className="block h-6 w-6" aria-hidden="true" />
                     ) : (
-                      <Bars3Icon className="block h-6 w-6" aria-hidden="true" />
+                      <MenuIcon className="block h-6 w-6" aria-hidden="true" />
                     )}
                   </Disclosure.Button>
                 </div>

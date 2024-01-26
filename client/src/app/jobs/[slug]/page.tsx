@@ -5,7 +5,6 @@ import Link from "next/link";
 import { formatSalaryRange } from "@/helpers/formatSalary";
 import { formatDate } from "@/helpers/formatDate";
 import { Button } from "@/components/ui/button";
-import { LocationMarkerIcon } from "@heroicons/react/solid";
 
 interface JobData {
   title: string;
@@ -89,7 +88,28 @@ const Page: FC<PageProps> = ({ params }) => {
           >
             {data.title}
           </Link>
-          <p className="overflow-hidden pr-2 text-sm"><LocationMarkerIcon className="h-5 w-5 text-gray-500" />{data.location}</p>
+          <div className="flex items-center space-x-2">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              strokeWidth={1.5}
+              stroke="currentColor"
+              className="w-6 h-6"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"
+              />
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z"
+              />
+            </svg>
+            <p className="overflow-hidden pr-2 text-sm">{data.location}</p>
+          </div>
           <div className="mt-5 flex flex-col space-y-3 text-sm font-medium text-gray-500 sm:flex-row sm:items-center sm:space-y-0 sm:space-x-2">
             <div>
               Experience:
@@ -107,7 +127,7 @@ const Page: FC<PageProps> = ({ params }) => {
           <br />
           <hr />
           <div className="p-1 space-y-2 flex flex-row justify-between">
-            <div className="flex mt-2 left-0 items-center text-sm font-medium text-gray-500">
+            <div className="flex mt-2 items-center text-sm font-medium text-gray-500">
               <p>
                 {data.updatedAt ? "Updated At: " : "Published At: "}
                 {formatDate(data.updatedAt ?? data.postedAt)}
@@ -117,6 +137,7 @@ const Page: FC<PageProps> = ({ params }) => {
           </div>
         </div>
       </div>
+
       <div className="group mx-2 mt-4 grid max-w-screen-md grid-cols-12 space-x-8 overflow-hidden rounded-lg border py-8 text-gray-600 shadow transition hover:shadow-lg sm:mx-auto">
         <div className="col-span-11 flex flex-col pr-8 text-left text-base sm:pl-4">
           <h1 className="text-bold text-lg text-gray-700 font-extrabold">
