@@ -21,7 +21,7 @@ interface JobData {
   online: boolean;
   postedAt: Date;
   updatedAt: Date | null;
-  workType: boolean;
+  workType: string[];
   internship: boolean;
   companyLogo: string | null;
 }
@@ -61,7 +61,7 @@ const Page: FC<PageProps> = ({ params }) => {
         >
           <div className="group relative h-16 w-16 overflow-hidden rounded-lg">
             <img
-              src={data.companyLogo ?? "/default-logo.png"} // Use a default value if companyLogo is null
+              src={data.companyLogo ?? "/default-logo.png"}
               alt=""
               className="h-full w-full object-cover text-gray-700"
             />
@@ -75,7 +75,7 @@ const Page: FC<PageProps> = ({ params }) => {
           >
             {data.title}
           </Link>
-          <p className="overflow-hidden pr-2 text-sm">{data.jobDescription}</p>
+          <p className="overflow-hidden pr-2 text-sm">{data.location}</p>
           <div className="mt-5 flex flex-col space-y-3 text-sm font-medium text-gray-500 sm:flex-row sm:items-center sm:space-y-0 sm:space-x-2">
             <div>
               Experience:
@@ -90,15 +90,6 @@ const Page: FC<PageProps> = ({ params }) => {
               </span>
             </div>
           </div>
-          <div>
-            <h5 className="text-white space-x-2 mt-2">
-              {data.skillsRequired.map((skill, index) => (
-                <Badge key={index} variant="outline">
-                  {skill}
-                </Badge>
-              ))}
-            </h5>
-          </div>
           <div className="flex mt-2 items-center text-sm font-medium text-gray-500">
             <p>
               {data.updatedAt ? "Updated At: " : "Published At: "}
@@ -107,6 +98,36 @@ const Page: FC<PageProps> = ({ params }) => {
           </div>
         </div>
       </div>
+      <div className="group mx-2 mt-4 grid max-w-screen-md grid-cols-12 space-x-8 overflow-hidden rounded-lg border py-8 text-gray-700 shadow transition hover:shadow-lg sm:mx-auto">
+        <div className="col-span-11 flex flex-col pr-8 text-left sm:pl-4">
+          <h1 className="text-bold text-black">Job Description</h1>
+          <h3 className="text-md text-gray-600">{data.jobDescription}</h3>
+          <h2>
+            <span className="font-bold">Role:</span> {data.title}
+          </h2>
+          <h2>
+            <span className="font-bold">Employment Type:</span> {data.workType}
+          </h2>
+          <h2>
+            <span className="font-bold">Role Category:</span> Software
+          </h2>
+          <h2>
+            <span className="font-bold">Education Qualifications:</span> <br />
+            {data.educationQualification}
+          </h2>
+          <div>
+            <span className="font-bold">Key Skills:</span> <br />
+            <h5 className="text-white space-x-2 mt-2">
+              {data.skillsRequired.map((skill, index) => (
+                <Badge key={index} variant="outline">
+                  {skill}
+                </Badge>
+              ))}
+            </h5>
+          </div>
+        </div>
+      </div>
+
       <div>
         <h1 className="text-xl font-bold">{data.title}</h1>
         <p>Company: {data.companyName}</p>
