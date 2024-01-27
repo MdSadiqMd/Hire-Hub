@@ -3,10 +3,15 @@ import React from "react";
 import { Navbar } from "@/components/ui/navbar";
 import { Banner } from "@/components/ui/banner";
 
-const JobsLayout: React.FC<{ children?: React.ReactNode }> = (props) => {
+interface JobsLayoutProps {
+  children?: React.ReactNode;
+  search?: string;
+}
+
+const JobsLayout: React.FC<JobsLayoutProps> = (props) => {
   return (
     <div>
-      <Navbar />
+      <Navbar search={props.search} />
       <Banner />
       <div>{props.children}</div>
     </div>

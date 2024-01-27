@@ -6,6 +6,7 @@ import axios from "axios";
 import Link from "next/link";
 import { toast } from "react-hot-toast";
 import { useRouter } from "next/navigation";
+import { useDebounce } from "use-debounce";
 
 export const navigation = [
   { name: "Home", href: "#", current: true },
@@ -18,14 +19,17 @@ export function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(" ");
 }
 
-export const Navbar: React.FC<{ children?: React.ReactNode }> = (props) => {
+export const Navbar: React.FC<{ search?: string }> = ({ search }) => {
   const [isSearchBarVisible, setIsSearchBarVisible] = useState<Boolean>(true);
-  const [searchText,setSearchText]= useState('');
+  const [searchText, setSearchText] = useState("");
+  const [debouncedSearch] = useDebounce((value: string) => {
+    router.push(`/jobs?search=${value}`);
+  }, 500);
   const router = useRouter();
 
-  useEffect(()=>{
-    router.push(`/jobs?search=${searchText}`);
-  },[searchText]);
+  const handleSearch = () => {
+    debouncedSearch(searchText);
+  };
 
   useEffect(() => {
     const handleResize = () => {
@@ -37,7 +41,7 @@ export const Navbar: React.FC<{ children?: React.ReactNode }> = (props) => {
       window.removeEventListener("resize", handleResize);
     };
   }, []);
-
+  
   const logout = async () => {
     try {
       await axios.get("api/auth/signout");
@@ -109,11 +113,15 @@ export const Navbar: React.FC<{ children?: React.ReactNode }> = (props) => {
                     type="search"
                     name="search"
                     placeholder="Search"
-                    onChange={(e)=>setSearchText(e.target.value)}
+                    onChange={(e) => {
+                      setSearchText(e.target.value);
+                      debouncedSearch(e.target.value);
+                    }}
                   />
                   <button
                     type="submit"
                     className="absolute right-0 top-0 mt-5 mr-4"
+                    onClick={handleSearch}
                   >
                     <svg
                       className="text-gray-600 h-4 w-4 fill-current"

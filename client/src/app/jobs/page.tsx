@@ -6,6 +6,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { formatSalaryRange } from "@/helpers/formatSalary";
 import { formatDate } from "@/helpers/formatDate";
+import axios from "axios";
 import {
   Accordion,
   AccordionContent,
@@ -39,18 +40,11 @@ const Page: NextPage = () => {
   const router = useRouter();
   const fetchData = async () => {
     try {
-      const res = await fetch("http://localhost:3000/api/jobs", {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-
-      if (res.ok) {
-        const responseData = await res.json();
+      const res = await axios.get("/api/jobs");
+      if (res.status === 200) {
+        const responseData = res.data;
         console.log("API Response Data:", responseData);
         const fetchedData = responseData.result || [];
-
         if (Array.isArray(fetchedData)) {
           setData(fetchedData);
         } else {
