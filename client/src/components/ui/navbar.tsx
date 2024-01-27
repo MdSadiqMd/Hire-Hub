@@ -20,7 +20,12 @@ export function classNames(...classes: string[]) {
 
 export const Navbar: React.FC<{ children?: React.ReactNode }> = (props) => {
   const [isSearchBarVisible, setIsSearchBarVisible] = useState<Boolean>(true);
+  const [searchText,setSearchText]= useState('');
   const router = useRouter();
+
+  useEffect(()=>{
+    router.push(`/jobs?search=${searchText}`);
+  },[searchText]);
 
   useEffect(() => {
     const handleResize = () => {
@@ -104,6 +109,7 @@ export const Navbar: React.FC<{ children?: React.ReactNode }> = (props) => {
                     type="search"
                     name="search"
                     placeholder="Search"
+                    onChange={(e)=>setSearchText(e.target.value)}
                   />
                   <button
                     type="submit"
