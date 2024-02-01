@@ -35,15 +35,21 @@ interface JobData {
   companyLogo: string | null;
 }
 
-const Page: NextPage = () => {
+interface PageProps {
+  searchParams: { search: string };
+}
+
+const Page: NextPage<PageProps> = ({ searchParams }) => {
   const [data, setData] = useState<JobData[]>([]);
   const router = useRouter();
-  const searchParams = useSearchParams();
-  const search = searchParams.get("search");
-  console.log(search);
+  // const searchParams = useSearchParams();
+  //const search = searchParams.get("search");
+  //console.log(search);
   const fetchData = async () => {
     try {
-      const res = await axios.get("/api/jobs");
+      const search: string = searchParams.search;
+      console.log(search);
+      const res = await axios.get("/api/jobs", { params: { search: search } });
       if (res.status === 200) {
         const responseData = res.data;
         console.log("API Response Data:", responseData);

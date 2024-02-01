@@ -3,7 +3,8 @@ import connectDB from "@/db/config";
 import jobModel from "@/Models/jobModels";
 
 export async function GET(req:NextRequest,res:NextResponse) {
-  console.log(res);
+  const {search}=res;
+  console.log(search);
   
   try {
     console.log("connecting MongoDB");
