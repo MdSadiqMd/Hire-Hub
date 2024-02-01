@@ -1,8 +1,10 @@
-import { NextResponse } from "next/server";
+import { NextRequest,NextResponse } from "next/server";
 import connectDB from "@/db/config";
 import jobModel from "@/Models/jobModels";
 
-export async function GET() {
+export async function GET(req:NextRequest,res:NextResponse) {
+  console.log(res);
+  
   try {
     console.log("connecting MongoDB");
     await connectDB();

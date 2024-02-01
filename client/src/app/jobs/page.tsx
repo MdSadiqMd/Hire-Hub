@@ -43,9 +43,7 @@ const Page: NextPage = () => {
   console.log(search);
   const fetchData = async () => {
     try {
-      const res = await axios.get("/api/jobs", {
-        params: { search: search },
-      });
+      const res = await axios.get("/api/jobs");
       if (res.status === 200) {
         const responseData = res.data;
         console.log("API Response Data:", responseData);
