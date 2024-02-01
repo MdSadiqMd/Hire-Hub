@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import type { NextPage } from "next";
 import { Badge } from "@/components/ui/badge";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { formatSalaryRange } from "@/helpers/formatSalary";
 import { formatDate } from "@/helpers/formatDate";
 import axios from "axios";
@@ -38,9 +38,14 @@ interface JobData {
 const Page: NextPage = () => {
   const [data, setData] = useState<JobData[]>([]);
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const search = searchParams.get("search");
+  console.log(search);
   const fetchData = async () => {
     try {
-      const res = await axios.get("/api/jobs");
+      const res = await axios.get("/api/jobs", {
+        params: { search: search },
+      });
       if (res.status === 200) {
         const responseData = res.data;
         console.log("API Response Data:", responseData);
