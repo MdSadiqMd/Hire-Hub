@@ -5,7 +5,7 @@ import jobModel from "@/Models/jobModels";
 export async function GET(req:NextRequest,res:NextResponse) {
   const {search}=res;
   console.log(search);
-  
+  console.log("");
   try {
     console.log("connecting MongoDB");
     await connectDB();
