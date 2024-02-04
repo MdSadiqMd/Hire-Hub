@@ -42,12 +42,10 @@ interface PageProps {
 const Page: NextPage<PageProps> = ({ searchParams }) => {
   const [data, setData] = useState<JobData[]>([]);
   const router = useRouter();
-  // const searchParams = useSearchParams();
-  //const search = searchParams.get("search");
+  const search = useSearchParams().get("search");
   //console.log(search);
   const fetchData = async () => {
     try {
-      const search: string = searchParams.search;
       console.log(search);
       const res = await axios.get("/api/jobs", { params: { search: search } });
       if (res.status === 200) {
@@ -69,7 +67,7 @@ const Page: NextPage<PageProps> = ({ searchParams }) => {
 
   useEffect(() => {
     fetchData();
-  }, []);
+  }, [search]);
 
   const handleClick = (jobId: any) => {
     router.push(`/jobs/${jobId}`);
