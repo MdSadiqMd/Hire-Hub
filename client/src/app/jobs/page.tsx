@@ -43,7 +43,6 @@ const Page: NextPage<PageProps> = ({ searchParams }) => {
   const [data, setData] = useState<JobData[]>([]);
   const router = useRouter();
   const search = useSearchParams().get("search");
-  //console.log(search);
   const fetchData = async () => {
     try {
       console.log(search);
