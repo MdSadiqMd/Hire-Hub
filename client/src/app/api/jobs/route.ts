@@ -1,14 +1,10 @@
-import { NextRequest,NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import connectDB from "@/db/config";
 import jobModel from "@/Models/jobModels";
 
-export async function GET(req:NextRequest) {
-  const {searchParams}=new URL(req.url);
-  console.log("just");
+export async function GET(req: NextRequest) {
+  const { searchParams } = new URL(req.url);
   console.log(searchParams.get("search"));
-  console.log("before");
-  
-  
   try {
     console.log("connecting MongoDB");
     await connectDB();
