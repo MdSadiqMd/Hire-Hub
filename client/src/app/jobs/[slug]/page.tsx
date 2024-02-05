@@ -140,7 +140,7 @@ const Page: FC<PageProps> = ({ params }) => {
 
       <div className="group mx-2 mt-4 grid max-w-screen-md grid-cols-12 space-x-8 overflow-hidden rounded-lg border py-8 text-gray-600 shadow transition hover:shadow-lg sm:mx-auto">
         <div className="col-span-11 flex flex-col pr-8 text-left text-base sm:pl-4">
-          <h1 className="text-bold text-lg text-gray-700 font-extrabold">
+          <h1 className="text-bold text-lg text-gray-700 font-semibold">
             Job Description
           </h1>
           <div className="p-1">
@@ -191,6 +191,21 @@ const Page: FC<PageProps> = ({ params }) => {
               </h5>
             </div>
           </div>
+        </div>
+      </div>
+
+      <div className="group mx-2 mt-4 mb-5 grid max-w-screen-md grid-cols-12 space-x-8 overflow-hidden rounded-lg border py-6 text-gray-700 shadow transition hover:shadow-lg sm:mx-auto">
+        <div className="col-span-11 flex flex-col pr-8 text-left text-base sm:pl-4">
+          <h1 className="text-lg text-gray-700 font-semibold">
+            Beware of Imposters
+          </h1>
+          <p className="font-medium text-gray-500">
+            At Hire Hub, we want to emphasize that we never promise interviews
+            in exchange for money. Unfortunately, there are fraudsters out there
+            who may request a registration fee or a refundable fee under false
+            pretenses. It's crucial to be vigilant and cautious to avoid falling
+            victim to such scams.
+          </p>
         </div>
       </div>
     </>
