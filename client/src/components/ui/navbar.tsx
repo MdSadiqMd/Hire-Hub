@@ -27,8 +27,12 @@ export const Navbar: React.FC<{ search?: string }> = ({ search }) => {
   }, 500);
   const router = useRouter();
 
-  const handleSearch = () => {
-    debouncedSearch(searchText);
+  const handleSearch = (e) => {
+    if (e.key == "Enter") {
+      debouncedSearch(searchText);
+    } else {
+      debouncedSearch(searchText);
+    }
   };
 
   useEffect(() => {
@@ -41,7 +45,7 @@ export const Navbar: React.FC<{ search?: string }> = ({ search }) => {
       window.removeEventListener("resize", handleResize);
     };
   }, []);
-  
+
   const logout = async () => {
     try {
       await axios.get("api/auth/signout");
@@ -109,14 +113,14 @@ export const Navbar: React.FC<{ search?: string }> = ({ search }) => {
                   }}
                 >
                   <input
-                    className="border-2 border-gray-700 bg-black h-10 px-5 pr-16 rounded-lg text-sm focus:outline-none"
+                    className="border-2 border-gray-700 bg-black text-gray-200 h-10 px-5 pr-16 rounded-lg text-sm focus:outline-none"
                     type="search"
                     name="search"
                     placeholder="Search"
                     onChange={(e) => {
                       setSearchText(e.target.value);
-                      debouncedSearch(e.target.value);
                     }}
+                    onKeyPress={(e) => handleSearch(e)}
                   />
                   <button
                     type="submit"
