@@ -24,7 +24,7 @@ export const Navbar: React.FC<{ search?: string }> = ({ search }) => {
   const [searchText, setSearchText] = useState("");
   const [debouncedSearch] = useDebounce((value: string) => {
     router.push(`/jobs?search=${value}`);
-  }, 500);
+  }, 5000);
   const router = useRouter();
 
   const handleSearch = (e) => {
@@ -60,7 +60,7 @@ export const Navbar: React.FC<{ search?: string }> = ({ search }) => {
   return (
     <>
       <Disclosure as="nav" className="bg-gray-800 scrollbar-hide">
-        {({ open }) => (
+        {({ open }): React.JSX.Element => (
           <>
             <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
               <div className="relative flex h-16 items-center justify-between">
