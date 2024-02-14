@@ -5,12 +5,32 @@ import jobModel from "@/Models/jobModels";
 export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url);
   console.log(searchParams.get("search"));
+  const query = searchParams.get("search");
   try {
     console.log("connecting MongoDB");
     await connectDB();
     console.log("MongoDB connected");
-    const result = await jobModel.find({});
-    return NextResponse.json({ result: result }, { status: 200 });
+    if (query) {
+      console.log("Aggregation Pipeline");
+      const result = await jobModel.aggregate([
+        {
+          $search: {
+            index: "text-search",
+            text: {
+              query: query,
+              path: {
+                wildcard: "*",
+              },
+            },
+          },
+        },
+      ]);
+      console.log(result);
+      return NextResponse.json({ result: result }, { status: 200 });
+    } else {
+      const result = await jobModel.find({});
+      return NextResponse.json({ result: result }, { status: 200 });
+    }
   } catch (error) {
     return NextResponse.json({ msg: "connection failed" }, { status: 400 });
   }
