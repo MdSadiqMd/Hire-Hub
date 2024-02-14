@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from "react";
 import type { NextPage } from "next";
 import { Badge } from "@/components/ui/badge";
+import { Skeleton } from "@/components/ui/skeleton";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { formatSalaryRange } from "@/helpers/formatSalary";
@@ -117,8 +118,22 @@ const Page: NextPage<PageProps> = ({ searchParams }) => {
           </div>
         </div>
         <main className="mt-5 p-5 max-h-screen overflow-auto">
-          {loading ? (
-            <h1>loading</h1>
+          {error ? (
+            <h1>error</h1>
+          ) : loading ? (
+            <div className="flex flex-col space-y-7">
+              {Array(8)
+                .fill()
+                .map((_, index) => (
+                  <div key={index} className="flex items-center space-x-4">
+                    <Skeleton className="h-12 w-12 rounded-full bg-gray-200" />
+                    <div className="space-y-2">
+                      <Skeleton className="h-4 w-[250px] bg-gray-200" />
+                      <Skeleton className="h-4 w-[200px] bg-gray-200" />
+                    </div>
+                  </div>
+                ))}
+            </div>
           ) : (
             <div>
               {data.map((job, i) => {
@@ -138,7 +153,8 @@ const Page: NextPage<PageProps> = ({ searchParams }) => {
                           <img
                             src={job.companyLogo ?? "/default-logo.png"} // Use a default value if companyLogo is null
                             alt=""
-                            className="h-full w-full object-cover text-gray-700" />
+                            className="h-full w-full object-cover text-gray-700"
+                          />
                         </div>
                       </Link>
                       <div className="col-span-11 flex flex-col pr-8 text-left sm:pl-4">
