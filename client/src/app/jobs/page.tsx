@@ -46,6 +46,34 @@ const Page: NextPage<PageProps> = ({ searchParams }) => {
   const [error, setError] = useState<string | null>(null);
   const router = useRouter();
   const search = useSearchParams().get("search");
+  const [workType, setWorkType] = useState([]);
+  const work = [
+    { work: "Remote", isChecked: false },
+    { work: "On Site", isChecked: false },
+    { work: "Hybrid", isChecked: false },
+  ];
+
+  useEffect(() => {
+    setWorkType(work);
+  }, []);
+
+  const handleChange = (e) => {
+    const { name, checked } = e.target;
+    if (name === "allSelect") {
+      let tempFilter = workType.map((user) => {
+        return { ...user, isChecked: checked };
+      });
+      setWorkType(tempFilter);
+    } else {
+      let tempFilter = workType.map((user) =>
+        user.work === name ? { ...user, isChecked: checked } : user
+      );
+      setWorkType(tempFilter);
+    }
+    const filter=workType
+    console.log(filter); 
+  };
+
   const fetchData = async () => {
     setLoading(true);
     setError(null);
@@ -92,7 +120,42 @@ const Page: NextPage<PageProps> = ({ searchParams }) => {
               <AccordionItem value="item-1">
                 <AccordionTrigger>Is it accessible?</AccordionTrigger>
                 <AccordionContent>
-                  Yes. It adheres to the WAI-ARIA design pattern.
+                  <div className="container my-4" style={{ width: "500px" }}>
+                    <form className="form w-100">
+                      <h3>Work Type</h3>
+                      <div className="form-check">
+                        <input
+                          type="checkbox"
+                          className="form-check-input"
+                          name="allSelect"
+                          // checked={
+                          //   users.filter((user) => user?.isChecked !== true).length < 1
+                          // }
+                          checked={
+                            !workType.some((work) => work?.isChecked !== true)
+                          }
+                          onChange={handleChange}
+                        />
+                        <label className="form-check-label ms-2">
+                          Select All
+                        </label>
+                      </div>
+                      {workType.map((work, index) => (
+                        <div className="form-check" key={index}>
+                          <input
+                            type="checkbox"
+                            className="form-check-input"
+                            name={work.work}
+                            checked={work?.isChecked || false}
+                            onChange={handleChange}
+                          />
+                          <label className="form-check-label ms-2">
+                            {work.work}
+                          </label>
+                        </div>
+                      ))}
+                    </form>
+                  </div>
                 </AccordionContent>
                 <AccordionContent>
                   Yes. It adheres to the WAI-ARIA design pattern.
