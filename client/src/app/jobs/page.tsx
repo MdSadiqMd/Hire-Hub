@@ -41,6 +41,8 @@ interface PageProps {
 }
 
 const Page: NextPage<PageProps> = ({ searchParams }) => {
+  // Inside the component function
+
   const [data, setData] = useState<JobData[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
@@ -70,19 +72,19 @@ const Page: NextPage<PageProps> = ({ searchParams }) => {
       );
       setWorkType(tempFilter);
     }
-    const filter=workType
-    console.log(filter); 
   };
 
   const fetchData = async () => {
     setLoading(true);
     setError(null);
     try {
-      console.log(search);
-      const res = await axios.get("/api/jobs", { params: { search: search } });
+      console.log(workType);
+      const res = await axios.get("/api/jobs", {
+        params: { search: search },
+        sort: { filter: workType },
+      });
       if (res.status === 200) {
         const responseData = res.data;
-        console.log("API Response Data:", responseData);
         const fetchedData = responseData.result || [];
         if (Array.isArray(fetchedData)) {
           setData(fetchedData);
@@ -104,9 +106,9 @@ const Page: NextPage<PageProps> = ({ searchParams }) => {
 
   useEffect(() => {
     fetchData();
-  }, [search]);
+  }, [search, workType]);
 
-  const handleClick = (jobId: any) => {
+  const handleClick = (jobId: string) => {
     router.push(`/jobs/${jobId}`);
   };
 
