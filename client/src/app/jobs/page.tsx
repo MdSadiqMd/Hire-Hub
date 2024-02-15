@@ -49,7 +49,7 @@ const Page: NextPage<PageProps> = ({ searchParams }) => {
   const [workType, setWorkType] = useState([]);
   const work = [
     { work: "Remote", isChecked: false },
-    { work: "On Site", isChecked: false },
+    { work: "On-Site", isChecked: false },
     { work: "Hybrid", isChecked: false },
   ];
 
