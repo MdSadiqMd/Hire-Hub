@@ -4,8 +4,14 @@ import jobModel from "@/Models/jobModels";
 
 export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url);
+  console.log("before");
+  
   console.log(searchParams.get("search"));
+  console.log(searchParams.get("workType"));
+  console.log("after");
+  
   const query = searchParams.get("search");
+  const queryFilter=searchParams.get("workType")
   try {
     console.log("connecting MongoDB");
     await connectDB();

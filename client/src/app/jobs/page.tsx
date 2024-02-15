@@ -41,11 +41,9 @@ interface PageProps {
 }
 
 const Page: NextPage<PageProps> = ({ searchParams }) => {
-  // Inside the component function
-
-  const [data, setData] = useState<JobData[]>([]);
-  const [loading, setLoading] = useState<boolean>(false);
-  const [error, setError] = useState<string | null>(null);
+  const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
   const router = useRouter();
   const search = useSearchParams().get("search");
   const [workType, setWorkType] = useState([]);
@@ -59,39 +57,20 @@ const Page: NextPage<PageProps> = ({ searchParams }) => {
     setWorkType(work);
   }, []);
 
-  const handleChange = (e) => {
-    const { name, checked } = e.target;
-    if (name === "allSelect") {
-      let tempFilter = workType.map((user) => {
-        return { ...user, isChecked: checked };
-      });
-      setWorkType(tempFilter);
-    } else {
-      let tempFilter = workType.map((user) =>
-        user.work === name ? { ...user, isChecked: checked } : user
-      );
-      setWorkType(tempFilter);
-    }
-  };
-
   const fetchData = async () => {
     setLoading(true);
     setError(null);
     try {
-      console.log(workType);
       const res = await axios.get("/api/jobs", {
-        params: { search: search },
-        sort: { filter: workType },
+        params: {
+          search: search,
+          workType: workType
+            .filter((item) => item.isChecked)
+            .map((item) => item.work),
+        },
       });
       if (res.status === 200) {
-        const responseData = res.data;
-        const fetchedData = responseData.result || [];
-        if (Array.isArray(fetchedData)) {
-          setData(fetchedData);
-        } else {
-          console.error("Data is not an array:", fetchedData);
-          setError("Data is not an array");
-        }
+        setData(res.data.result || []);
       } else {
         console.error("Failed to fetch data");
         setError("Failed to fetch data");
@@ -108,14 +87,26 @@ const Page: NextPage<PageProps> = ({ searchParams }) => {
     fetchData();
   }, [search, workType]);
 
-  const handleClick = (jobId: string) => {
+  const handleChange = (index) => {
+    const updatedWorkType = [...workType];
+    updatedWorkType[index].isChecked = !updatedWorkType[index].isChecked;
+    setWorkType(updatedWorkType);
+
+    const queryParams = updatedWorkType
+      .filter((item) => item.isChecked)
+      .map((item) => item.work)
+      .join(",");
+    router.push(`?search=${search}&workType=${queryParams}`);
+  };
+
+  const handleClick = (jobId) => {
     router.push(`/jobs/${jobId}`);
   };
 
   return (
     <>
       <div className="flex flex-row">
-        {/*Side bar Menu */}
+        {/* Side bar Menu */}
         <div className="flex">
           <div className="h-[39vw] bg-gray-900 text-white p-[8px] w-[15vw] overflow-hidden flex flex-col m-4 rounded-xl">
             <Accordion type="single" collapsible>
@@ -125,34 +116,17 @@ const Page: NextPage<PageProps> = ({ searchParams }) => {
                   <div className="container my-4" style={{ width: "500px" }}>
                     <form className="form w-100">
                       <h3>Work Type</h3>
-                      <div className="form-check">
-                        <input
-                          type="checkbox"
-                          className="form-check-input"
-                          name="allSelect"
-                          // checked={
-                          //   users.filter((user) => user?.isChecked !== true).length < 1
-                          // }
-                          checked={
-                            !workType.some((work) => work?.isChecked !== true)
-                          }
-                          onChange={handleChange}
-                        />
-                        <label className="form-check-label ms-2">
-                          Select All
-                        </label>
-                      </div>
-                      {workType.map((work, index) => (
+                      {workType.map((item, index) => (
                         <div className="form-check" key={index}>
                           <input
                             type="checkbox"
                             className="form-check-input"
-                            name={work.work}
-                            checked={work?.isChecked || false}
-                            onChange={handleChange}
+                            name={item.work}
+                            checked={item.isChecked}
+                            onChange={() => handleChange(index)}
                           />
                           <label className="form-check-label ms-2">
-                            {work.work}
+                            {item.work}
                           </label>
                         </div>
                       ))}
