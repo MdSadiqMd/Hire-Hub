@@ -46,16 +46,25 @@ const Page: NextPage<PageProps> = ({ searchParams }) => {
   const [error, setError] = useState(null);
   const router = useRouter();
   const search = useSearchParams().get("search");
-  const [workType, setWorkType] = useState([]);
-  const work = [
-    { work: "Remote", isChecked: false },
-    { work: "On-Site", isChecked: false },
-    { work: "Hybrid", isChecked: false },
-  ];
+  const [filteredData, setFilteredData] = useState({
+    work: [
+      { work: "Internship", isChecked: false },
+      { work: "Remote", isChecked: false },
+      { work: "On-Site", isChecked: false },
+      { work: "Hybrid", isChecked: false },
+    ],
+    salary: [
+      { salary: "50k", isChecked: false },
+      { salary: "80k", isChecked: false },
+      { salary: "90k", isChecked: false },
+      { salary: "110k", isChecked: false },
+      { salary: "130k", isChecked: false },
+    ],
+  });
 
   useEffect(() => {
-    setWorkType(work);
-  }, []);
+    fetchData();
+  }, [search, filteredData]);
 
   const fetchData = async () => {
     setLoading(true);
@@ -64,7 +73,7 @@ const Page: NextPage<PageProps> = ({ searchParams }) => {
       const res = await axios.get("/api/jobs", {
         params: {
           search: search,
-          workType: workType
+          workType: filteredData.work
             .filter((item) => item.isChecked)
             .map((item) => item.work),
         },
@@ -83,20 +92,25 @@ const Page: NextPage<PageProps> = ({ searchParams }) => {
     }
   };
 
-  useEffect(() => {
-    fetchData();
-  }, [search, workType]);
+  const handleChange = (type, index) => {
+    const updatedData = { ...filteredData };
+    if (type === "work") {
+      updatedData.work[index].isChecked = !updatedData.work[index].isChecked;
+    } else if (type === "salary") {
+      updatedData.salary[index].isChecked = !updatedData.salary[index].isChecked;
+    }
+    setFilteredData(updatedData);
 
-  const handleChange = (index) => {
-    const updatedWorkType = [...workType];
-    updatedWorkType[index].isChecked = !updatedWorkType[index].isChecked;
-    setWorkType(updatedWorkType);
-
-    const queryParams = updatedWorkType
+    const queryParams = updatedData.work
       .filter((item) => item.isChecked)
       .map((item) => item.work)
+      .concat(
+        updatedData.salary
+          .filter((item) => item.isChecked)
+          .map((item) => item.salary)
+      )
       .join(",");
-    router.push(`?search=${search}&workType=${queryParams}`);
+    router.push(`?search=${search}&filter=${queryParams}`);
   };
 
   const handleClick = (jobId) => {
@@ -116,14 +130,14 @@ const Page: NextPage<PageProps> = ({ searchParams }) => {
                   <div className="container my-4" style={{ width: "500px" }}>
                     <form className="form w-100">
                       <h3>Work Type</h3>
-                      {workType.map((item, index) => (
+                      {filteredData.work.map((item, index) => (
                         <div className="form-check" key={index}>
                           <input
                             type="checkbox"
                             className="form-check-input"
                             name={item.work}
                             checked={item.isChecked}
-                            onChange={() => handleChange(index)}
+                            onChange={() => handleChange("work", index)}
                           />
                           <label className="form-check-label ms-2">
                             {item.work}
@@ -133,16 +147,31 @@ const Page: NextPage<PageProps> = ({ searchParams }) => {
                     </form>
                   </div>
                 </AccordionContent>
-                <AccordionContent>
-                  Yes. It adheres to the WAI-ARIA design pattern.
-                </AccordionContent>
               </AccordionItem>
             </Accordion>
             <Accordion type="single" collapsible>
-              <AccordionItem value="item-1">
-                <AccordionTrigger>Is it accessible?</AccordionTrigger>
+              <AccordionItem value="item-2">
+                <AccordionTrigger>Salary</AccordionTrigger>
                 <AccordionContent>
-                  Yes. It adheres to the WAI-ARIA design pattern.
+                  <div className="container my-4" style={{ width: "500px" }}>
+                    <form className="form w-100">
+                      <h3>Salary</h3>
+                      {filteredData.salary.map((item, index) => (
+                        <div className="form-check" key={index}>
+                          <input
+                            type="checkbox"
+                            className="form-check-input"
+                            name={item.salary}
+                            checked={item.isChecked}
+                            onChange={() => handleChange("salary", index)}
+                          />
+                          <label className="form-check-label ms-2">
+                            {item.salary}
+                          </label>
+                        </div>
+                      ))}
+                    </form>
+                  </div>
                 </AccordionContent>
               </AccordionItem>
             </Accordion>

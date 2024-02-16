@@ -10,13 +10,10 @@ export async function GET(req: NextRequest) {
   const query = searchParams.get("search");
   const queryFilters = searchParams.getAll("workType[]");
   console.log(queryFilters);
-  console.log("after");
-
   try {
     console.log("connecting MongoDB");
     await connectDB();
     console.log("MongoDB connected");
-
     if (queryFilters.length > 0) {
       console.log("Aggregation Pipeline Filter");
       const result = await jobModel.aggregate([
@@ -24,7 +21,7 @@ export async function GET(req: NextRequest) {
           $search: {
             index: "text-search",
             text: {
-              query: queryFilters || "",
+              query: queryFilters,
               path: {
                 wildcard: "*",
               },
@@ -33,8 +30,8 @@ export async function GET(req: NextRequest) {
         },
       ]);
       console.log(result);
-      return NextResponse.json({ result: result }, { status: 200 });
-    } else if (query) {
+      return NextResponse.json({ result }, { status: 200 });
+    } else if (query && query!=="null") {
       console.log("Aggregation Pipeline");
       const result = await jobModel.aggregate([
         {
@@ -50,10 +47,10 @@ export async function GET(req: NextRequest) {
         },
       ]);
       console.log(result);
-      return NextResponse.json({ result: result }, { status: 200 });
+      return NextResponse.json({ result }, { status: 200 });
     } else {
       const result = await jobModel.find({});
-      return NextResponse.json({ result: result }, { status: 200 });
+      return NextResponse.json({ result }, { status: 200 });
     }
   } catch (error) {
     return NextResponse.json({ msg: "connection failed" }, { status: 400 });
