@@ -41,9 +41,9 @@ interface PageProps {
 }
 
 const Page: NextPage<PageProps> = ({ searchParams }) => {
-  const [data, setData] = useState([]);
+  const [data, setData] = useState<JobData[]>([]); 
+const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
   const router = useRouter();
   const search = useSearchParams().get("search");
   const [filteredData, setFilteredData] = useState({
@@ -92,7 +92,7 @@ const Page: NextPage<PageProps> = ({ searchParams }) => {
     }
   };
 
-  const handleChange = (type, index) => {
+  const handleChange = (type:string, index:number) => {
     const updatedData = { ...filteredData };
     if (type === "work") {
       updatedData.work[index].isChecked = !updatedData.work[index].isChecked;
@@ -113,7 +113,7 @@ const Page: NextPage<PageProps> = ({ searchParams }) => {
     router.push(`?search=${search}&filter=${queryParams}`);
   };
 
-  const handleClick = (jobId) => {
+  const handleClick = (jobId:any) => {
     router.push(`/jobs/${jobId}`);
   };
 
@@ -191,7 +191,7 @@ const Page: NextPage<PageProps> = ({ searchParams }) => {
           ) : loading ? (
             <div className="flex flex-col space-y-7">
               {Array(8)
-                .fill()
+                .fill(null)
                 .map((_, index) => (
                   <div key={index} className="flex items-center space-x-4">
                     <Skeleton className="h-12 w-12 rounded-full bg-gray-200" />
