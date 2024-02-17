@@ -41,8 +41,8 @@ interface PageProps {
 }
 
 const Page: NextPage<PageProps> = ({ searchParams }) => {
-  const [data, setData] = useState<JobData[]>([]); 
-const [error, setError] = useState<string | null>(null);
+  const [data, setData] = useState<JobData[]>([]);
+  const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const router = useRouter();
   const search = useSearchParams().get("search");
@@ -73,9 +73,15 @@ const [error, setError] = useState<string | null>(null);
       const res = await axios.get("/api/jobs", {
         params: {
           search: search,
-          workType: filteredData.work
+          filter: filteredData.work
             .filter((item) => item.isChecked)
-            .map((item) => item.work),
+            .map((item) => item.work)
+            .concat(
+              filteredData.salary
+                .filter((item) => item.isChecked)
+                .map((item) => item.salary)
+            )
+            .join(","),
         },
       });
       if (res.status === 200) {
@@ -92,15 +98,15 @@ const [error, setError] = useState<string | null>(null);
     }
   };
 
-  const handleChange = (type:string, index:number) => {
+  const handleChange = (type: string, index: number) => {
     const updatedData = { ...filteredData };
     if (type === "work") {
       updatedData.work[index].isChecked = !updatedData.work[index].isChecked;
     } else if (type === "salary") {
-      updatedData.salary[index].isChecked = !updatedData.salary[index].isChecked;
+      updatedData.salary[index].isChecked =
+        !updatedData.salary[index].isChecked;
     }
     setFilteredData(updatedData);
-
     const queryParams = updatedData.work
       .filter((item) => item.isChecked)
       .map((item) => item.work)
@@ -110,10 +116,11 @@ const [error, setError] = useState<string | null>(null);
           .map((item) => item.salary)
       )
       .join(",");
-    router.push(`?search=${search}&filter=${queryParams}`);
+    router.push(`?search=${search}&workTpye=${queryParams}`);
+    console.log(queryParams);
   };
 
-  const handleClick = (jobId:any) => {
+  const handleClick = (jobId: any) => {
     router.push(`/jobs/${jobId}`);
   };
 

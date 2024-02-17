@@ -5,10 +5,10 @@ import jobModel from "@/Models/jobModels";
 export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url);
   console.log(searchParams);
-  console.log("before");
-  console.log(searchParams.get("search"));
   const query = searchParams.get("search");
-  const queryFilters = searchParams.getAll("workType[]");
+  const queryFilters = searchParams.getAll("filter[]");
+  console.log(query);
+  console.log("before");
   console.log(queryFilters);
   try {
     console.log("connecting MongoDB");
@@ -29,9 +29,9 @@ export async function GET(req: NextRequest) {
           },
         },
       ]);
-      console.log(result);
+      //console.log(result);
       return NextResponse.json({ result }, { status: 200 });
-    } else if (query && query!=="null") {
+    } else if (query && query !== "null") {
       console.log("Aggregation Pipeline");
       const result = await jobModel.aggregate([
         {
@@ -46,7 +46,7 @@ export async function GET(req: NextRequest) {
           },
         },
       ]);
-      console.log(result);
+      //console.log(result);
       return NextResponse.json({ result }, { status: 200 });
     } else {
       const result = await jobModel.find({});
