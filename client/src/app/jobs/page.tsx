@@ -73,14 +73,13 @@ const Page: NextPage<PageProps> = ({ searchParams }) => {
       const res = await axios.get("/api/jobs", {
         params: {
           search: search,
-          filter: filteredData.work
+          workType: filteredData.work
             .filter((item) => item.isChecked)
             .map((item) => item.work)
-            .concat(
-              filteredData.salary
-                .filter((item) => item.isChecked)
-                .map((item) => item.salary)
-            )
+            .join(","),
+          salary: filteredData.salary
+            .filter((item) => item.isChecked)
+            .map((item) => item.salary)
             .join(","),
         },
       });
@@ -103,22 +102,30 @@ const Page: NextPage<PageProps> = ({ searchParams }) => {
     if (type === "work") {
       updatedData.work[index].isChecked = !updatedData.work[index].isChecked;
     } else if (type === "salary") {
-      updatedData.salary[index].isChecked =
-        !updatedData.salary[index].isChecked;
+      updatedData.salary[index].isChecked = !updatedData.salary[index].isChecked;
     }
     setFilteredData(updatedData);
-    const queryParams = updatedData.work
+  
+    const workType = updatedData.work
       .filter((item) => item.isChecked)
       .map((item) => item.work)
-      .concat(
-        updatedData.salary
-          .filter((item) => item.isChecked)
-          .map((item) => item.salary)
-      )
       .join(",");
-    router.push(`?search=${search}&workTpye=${queryParams}`);
-    console.log(queryParams);
+    const salary = updatedData.salary
+      .filter((item) => item.isChecked)
+      .map((item) => item.salary)
+      .join(",");
+  
+    const queryParams = {
+      search: search,
+      ...(workType && { workType }), 
+      ...(salary && { salary })
+    };
+  
+    const queryString = new URLSearchParams(queryParams).toString();
+  
+    router.push(`/jobs?${queryString}`);
   };
+  
 
   const handleClick = (jobId: any) => {
     router.push(`/jobs/${jobId}`);

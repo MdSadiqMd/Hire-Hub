@@ -6,22 +6,25 @@ export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url);
   console.log(searchParams);
   const query = searchParams.get("search");
-  const queryFilters = searchParams.getAll("filter[]");
+  const workType = searchParams.getAll("workType").join(",");
+  const salary = searchParams.getAll("salary").join(",");
   console.log(query);
   console.log("before");
-  console.log(queryFilters);
+  console.log(workType);
+  console.log("after");
+  console.log(salary);
   try {
     console.log("connecting MongoDB");
     await connectDB();
     console.log("MongoDB connected");
-    if (queryFilters.length > 0) {
+    if (workType.length-1 > 0 && workType!=='') {
       console.log("Aggregation Pipeline Filter");
       const result = await jobModel.aggregate([
         {
           $search: {
             index: "text-search",
             text: {
-              query: queryFilters,
+              query: workType,
               path: {
                 wildcard: "*",
               },
