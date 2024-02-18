@@ -62,7 +62,6 @@ const Page: NextPage<PageProps> = ({ searchParams }) => {
       { salary: "110k", isChecked: false },
       { salary: "130k", isChecked: false },
     ],
-    experience: [{}],
   });
 
   useEffect(() => {
@@ -101,7 +100,7 @@ const Page: NextPage<PageProps> = ({ searchParams }) => {
   };
 
   const handleSliderChange = (value) => {
-    console.log("Slider value:", value);
+    console.log(value);
     setExperience(value);
   };
 
@@ -110,8 +109,7 @@ const Page: NextPage<PageProps> = ({ searchParams }) => {
     if (type === "work") {
       updatedData.work[index].isChecked = !updatedData.work[index].isChecked;
     } else if (type === "salary") {
-      updatedData.salary[index].isChecked =
-        !updatedData.salary[index].isChecked;
+      updatedData.salary[index].isChecked = !updatedData.salary[index].isChecked;
     }
     setFilteredData(updatedData);
     const workType = updatedData.work
@@ -127,11 +125,9 @@ const Page: NextPage<PageProps> = ({ searchParams }) => {
       search: search,
       ...(workType && { workType }),
       ...(salary && { salary }),
-      ...(experience !== null && { experience: experience }), 
+      ...((experience !== null || experience!==0) && { experience: experience }), 
     };
-  
     const queryString = new URLSearchParams(queryParams).toString();
-  
     router.push(`/jobs?${queryString}`);
   };  
 
