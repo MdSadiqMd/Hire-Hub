@@ -8,11 +8,14 @@ export async function GET(req: NextRequest) {
   const query = searchParams.get("search");
   const workType = searchParams.getAll("workType").join(",");
   const salary = searchParams.getAll("salary").join(",");
+  const experience=searchParams.get("experience");
   console.log(query);
   console.log("before");
   console.log(workType);
   console.log("after");
   console.log(salary);
+  console.log("before");
+  console.log(experience);
   try {
     console.log("connecting MongoDB");
     await connectDB();
@@ -53,6 +56,7 @@ export async function GET(req: NextRequest) {
         break;
       case salary && salary !== "null":
         const salaryValue = parseInt(salary.slice(0, -1)) * 1000;
+        console.log(salaryValue)
         result = await jobModel.aggregate([
           {
             $match: {

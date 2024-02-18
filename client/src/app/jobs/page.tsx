@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import type { NextPage } from "next";
 import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
+import { Slider } from "@/components/ui/slider";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { formatSalaryRange } from "@/helpers/formatSalary";
@@ -46,6 +47,7 @@ const Page: NextPage<PageProps> = ({ searchParams }) => {
   const [loading, setLoading] = useState(false);
   const router = useRouter();
   const search = useSearchParams().get("search");
+  const [experience, setExperience] = useState(0);
   const [filteredData, setFilteredData] = useState({
     work: [
       { work: "Internship", isChecked: false },
@@ -60,11 +62,12 @@ const Page: NextPage<PageProps> = ({ searchParams }) => {
       { salary: "110k", isChecked: false },
       { salary: "130k", isChecked: false },
     ],
+    experience: [{}],
   });
 
   useEffect(() => {
     fetchData();
-  }, [search, filteredData]);
+  }, [search, filteredData,experience]);
 
   const fetchData = async () => {
     setLoading(true);
@@ -97,15 +100,20 @@ const Page: NextPage<PageProps> = ({ searchParams }) => {
     }
   };
 
+  const handleSliderChange = (value) => {
+    console.log("Slider value:", value);
+    setExperience(value);
+  };
+
   const handleChange = (type: string, index: number) => {
     const updatedData = { ...filteredData };
     if (type === "work") {
       updatedData.work[index].isChecked = !updatedData.work[index].isChecked;
     } else if (type === "salary") {
-      updatedData.salary[index].isChecked = !updatedData.salary[index].isChecked;
+      updatedData.salary[index].isChecked =
+        !updatedData.salary[index].isChecked;
     }
     setFilteredData(updatedData);
-  
     const workType = updatedData.work
       .filter((item) => item.isChecked)
       .map((item) => item.work)
@@ -117,15 +125,15 @@ const Page: NextPage<PageProps> = ({ searchParams }) => {
   
     const queryParams = {
       search: search,
-      ...(workType && { workType }), 
-      ...(salary && { salary })
+      ...(workType && { workType }),
+      ...(salary && { salary }),
+      ...(experience !== null && { experience: experience }), 
     };
   
     const queryString = new URLSearchParams(queryParams).toString();
   
     router.push(`/jobs?${queryString}`);
-  };
-  
+  };  
 
   const handleClick = (jobId: any) => {
     router.push(`/jobs/${jobId}`);
@@ -193,7 +201,14 @@ const Page: NextPage<PageProps> = ({ searchParams }) => {
               <AccordionItem value="item-1">
                 <AccordionTrigger>Is it accessible?</AccordionTrigger>
                 <AccordionContent>
-                  Yes. It adheres to the WAI-ARIA design pattern.
+                  <div className="p-5">
+                    <Slider
+                      onValueChange={handleSliderChange}
+                      step={1}
+                      min={0}
+                      max={6}
+                    />
+                  </div>
                 </AccordionContent>
               </AccordionItem>
             </Accordion>
