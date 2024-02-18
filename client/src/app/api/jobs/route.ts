@@ -51,6 +51,18 @@ export async function GET(req: NextRequest) {
           },
         ]);
         break;
+      case salary && salary !== "null":
+        const salaryValue = parseInt(salary.slice(0, -1)) * 1000;
+        result = await jobModel.aggregate([
+          {
+            $match: {
+              $expr: {
+                $eq: [{ $arrayElemAt: ["$salary", 0] }, salaryValue]
+              }
+            }
+          }
+        ]);
+        break;
       default:
         result = await jobModel.find({});
     }
