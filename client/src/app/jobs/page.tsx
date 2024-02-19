@@ -57,7 +57,6 @@ const Page: NextPage<PageProps> = ({ searchParams }) => {
     ],
     salary: [
       { salary: "50k", isChecked: false },
-      { salary: "80k", isChecked: false },
       { salary: "90k", isChecked: false },
       { salary: "110k", isChecked: false },
       { salary: "130k", isChecked: false },
@@ -66,7 +65,7 @@ const Page: NextPage<PageProps> = ({ searchParams }) => {
 
   useEffect(() => {
     fetchData();
-  }, [search, filteredData,experience]);
+  }, [search, filteredData, experience]);
 
   const fetchData = async () => {
     setLoading(true);
@@ -102,6 +101,7 @@ const Page: NextPage<PageProps> = ({ searchParams }) => {
   const handleSliderChange = (value) => {
     console.log(value);
     setExperience(value);
+    updateUrlParams({ experience: value });
   };
 
   const handleChange = (type: string, index: number) => {
@@ -109,7 +109,8 @@ const Page: NextPage<PageProps> = ({ searchParams }) => {
     if (type === "work") {
       updatedData.work[index].isChecked = !updatedData.work[index].isChecked;
     } else if (type === "salary") {
-      updatedData.salary[index].isChecked = !updatedData.salary[index].isChecked;
+      updatedData.salary[index].isChecked =
+        !updatedData.salary[index].isChecked;
     }
     setFilteredData(updatedData);
     const workType = updatedData.work
@@ -120,16 +121,22 @@ const Page: NextPage<PageProps> = ({ searchParams }) => {
       .filter((item) => item.isChecked)
       .map((item) => item.salary)
       .join(",");
-  
+    updateUrlParams({ workType, salary });
+  };
+
+  const updateUrlParams = (params: any) => {
     const queryParams = {
-      search: search,
-      ...(workType && { workType }),
-      ...(salary && { salary }),
-      ...((experience !== null || experience!==0) && { experience: experience }), 
+      search,
+      ...params,
     };
+    Object.keys(queryParams).forEach((key) => {
+      if (!queryParams[key] && key !== "search") {
+        delete queryParams[key];
+      }
+    });
     const queryString = new URLSearchParams(queryParams).toString();
     router.push(`/jobs?${queryString}`);
-  };  
+  };
 
   const handleClick = (jobId: any) => {
     router.push(`/jobs/${jobId}`);
