@@ -8,7 +8,7 @@ export async function GET(req: NextRequest) {
   const query = searchParams.get("search");
   const workType = searchParams.getAll("workType").join(",");
   const salary = searchParams.getAll("salary").join(",");
-  const experience=searchParams.get("experience[]");
+  const experience = searchParams.get("experience[]");
   console.log(query);
   console.log("before");
   console.log(workType);
@@ -56,15 +56,25 @@ export async function GET(req: NextRequest) {
         break;
       case salary && salary !== "null":
         const salaryValue = parseInt(salary.slice(0, -1)) * 1000;
-        console.log(salaryValue)
+        console.log(salaryValue);
         result = await jobModel.aggregate([
           {
             $match: {
               $expr: {
-                $eq: [{ $arrayElemAt: ["$salary", 0] }, salaryValue]
-              }
-            }
-          }
+                $eq: [{ $arrayElemAt: ["$salary", 0] }, salaryValue],
+              },
+            },
+          },
+        ]);
+        break;
+      case experience && experience !== "null":
+        console.log(experience);
+        result = await jobModel.aggregate([
+          {
+            $match: {
+              experience: { $eq: parseInt(experience) },
+            },
+          },
         ]);
         break;
       default:
