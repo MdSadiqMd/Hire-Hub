@@ -8,7 +8,7 @@ export async function GET(req: NextRequest) {
   const query = searchParams.get("search");
   const workType = searchParams.getAll("workType").join(",");
   const salary = searchParams.getAll("salary").join(",");
-  const experience = searchParams.get("experience[]");
+  const experience = searchParams.get("experience");
   console.log(query);
   console.log("before");
   console.log(workType);
@@ -67,7 +67,7 @@ export async function GET(req: NextRequest) {
           },
         ]);
         break;
-      case experience && experience !== "null":
+      case experience && experience !== "null" && experience!=="-1":
         console.log(experience);
         result = await jobModel.aggregate([
           {
@@ -77,6 +77,8 @@ export async function GET(req: NextRequest) {
           },
         ]);
         break;
+      case experience=="-1":
+        result = await jobModel.find({});
       default:
         result = await jobModel.find({});
     }

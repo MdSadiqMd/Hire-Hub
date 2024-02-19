@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from "react";
 import type { NextPage } from "next";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Slider } from "@/components/ui/slider";
 import Link from "next/link";
@@ -47,7 +48,7 @@ const Page: NextPage<PageProps> = ({ searchParams }) => {
   const [loading, setLoading] = useState(false);
   const router = useRouter();
   const search = useSearchParams().get("search");
-  const [experience, setExperience] = useState(0);
+  const [experience, setExperience] = useState(-1);
   const [filteredData, setFilteredData] = useState({
     work: [
       { work: "Internship", isChecked: false },
@@ -99,12 +100,19 @@ const Page: NextPage<PageProps> = ({ searchParams }) => {
     }
   };
 
-  const handleSliderChange = (value) => {
-    console.log(value);
-    setExperience(value);
-    updateUrlParams({ experience: value });
-  };
-
+  const handleSliderChange = (value: number | number[]) => {
+    console.log(" before");
+    if (Array.isArray(value)) {
+        const sliderValue = parseInt(value[0].toString(), 10);
+        setExperience(sliderValue);
+        updateUrlParams({ experience: sliderValue });
+    } else {
+        const sliderValue = parseInt(value.toString(), 10);
+        setExperience(sliderValue);
+        updateUrlParams({ experience: sliderValue });
+    }
+};
+  
   const handleChange = (type: string, index: number) => {
     const updatedData = { ...filteredData };
     if (type === "work") {
@@ -122,6 +130,15 @@ const Page: NextPage<PageProps> = ({ searchParams }) => {
       .map((item) => item.salary)
       .join(",");
     updateUrlParams({ workType, salary });
+  };
+
+  const clearExperience = () => {
+    setExperience(-1);
+    const slider = document.getElementById("experienceSlider") as HTMLInputElement;
+    if (slider) {
+      slider.value = "-1";
+    }
+    updateUrlParams({ experience: null });
   };
 
   const updateUrlParams = (params: any) => {
@@ -205,10 +222,13 @@ const Page: NextPage<PageProps> = ({ searchParams }) => {
                 <AccordionTrigger>Is it accessible?</AccordionTrigger>
                 <AccordionContent>
                   <div className="p-5">
+                    <Button onClick={() => clearExperience()}>
+                      Clear Experience Filter
+                    </Button>
                     <Slider
                       onValueChange={handleSliderChange}
                       step={1}
-                      min={0}
+                      min={-1}
                       max={6}
                     />
                   </div>

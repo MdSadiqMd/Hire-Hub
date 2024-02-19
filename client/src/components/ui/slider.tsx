@@ -1,15 +1,22 @@
-import * as React from "react"
-import * as SliderPrimitive from "@radix-ui/react-slider"
-import { cn } from "@/lib/utils"
+import * as React from "react";
+import * as SliderPrimitive from "@radix-ui/react-slider";
+import { cn } from "@/lib/utils";
 
-const Slider = React.forwardRef(
+interface SliderProps {
+  className?: string;
+  onValueChange?: (value: number[]) => void;
+  step?: number;
+  min?: number;
+  max?: number;
+}
+
+const Slider = React.forwardRef<HTMLSpanElement, SliderProps>(
   ({ className, onValueChange, ...props }, ref) => {
-    const [sliderValue, setSliderValue] = React.useState(0);
-
-    const handleChange = (value) => {
-      setSliderValue(value);
+    const [sliderValue, setSliderValue] = React.useState([0]);
+    const handleChange = (values: number[]) => {
+      setSliderValue(values);
       if (onValueChange) {
-        onValueChange(value);
+        onValueChange(values);
       }
     };
 
@@ -22,6 +29,7 @@ const Slider = React.forwardRef(
         )}
         {...props}
         onValueChange={handleChange}
+        value={sliderValue}
       >
         <SliderPrimitive.Track className="relative h-1.5 w-full grow overflow-hidden rounded-full bg-primary/20">
           <SliderPrimitive.Range className="absolute h-full bg-white" />
