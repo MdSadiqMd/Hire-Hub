@@ -8,14 +8,14 @@ export async function GET(req: NextRequest) {
   const query = searchParams.get("search");
   const workType = searchParams.getAll("workType").join(",");
   const salary = searchParams.getAll("salary").join(",");
-  //const experience=searchParams.get("experience");
+  const experience=searchParams.get("experience[]");
   console.log(query);
   console.log("before");
   console.log(workType);
   console.log("after");
   console.log(salary);
   console.log("before");
-  //console.log(experience);
+  console.log(experience);
   try {
     console.log("connecting MongoDB");
     await connectDB();

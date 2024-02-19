@@ -82,6 +82,7 @@ const Page: NextPage<PageProps> = ({ searchParams }) => {
             .filter((item) => item.isChecked)
             .map((item) => item.salary)
             .join(","),
+          experience: experience,
         },
       });
       if (res.status === 200) {
@@ -109,8 +110,7 @@ const Page: NextPage<PageProps> = ({ searchParams }) => {
     if (type === "work") {
       updatedData.work[index].isChecked = !updatedData.work[index].isChecked;
     } else if (type === "salary") {
-      updatedData.salary[index].isChecked =
-        !updatedData.salary[index].isChecked;
+      updatedData.salary[index].isChecked = !updatedData.salary[index].isChecked;
     }
     setFilteredData(updatedData);
     const workType = updatedData.work
