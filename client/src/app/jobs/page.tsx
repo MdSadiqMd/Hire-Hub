@@ -103,22 +103,23 @@ const Page: NextPage<PageProps> = ({ searchParams }) => {
   const handleSliderChange = (value: number | number[]) => {
     console.log(" before");
     if (Array.isArray(value)) {
-        const sliderValue = parseInt(value[0].toString(), 10);
-        setExperience(sliderValue);
-        updateUrlParams({ experience: sliderValue });
+      const sliderValue = parseInt(value[0].toString(), 10);
+      setExperience(sliderValue);
+      updateUrlParams({ experience: sliderValue });
     } else {
-        const sliderValue = parseInt(value.toString(), 10);
-        setExperience(sliderValue);
-        updateUrlParams({ experience: sliderValue });
+      const sliderValue = parseInt(value.toString(), 10);
+      setExperience(sliderValue);
+      updateUrlParams({ experience: sliderValue });
     }
-};
-  
+  };
+
   const handleChange = (type: string, index: number) => {
     const updatedData = { ...filteredData };
     if (type === "work") {
       updatedData.work[index].isChecked = !updatedData.work[index].isChecked;
     } else if (type === "salary") {
-      updatedData.salary[index].isChecked = !updatedData.salary[index].isChecked;
+      updatedData.salary[index].isChecked =
+        !updatedData.salary[index].isChecked;
     }
     setFilteredData(updatedData);
     const workType = updatedData.work
@@ -134,7 +135,9 @@ const Page: NextPage<PageProps> = ({ searchParams }) => {
 
   const clearExperience = () => {
     setExperience(-1);
-    const slider = document.getElementById("experienceSlider") as HTMLInputElement;
+    const slider = document.getElementById(
+      "experienceSlider"
+    ) as HTMLInputElement;
     if (slider) {
       slider.value = "-1";
     }

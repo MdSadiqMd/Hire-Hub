@@ -22,22 +22,6 @@ export async function GET(req: NextRequest) {
     console.log("MongoDB connected");
     let result;
     switch (true) {
-      case workType && workType !== "":
-        console.log("Aggregation Pipeline Filter");
-        result = await jobModel.aggregate([
-          {
-            $search: {
-              index: "text-search",
-              text: {
-                query: workType,
-                path: {
-                  wildcard: "*",
-                },
-              },
-            },
-          },
-        ]);
-        break;
       case query && query !== "null":
         console.log("Aggregation Pipeline");
         result = await jobModel.aggregate([
@@ -46,6 +30,22 @@ export async function GET(req: NextRequest) {
               index: "text-search",
               text: {
                 query: query,
+                path: {
+                  wildcard: "*",
+                },
+              },
+            },
+          },
+        ]);
+        break;
+      case workType && workType !== "":
+        console.log("Aggregation Pipeline Filter");
+        result = await jobModel.aggregate([
+          {
+            $search: {
+              index: "text-search",
+              text: {
+                query: workType,
                 path: {
                   wildcard: "*",
                 },
@@ -67,7 +67,7 @@ export async function GET(req: NextRequest) {
           },
         ]);
         break;
-      case experience && experience !== "null" && experience!=="-1":
+      case experience && experience !== "null" && experience !== "-1":
         console.log(experience);
         result = await jobModel.aggregate([
           {
@@ -77,7 +77,25 @@ export async function GET(req: NextRequest) {
           },
         ]);
         break;
-      case experience=="-1":
+      case experience &&
+        experience !== "null" &&
+        experience !== "-1" &&
+        salary &&
+        salary !== "null" &&
+        workType &&
+        workType !== "":
+        const salaryValueAll = parseInt(salary.slice(0, -1)) * 1000;
+        result = await jobModel.aggregate([
+          {
+            $match: {
+              experience: { $eq: parseInt(experience) },
+              $expr: { $eq: [{ $arrayElemAt: ["$salary", 0] }, salaryValueAll] },
+              $text: { $search: workType },
+            },
+          },
+        ]);
+        break;
+      case experience == "-1":
         result = await jobModel.find({});
       default:
         result = await jobModel.find({});
