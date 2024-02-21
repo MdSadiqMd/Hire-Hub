@@ -1,10 +1,10 @@
-"use client"
-import Link from "next/link"
-import { zodResolver } from "@hookform/resolvers/zod"
-import { useFieldArray, useForm } from "react-hook-form"
-import { z } from "zod"
-import { cn } from "@/lib/utils"
-import { Button } from "@/components/ui/button"
+"use client";
+import Link from "next/link";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useFieldArray, useForm } from "react-hook-form";
+import { z } from "zod";
+import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
@@ -13,17 +13,17 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form"
-import { Input } from "@/components/ui/input"
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select"
-import { Textarea } from "@/components/ui/textarea"
-import { toast } from "@/components/ui/use-toast"
+} from "@/components/ui/select";
+import { Textarea } from "@/components/ui/text-area";
+import { toast } from "@/components/ui/use-toast";
 
 const profileFormSchema = z.object({
   username: z
@@ -47,9 +47,9 @@ const profileFormSchema = z.object({
       })
     )
     .optional(),
-})
+});
 
-type ProfileFormValues = z.infer<typeof profileFormSchema>
+type ProfileFormValues = z.infer<typeof profileFormSchema>;
 
 // This can come from your database or API.
 const defaultValues: Partial<ProfileFormValues> = {
@@ -58,19 +58,19 @@ const defaultValues: Partial<ProfileFormValues> = {
     { value: "https://shadcn.com" },
     { value: "http://twitter.com/shadcn" },
   ],
-}
+};
 
-export function ProfileForm() {
+export default function ProfileForm() {
   const form = useForm<ProfileFormValues>({
     resolver: zodResolver(profileFormSchema),
     defaultValues,
     mode: "onChange",
-  })
+  });
 
   const { fields, append } = useFieldArray({
     name: "urls",
     control: form.control,
-  })
+  });
 
   function onSubmit(data: ProfileFormValues) {
     toast({
@@ -80,7 +80,7 @@ export function ProfileForm() {
           <code className="text-white">{JSON.stringify(data, null, 2)}</code>
         </pre>
       ),
-    })
+    });
   }
 
   return (
@@ -97,7 +97,7 @@ export function ProfileForm() {
               </FormControl>
               <FormDescription>
                 This is your public display name. It can be your real name or a
-                pseudonym. You can only change this once every 30 days.
+                pseudonym.
               </FormDescription>
               <FormMessage />
             </FormItem>
@@ -109,21 +109,14 @@ export function ProfileForm() {
           render={({ field }) => (
             <FormItem>
               <FormLabel>Email</FormLabel>
-              <Select onValueChange={field.onChange} defaultValue={field.value}>
-                <FormControl>
-                  <SelectTrigger>
-                    <SelectValue placeholder="Select a verified email to display" />
-                  </SelectTrigger>
-                </FormControl>
-                <SelectContent>
-                  <SelectItem value="m@example.com">m@example.com</SelectItem>
-                  <SelectItem value="m@google.com">m@google.com</SelectItem>
-                  <SelectItem value="m@support.com">m@support.com</SelectItem>
-                </SelectContent>
-              </Select>
+              <FormControl>
+                <Input
+                  placeholder="Select a verified email to display"
+                  {...field}
+                />
+              </FormControl>
               <FormDescription>
-                You can manage verified email addresses in your{" "}
-                <Link href="/examples/forms">email settings</Link>.
+                This is your public display email.
               </FormDescription>
               <FormMessage />
             </FormItem>
@@ -185,7 +178,7 @@ export function ProfileForm() {
         <Button type="submit">Update profile</Button>
       </form>
     </Form>
-  )
+  );
 }
 /*"use client"
 import axios from 'axios';
@@ -362,4 +355,3 @@ export default function ProfilePage() {
     </form>
   );
 }*/
-
