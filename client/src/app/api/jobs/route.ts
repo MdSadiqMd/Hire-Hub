@@ -77,6 +77,16 @@ export async function GET(req: NextRequest) {
           },
         ]);
         break;
+      case salary && salary !== "null" && workType && workType !== "":
+        result = await jobModel.aggregate([
+          {
+            $match: {
+              experience: { $eq: parseInt(experience) },
+              $text: { $search: workType },
+            },
+          },
+        ]);
+        break;
       case experience &&
         experience !== "null" &&
         experience !== "-1" &&
@@ -89,7 +99,9 @@ export async function GET(req: NextRequest) {
           {
             $match: {
               experience: { $eq: parseInt(experience) },
-              $expr: { $eq: [{ $arrayElemAt: ["$salary", 0] }, salaryValueAll] },
+              $expr: {
+                $eq: [{ $arrayElemAt: ["$salary", 0] }, salaryValueAll],
+              },
               $text: { $search: workType },
             },
           },
