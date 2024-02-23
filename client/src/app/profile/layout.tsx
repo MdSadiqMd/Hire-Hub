@@ -1,4 +1,5 @@
-"use client"
+"use client";
+
 import Image from "next/image";
 import { Separator } from "@/components/ui/separator";
 import { SidebarNav } from "@/components/ui/sidebar-nav";

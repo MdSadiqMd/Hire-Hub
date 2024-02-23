@@ -16,7 +16,10 @@ export function SidebarNav({ className, items, ...props }: SidebarNavProps) {
   const pathname = usePathname();
 
   return (
-    <nav className={cn("flex flex-col space-y-1 relative ", className)} {...props}>
+    <nav
+      className={cn("flex flex-col space-y-1 relative ", className)}
+      {...props}
+    >
       {items.map((item) => (
         <Link
           key={item.href}

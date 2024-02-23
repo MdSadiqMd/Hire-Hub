@@ -1,5 +1,7 @@
-import { Separator } from "@/components/ui/separator"
-import { JobForm } from "./job-form"
+"use client";
+
+import { Separator } from "@/components/ui/separator";
+import { JobForm } from "./job-form";
 
 export default function SettingsAccountPage() {
   return (
@@ -13,5 +15,5 @@ export default function SettingsAccountPage() {
       <Separator />
       <JobForm />
     </div>
-  )
+  );
 }
