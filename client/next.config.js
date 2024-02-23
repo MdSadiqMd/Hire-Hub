@@ -18,6 +18,10 @@ const nextConfig = {
             {
                 protocol:'https',
                 hostname:'flowbite.com'
+            },
+            {
+                protocol:'https',
+                hostname:'picsum.photos'
             }
         ],
     },
