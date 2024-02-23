@@ -63,18 +63,6 @@ const jobSchema = new Schema<JobInterface>(
       type: Number,
       required: true,
     },
-    freshersEligible: {
-      type: Boolean,
-      required: true,
-    },
-    isVerified: {
-      type: Boolean,
-      default: false,
-    },
-    isAvailable: {
-      type: Boolean,
-      default: true,
-    },
     postedAt: {
       type: Date,
       default: Date.now,
@@ -86,11 +74,7 @@ const jobSchema = new Schema<JobInterface>(
     workType: {
       type: String,
       default: 'true',
-      enum: ['Hybrid', 'Remote','On-Site'],
-    },
-    internship: {
-      type: Boolean,
-      required: true,
+      enum: ['Hybrid', 'Remote','On-Site','Internship'],
     },
     companyLogo: {
       type: String,

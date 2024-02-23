@@ -161,10 +161,6 @@ const Page: FC<PageProps> = ({ params }) => {
               {data.educationQualification}
             </h2>
             <h2>
-              <span className="font-semibold">Freshers Eligible:</span>{" "}
-              {data.freshersEligible}
-            </h2>
-            <h2>
               <span className="font-semibold">To Know More Visit: </span>{" "}
               <Link
                 href={`http://www.${data.companyName.toLowerCase()}.com/careers`}
