@@ -1,7 +1,9 @@
 "use client";
+
 import Link from "next/link";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useFieldArray, useForm } from "react-hook-form";
+import { CalendarIcon, CaretSortIcon, CheckIcon } from "@radix-ui/react-icons"
 import { z } from "zod";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
@@ -14,9 +16,33 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+import {
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+} from "@/components/ui/command"
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/text-area";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover"
 import { toast } from "@/components/ui/use-toast";
+
+const languages = [
+  { label: "English", value: "en" },
+  { label: "French", value: "fr" },
+  { label: "German", value: "de" },
+  { label: "Spanish", value: "es" },
+  { label: "Portuguese", value: "pt" },
+  { label: "Russian", value: "ru" },
+  { label: "Japanese", value: "ja" },
+  { label: "Korean", value: "ko" },
+  { label: "Chinese", value: "zh" },
+] as const
 
 const jobFormSchema = z.object({
   jobtitle: z
@@ -30,7 +56,7 @@ const jobFormSchema = z.object({
   companyName: z.string({
     required_error: "Please select an Company.",
   }),
-  location: z.number({
+  location: z.string({
     required_error: "Please enter the location of the job",
     defaultValues: "Remote",
   }),
@@ -39,10 +65,10 @@ const jobFormSchema = z.object({
       required_error: "Please select an email to display.",
     })
     .email(),
-  salary: z.number({
+  salary: z.string({
     required_error: "Please provide salary to display.",
   }),
-  experience: z.number({
+  experience: z.string({
     required_error: "Please provide experience to display.",
   }),
   jobDescription: z
@@ -61,7 +87,7 @@ const jobFormSchema = z.object({
   skillsRequired: z
     .array(
       z.object({
-        value: z.string().url({ message: "Please enter a valid URL." }),
+        value: z.string().min(2, { message: "Please enter minimum 2 Skills." }),
       })
     )
     .optional(),
@@ -70,7 +96,11 @@ const jobFormSchema = z.object({
 type JobFormValues = z.infer<typeof jobFormSchema>;
 const defaultValues: Partial<JobFormValues> = {
   // name: "Your name",
-  //postedAt: new Date.now(),
+  postedAt: new Date(),
+  skills: [
+    { value: "Leadership" },
+    { value: "Java Programming" },
+  ],
 };
 
 export function JobForm() {
@@ -79,7 +109,13 @@ export function JobForm() {
     defaultValues,
   });
 
+  const { fields, append } = useFieldArray({
+    name: "skills",
+    control: form.control,
+  });
+
   function onSubmit(data: JobFormValues) {
+    console.log(data);
     toast({
       title: "You submitted the following values:",
       description: (
@@ -144,6 +180,67 @@ export function JobForm() {
                 <Input placeholder="Enter email address" {...field} />
               </FormControl>
               <FormMessage>{fieldState.error?.message}</FormMessage>
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="language"
+          render={({ field }) => (
+            <FormItem className="flex flex-col">
+              <FormLabel>Language</FormLabel>
+              <Popover>
+                <PopoverTrigger asChild>
+                  <FormControl>
+                    <Button
+                      variant="outline"
+                      role="combobox"
+                      className={cn(
+                        "w-[200px] justify-between",
+                        !field.value && "text-muted-foreground"
+                      )}
+                    >
+                      {field.value
+                        ? languages.find(
+                            (language) => language.value === field.value
+                          )?.label
+                        : "Select language"}
+                      <CaretSortIcon className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                    </Button>
+                  </FormControl>
+                </PopoverTrigger>
+                <PopoverContent className="w-[200px] p-0">
+                  <Command>
+                    <CommandInput placeholder="Search language..." />
+                    <CommandEmpty>No language found.</CommandEmpty>
+                    <CommandGroup>
+                      {languages.map((language) => (
+                        <CommandItem
+                          value={language.label}
+                          key={language.value}
+                          onSelect={() => {
+                            form.setValue("language", language.value)
+                          }}
+                        >
+                          <CheckIcon
+                            className={cn(
+                              "mr-2 h-4 w-4",
+                              language.value === field.value
+                                ? "opacity-100"
+                                : "opacity-0"
+                            )}
+                          />
+                          {language.label}
+                        </CommandItem>
+                      ))}
+                    </CommandGroup>
+                  </Command>
+                </PopoverContent>
+              </Popover>
+              <FormDescription>
+                This is the language that will be used in the dashboard.
+              </FormDescription>
+              <FormMessage />
             </FormItem>
           )}
         />
@@ -220,19 +317,38 @@ export function JobForm() {
             </FormItem>
           )}
         />
-        <FormField
-          control={form.control}
-          name="skillsRequired"
-          render={({ field, fieldState }) => (
-            <FormItem>
-              <FormLabel>Skills Required</FormLabel>
-              <FormControl>
-                <Input placeholder="Enter skills required" {...field} />
-              </FormControl>
-              <FormMessage>{fieldState.error?.message}</FormMessage>
-            </FormItem>
-          )}
-        />
+        <div>
+          {fields.map((field, index) => (
+            <FormField
+              control={form.control}
+              key={field.id}
+              name={`skills.${index}.value`}
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel className={cn(index !== 0 && "sr-only")}>
+                    Skills
+                  </FormLabel>
+                  <FormDescription className={cn(index !== 0 && "sr-only")}>
+                    Add Skills to make sure the right people Apply.
+                  </FormDescription>
+                  <FormControl>
+                    <Input {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          ))}
+          <Button
+            type="button"
+            variant="outline"
+            size="sm"
+            className="mt-2"
+            onClick={() => append({ value: "" })}
+          >
+            Add Skill
+          </Button>
+        </div>
         <Button type="submit">Submit</Button>
       </form>
     </Form>
