@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useFieldArray, useForm } from "react-hook-form";
-import { CalendarIcon, CaretSortIcon, CheckIcon } from "@radix-ui/react-icons"
+import { CalendarIcon, CaretSortIcon, CheckIcon } from "@radix-ui/react-icons";
 import { z } from "zod";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
@@ -22,27 +22,23 @@ import {
   CommandGroup,
   CommandInput,
   CommandItem,
-} from "@/components/ui/command"
+} from "@/components/ui/command";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/text-area";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from "@/components/ui/popover"
+} from "@/components/ui/popover";
 import { toast } from "@/components/ui/use-toast";
 
-const languages = [
-  { label: "English", value: "en" },
-  { label: "French", value: "fr" },
-  { label: "German", value: "de" },
-  { label: "Spanish", value: "es" },
-  { label: "Portuguese", value: "pt" },
-  { label: "Russian", value: "ru" },
-  { label: "Japanese", value: "ja" },
-  { label: "Korean", value: "ko" },
-  { label: "Chinese", value: "zh" },
-] as const
+const workType = [
+  { value: "Remote", label: "Remote" },
+  { value: "On-Site", label: "On-Site" },
+  { value: "Freelance", label: "Freelance" },
+  { value: "Internship", label: "Internship" },
+  { value: "Contract basis", label: "Contract basis" },
+] as const;
 
 const jobFormSchema = z.object({
   jobtitle: z
@@ -65,6 +61,9 @@ const jobFormSchema = z.object({
       required_error: "Please select an email to display.",
     })
     .email(),
+  workType: z.string({
+    required_error: "Please provide work type to display.",
+  }),
   salary: z.string({
     required_error: "Please provide salary to display.",
   }),
@@ -95,12 +94,8 @@ const jobFormSchema = z.object({
 
 type JobFormValues = z.infer<typeof jobFormSchema>;
 const defaultValues: Partial<JobFormValues> = {
-  // name: "Your name",
   postedAt: new Date(),
-  skills: [
-    { value: "Leadership" },
-    { value: "Java Programming" },
-  ],
+  skills: [{ value: "Leadership" }, { value: "Java Programming" }],
 };
 
 export function JobForm() {
@@ -185,10 +180,13 @@ export function JobForm() {
         />
         <FormField
           control={form.control}
-          name="language"
+          name="workType"
           render={({ field }) => (
             <FormItem className="flex flex-col">
               <FormLabel>Language</FormLabel>
+              <FormDescription>
+                This is the work Type that will be used in the dashboard.
+              </FormDescription>
               <Popover>
                 <PopoverTrigger asChild>
                   <FormControl>
@@ -201,8 +199,8 @@ export function JobForm() {
                       )}
                     >
                       {field.value
-                        ? languages.find(
-                            (language) => language.value === field.value
+                        ? workType.find(
+                            (workType) => workType.value === field.value
                           )?.label
                         : "Select language"}
                       <CaretSortIcon className="ml-2 h-4 w-4 shrink-0 opacity-50" />
@@ -212,34 +210,31 @@ export function JobForm() {
                 <PopoverContent className="w-[200px] p-0">
                   <Command>
                     <CommandInput placeholder="Search language..." />
-                    <CommandEmpty>No language found.</CommandEmpty>
+                    <CommandEmpty>No Results found</CommandEmpty>
                     <CommandGroup>
-                      {languages.map((language) => (
+                      {workType.map((workType) => (
                         <CommandItem
-                          value={language.label}
-                          key={language.value}
+                          value={workType.label}
+                          key={workType.value}
                           onSelect={() => {
-                            form.setValue("language", language.value)
+                            form.setValue("workType", workType.value);
                           }}
                         >
                           <CheckIcon
                             className={cn(
                               "mr-2 h-4 w-4",
-                              language.value === field.value
+                              workType.value === field.value
                                 ? "opacity-100"
                                 : "opacity-0"
                             )}
                           />
-                          {language.label}
+                          {workType.label}
                         </CommandItem>
                       ))}
                     </CommandGroup>
                   </Command>
                 </PopoverContent>
               </Popover>
-              <FormDescription>
-                This is the language that will be used in the dashboard.
-              </FormDescription>
               <FormMessage />
             </FormItem>
           )}
