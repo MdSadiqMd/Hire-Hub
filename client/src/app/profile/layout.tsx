@@ -10,10 +10,6 @@ const sidebarNavItems = [
     href: "/profile",
   },
   {
-    title: "Account",
-    href: "/profile/account",
-  },
-  {
     title: "Post a Job",
     href: "/profile/job",
   },

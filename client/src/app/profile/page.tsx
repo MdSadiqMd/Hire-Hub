@@ -40,17 +40,21 @@ const profileFormSchema = z.object({
       })
     )
     .optional(),
+  skillsRequired: z
+    .array(
+      z.object({
+        value: z.string().min(2, { message: "Please enter minimum 2 Skills." }),
+      })
+    )
+    .optional(),
 });
 
-type ProfileFormValues = z.infer<typeof profileFormSchema>;
-
-// This can come from your database or API.
+type ProfileFormValues = z.infer<typeof profileFormSchema> & {
+  skills: { value: string }[];
+};
 const defaultValues: Partial<ProfileFormValues> = {
   bio: "I own a computer.",
-  urls: [
-    { value: "https://shadcn.com" },
-    { value: "http://twitter.com/shadcn" },
-  ],
+  skills: [{ value: "Leadership" }, { value: "Java Programming" }],
 };
 
 export default function ProfileForm() {
@@ -61,24 +65,30 @@ export default function ProfileForm() {
   });
 
   const { fields, append } = useFieldArray({
-    name: "urls",
+    name: "skills",
     control: form.control,
   });
 
   function onSubmit(data: ProfileFormValues) {
-    toast({
+    console.log(data);
+    /*toast({
       title: "You submitted the following values:",
       description: (
         <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
           <code className="text-white">{JSON.stringify(data, null, 2)}</code>
         </pre>
       ),
-    });
+    });*/
   }
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+      <form
+        onSubmit={form.handleSubmit((data) => {
+          onSubmit(data);
+        })}
+        className="space-y-8"
+      >
         <FormField
           control={form.control}
           name="username"
@@ -141,15 +151,12 @@ export default function ProfileForm() {
             <FormField
               control={form.control}
               key={field.id}
-              name={`urls.${index}.value`}
+              name={`skills.${index}.value`}
               render={({ field }) => (
                 <FormItem>
                   <FormLabel className={cn(index !== 0 && "sr-only")}>
-                    URLs
+                    Skills
                   </FormLabel>
-                  <FormDescription className={cn(index !== 0 && "sr-only")}>
-                    Add links to your website, blog, or social media profiles.
-                  </FormDescription>
                   <FormControl>
                     <Input {...field} />
                   </FormControl>
@@ -165,7 +172,7 @@ export default function ProfileForm() {
             className="mt-2"
             onClick={() => append({ value: "" })}
           >
-            Add URL
+            Add Skill
           </Button>
         </div>
         <Button type="submit">Update profile</Button>

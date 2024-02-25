@@ -247,36 +247,38 @@ export function JobForm() {
             </FormItem>
           )}
         />
-        <FormField
-          control={form.control}
-          name="salary"
-          render={({ field, fieldState }) => (
-            <FormItem>
-              <FormLabel>Salary</FormLabel>
-              <FormControl>
-                <Input placeholder="Enter salary" type="number" {...field} />
-              </FormControl>
-              <FormMessage>{fieldState.error?.message}</FormMessage>
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="experience"
-          render={({ field, fieldState }) => (
-            <FormItem>
-              <FormLabel>Experience</FormLabel>
-              <FormControl>
-                <Input
-                  placeholder="Enter experience"
-                  type="number"
-                  {...field}
-                />
-              </FormControl>
-              <FormMessage>{fieldState.error?.message}</FormMessage>
-            </FormItem>
-          )}
-        />
+        <div className="flex flex-row space-x-9">
+          <FormField
+            control={form.control}
+            name="salary"
+            render={({ field, fieldState }) => (
+              <FormItem>
+                <FormLabel>Salary</FormLabel>
+                <FormControl>
+                  <Input placeholder="Enter salary" type="number" {...field} />
+                </FormControl>
+                <FormMessage>{fieldState.error?.message}</FormMessage>
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="experience"
+            render={({ field, fieldState }) => (
+              <FormItem>
+                <FormLabel>Experience</FormLabel>
+                <FormControl>
+                  <Input
+                    placeholder="Enter experience"
+                    type="number"
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage>{fieldState.error?.message}</FormMessage>
+              </FormItem>
+            )}
+          />
+        </div>
         <FormField
           control={form.control}
           name="jobDescription"
