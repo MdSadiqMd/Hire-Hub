@@ -40,7 +40,7 @@ const profileFormSchema = z.object({
       })
     )
     .optional(),
-  skillsRequired: z
+  skills: z
     .array(
       z.object({
         value: z.string().min(2, { message: "Please enter minimum 2 Skills." }),

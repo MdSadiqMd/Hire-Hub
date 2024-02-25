@@ -94,11 +94,11 @@ const jobFormSchema = z.object({
 });
 
 type JobFormValues = z.infer<typeof jobFormSchema> & {
-  skills: { value: string }[];
+  skillsRequired: { value: string }[];
 };
 const defaultValues: Partial<JobFormValues> = {
   postedAt: new Date(),
-  skills: [{ value: "Leadership" }, { value: "Java Programming" }],
+  skillsRequired: [{ value: "Leadership" }, { value: "Java Programming" }],
 };
 
 export function JobForm() {
@@ -108,7 +108,7 @@ export function JobForm() {
   });
 
   const { fields, append } = useFieldArray({
-    name: "skills",
+    name: "skillsRequired",
     control: form.control,
   });
 
@@ -351,7 +351,7 @@ export function JobForm() {
             <FormField
               control={form.control}
               key={field.id}
-              name={`skills.${index}.value`}
+              name={`skillsRequired.${index}.value`}
               render={({ field }) => (
                 <FormItem>
                   <FormLabel className={cn(index !== 0 && "sr-only")}>
