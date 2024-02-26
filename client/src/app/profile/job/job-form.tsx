@@ -114,24 +114,28 @@ export function JobForm() {
   });
 
   async function onSubmit(data: JobFormValues) {
-    console.log(data);
-    try {
-      const res = await axios.post("/api/addJob", { params: { data: data } });
-      console.log(res);
-      toast({
-        title: "Success",
-        description: "Job added successfully",
-        status: "success",
-        duration: 5000,
-      });
-    } catch (error) {
-      console.error("An error occurred:", error);
-      toast({
-        title: "Error",
-        description: "Failed to add job",
-        status: "error",
-        duration: 5000,
-      });
+    if (data) {
+      try {
+        console.log(data);
+        const res = await axios.post("/api/addJob", {
+          body: { data },
+        });
+        console.log(res);
+        toast({
+          title: "Success",
+          description: "Job added successfully",
+          status: "success",
+          duration: 5000,
+        });
+      } catch (error) {
+        console.error("An error occurred:", error);
+        toast({
+          title: "Error",
+          description: "Failed to add job",
+          status: "error",
+          duration: 5000,
+        });
+      }
     }
   }
 
