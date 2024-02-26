@@ -9,6 +9,7 @@ import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
 import { format } from "date-fns";
+import axios from "axios";
 import {
   Form,
   FormControl,
@@ -112,16 +113,26 @@ export function JobForm() {
     control: form.control,
   });
 
-  function onSubmit(data: JobFormValues) {
+  async function onSubmit(data: JobFormValues) {
     console.log(data);
-    /*toast({
-      title: "You submitted the following values:",
-      description: (
-        <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-          <code className="text-white">{JSON.stringify(data, null, 2)}</code>
-        </pre>
-      ),
-    });*/
+    try {
+      const res = await axios.post("/api/addJob", { params: { data: data } });
+      console.log(res);
+      toast({
+        title: "Success",
+        description: "Job added successfully",
+        status: "success",
+        duration: 5000,
+      });
+    } catch (error) {
+      console.error("An error occurred:", error);
+      toast({
+        title: "Error",
+        description: "Failed to add job",
+        status: "error",
+        duration: 5000,
+      });
+    }
   }
 
   return (
