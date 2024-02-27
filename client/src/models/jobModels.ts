@@ -42,7 +42,7 @@ const jobSchema = new Schema<JobInterface>(
       trim: true,
     },
     salary: {
-      type: [{ type: Number, default: 0 }],
+      type: [String],
       required: true,
     },
     skillsRequired: {

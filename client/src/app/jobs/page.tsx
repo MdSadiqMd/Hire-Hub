@@ -288,7 +288,7 @@ const Page: NextPage<PageProps> = ({ searchParams }) => {
                           href="#"
                           className="mb-3 overflow-hidden pr-7 text-lg font-semibold sm:text-xl"
                         >
-                          {job.title}
+                          {job.jobtitle}
                         </Link>
                         <p className="overflow-hidden pr-2 text-sm">
                           {job.jobDescription}

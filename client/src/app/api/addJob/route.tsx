@@ -7,26 +7,33 @@ export async function POST(req: NextRequest) {
     console.log("Connecting to MongoDB");
     await connectDB();
     console.log("MongoDB connected");
-    
     const data = await req.json();
     console.log("Received data:", data);
-    
-    // Extracting skillsRequired values
     const skillsRequired: string[] = data.data.skillsRequired.map((skill: { value: string }) => skill.value);
-    
-    // Renaming jobtitle to title
-    const newData = { ...data.data, title: data.data.jobtitle, skillsRequired };
-    delete newData.jobtitle;
-    
+    const salary: string[] = [
+      `${data.data.salary.min}`, 
+      `${data.data.salary.max}`
+    ];
+
+    const jobData = {
+      companyName: data.data.companyName,
+      location: data.data.location,
+      salary, 
+      skillsRequired,
+      jobDescription: data.data.jobDescription,
+      educationQualification: data.data.educationQualification,
+      experience: parseInt(data.data.experience),
+      postedAt: new Date(data.data.postedAt),
+      workType: data.data.workType,
+      jobtitle: data.data.jobtitle 
+    };
+
     // Creating a new job instance
-    const job = new Job(newData);
+    const job = new Job(jobData);
     console.log("Job instance created:", job);
-    
-    // Saving the job instance
     console.log("Saving job...");
     const result = await job.save();
     console.log("Job saved successfully:", result);
-
     return NextResponse.json({ result }, { status: 200 });
   } catch (error) {
     console.error("An error occurred:", error);

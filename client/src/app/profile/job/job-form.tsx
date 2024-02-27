@@ -67,11 +67,10 @@ const jobFormSchema = z.object({
     required_error: "Please provide work type to display.",
   }),
   salary: z
-    .array(
-      z.object({
-        value: z.string().min(2, { message: "Please enter minimum 2 Skills." }),
-      })
-    )
+    .object({
+      min: z.string(),
+      max: z.string(),
+    })
     .optional(),
   experience: z.string({
     required_error: "Please provide experience to display.",
@@ -267,12 +266,35 @@ export function JobForm() {
         <div className="flex flex-row space-x-9">
           <FormField
             control={form.control}
-            name="salary"
+            name="salary.min"
             render={({ field, fieldState }) => (
               <FormItem>
-                <FormLabel>Salary</FormLabel>
+                <FormLabel>Min Salary</FormLabel>
                 <FormControl>
-                  <Input placeholder="Enter salary" type="number" {...field} />
+                  <Input
+                    placeholder="Enter min salary"
+                    type="number"
+                    value={field.value ? field.value.toString() : ""}
+                    onChange={(e) => field.onChange(e.target.value)}
+                  />
+                </FormControl>
+                <FormMessage>{fieldState.error?.message}</FormMessage>
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="salary.max"
+            render={({ field, fieldState }) => (
+              <FormItem>
+                <FormLabel>Max Salary</FormLabel>
+                <FormControl>
+                  <Input
+                    placeholder="Enter max salary"
+                    type="number"
+                    value={field.value ? field.value.toString() : ""}
+                    onChange={(e) => field.onChange(e.target.value)}
+                  />
                 </FormControl>
                 <FormMessage>{fieldState.error?.message}</FormMessage>
               </FormItem>
