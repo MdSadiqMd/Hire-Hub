@@ -7,33 +7,51 @@ export async function POST(req: NextRequest) {
     console.log("Connecting to MongoDB");
     await connectDB();
     console.log("MongoDB connected");
+
     const data = await req.json();
     console.log("Received data:", data);
-    const skillsRequired: string[] = data.data.skillsRequired.map((skill: { value: string }) => skill.value);
-    const salary: string[] = [
-      `${data.data.salary.min}`, 
-      `${data.data.salary.max}`
-    ];
 
-    const jobData = {
-      companyName: data.data.companyName,
-      location: data.data.location,
-      salary, 
+    const {
+      jobtitle,
+      companyName,
+      location,
+      email,
+      workType,
+      salary,
+      experience,
+      jobDescription,
+      educationQualification,
+      postedAt,
       skillsRequired,
-      jobDescription: data.data.jobDescription,
-      educationQualification: data.data.educationQualification,
-      experience: parseInt(data.data.experience),
-      postedAt: new Date(data.data.postedAt),
-      workType: data.data.workType,
-      jobtitle: data.data.jobtitle 
+      companyLogo,
+    } = data.data;
+    const salaryArray: string[] = [`${salary.min}`, `${salary.max}`];
+    const skillsRequiredArray: string[] = skillsRequired.map(
+      (skill: { value: string }) => skill.value
+    );
+    const jobData = {
+      jobtitle,
+      companyName,
+      location,
+      email,
+      workType,
+      salary: salaryArray,
+      experience: parseInt(experience),
+      jobDescription,
+      educationQualification,
+      postedAt: new Date(postedAt),
+      skillsRequired: skillsRequiredArray,
+      companyLogo,
     };
 
     // Creating a new job instance
     const job = new Job(jobData);
     console.log("Job instance created:", job);
+
     console.log("Saving job...");
     const result = await job.save();
     console.log("Job saved successfully:", result);
+
     return NextResponse.json({ result }, { status: 200 });
   } catch (error) {
     console.error("An error occurred:", error);

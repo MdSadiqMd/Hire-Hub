@@ -95,6 +95,10 @@ const jobFormSchema = z.object({
       })
     )
     .optional(),
+  companyLogo: z.string({
+    required_error:
+      "the job Description should me atleast four words and maximum of 160 words",
+  }),
 });
 
 type JobFormValues = z.infer<typeof jobFormSchema> & {
@@ -382,6 +386,19 @@ export function JobForm() {
                 </PopoverContent>
               </Popover>
               <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="companyLogo"
+          render={({ field, fieldState }) => (
+            <FormItem>
+              <FormLabel>Company Logo Link</FormLabel>
+              <FormControl>
+                <Input placeholder="Paste company Logo Link" {...field} />
+              </FormControl>
+              <FormMessage>{fieldState.error?.message}</FormMessage>
             </FormItem>
           )}
         />
