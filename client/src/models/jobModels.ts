@@ -1,7 +1,7 @@
 import mongoose, { Document, Schema, Model } from 'mongoose';
 
 interface JobInterface extends Document {
-  title: string;
+  jobtitle: string;
   companyName:string;
   location: string;
   salary: number[];
@@ -21,7 +21,7 @@ interface JobInterface extends Document {
 
 const jobSchema = new Schema<JobInterface>(
   {
-    title: {
+    jobtitle: {
       type: String,
       required: true,
       trim: true,

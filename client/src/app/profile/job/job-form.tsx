@@ -66,9 +66,13 @@ const jobFormSchema = z.object({
   workType: z.string({
     required_error: "Please provide work type to display.",
   }),
-  salary: z.string({
-    required_error: "Please provide salary to display.",
-  }),
+  salary: z
+    .array(
+      z.object({
+        value: z.string().min(2, { message: "Please enter minimum 2 Skills." }),
+      })
+    )
+    .optional(),
   experience: z.string({
     required_error: "Please provide experience to display.",
   }),
@@ -117,7 +121,7 @@ export function JobForm() {
     if (data) {
       try {
         console.log(data);
-        const res = await axios.post("/api/addJob", data);
+        const res = await axios.post("/api/addJob", { data: data });
         console.log(res);
         toast({
           title: "Success",
