@@ -81,7 +81,7 @@ export async function GET(req: NextRequest) {
         result = await jobModel.aggregate([
           {
             $match: {
-              experience: { $eq: parseInt(experience) },
+              experience: { $eq: experience },
               $text: { $search: workType },
             },
           },
@@ -98,7 +98,7 @@ export async function GET(req: NextRequest) {
         result = await jobModel.aggregate([
           {
             $match: {
-              experience: { $eq: parseInt(experience) },
+              experience: { $eq: experience },
               $expr: {
                 $eq: [{ $arrayElemAt: ["$salary", 0] }, salaryValueAll],
               },

@@ -117,9 +117,7 @@ export function JobForm() {
     if (data) {
       try {
         console.log(data);
-        const res = await axios.post("/api/addJob", {
-          body: { data },
-        });
+        const res = await axios.post("/api/addJob", data);
         console.log(res);
         toast({
           title: "Success",
