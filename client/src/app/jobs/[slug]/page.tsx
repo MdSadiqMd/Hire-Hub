@@ -7,7 +7,7 @@ import { formatDate } from "@/helpers/formatDate";
 import { Button } from "@/components/ui/button";
 
 interface JobData {
-  title: string;
+  jobtitle: string;
   companyName: string;
   location: string;
   salary: number[];
@@ -86,7 +86,7 @@ const Page: FC<PageProps> = ({ params }) => {
             href="#"
             className="mb-3 overflow-hidden pr-7 text-lg font-semibold sm:text-xl"
           >
-            {data.title}
+            {data.jobtitle}
           </Link>
           <div className="flex items-center space-x-2">
             <svg
@@ -146,7 +146,7 @@ const Page: FC<PageProps> = ({ params }) => {
           <div className="p-1">
             <h3>{data.jobDescription}</h3>
             <h2>
-              <span className="font-semibold">Role:</span> {data.title}
+              <span className="font-semibold">Role:</span> {data.jobtitle}
             </h2>
             <h2>
               <span className="font-semibold">Employment Type:</span>{" "}
