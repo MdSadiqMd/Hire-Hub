@@ -27,7 +27,7 @@ export const Navbar: React.FC<{ search?: string }> = ({ search }) => {
   }, 5000);
   const router = useRouter();
 
-  const handleSearch = (e) => {
+  const handleSearch = (e:any) => {
     if (e.key == "Enter") {
       debouncedSearch(searchText);
     } else {
