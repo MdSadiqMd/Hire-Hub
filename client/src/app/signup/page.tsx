@@ -20,6 +20,8 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Icons } from "@/components/ui/icons";
+import { signIn } from "next-auth/react";
+import { useSession } from "next-auth/react";
 
 export default function SignupPage() {
   const router = useRouter();
@@ -28,6 +30,18 @@ export default function SignupPage() {
     email: "",
     password: "",
   });
+
+  const { data: session, status } = useSession();
+
+  useEffect(() => {
+    if (status === "authenticated" && session?.user) {
+      setUser({
+        username: session.user.name ?? "",
+        email: session.user.email ?? "",
+        password: "",
+      });
+    }
+  }, [session, status]);
 
   const [loading, isLoading] = useState(false);
 
@@ -120,7 +134,11 @@ export default function SignupPage() {
               </CardHeader>
               <CardContent className="grid gap-4">
                 <div className="grid grid-cols-2 gap-6">
-                  <Button variant="outline" type="button" disabled={loading}>
+                  <Button
+                    variant="outline"
+                    type="button"
+                    onClick={() => signIn("github")}
+                  >
                     {loading ? (
                       <Icons
                         imageLink="https://icons8.com/icon/xS10HpCgrmSD/fidget-spinner"
@@ -134,7 +152,11 @@ export default function SignupPage() {
                     )}{" "}
                     Github
                   </Button>
-                  <Button variant="outline" type="button" disabled={loading}>
+                  <Button
+                    variant="outline"
+                    type="button"
+                    onClick={() => signIn("google")}
+                  >
                     {loading ? (
                       <Icons
                         imageLink="https://icons8.com/icon/xS10HpCgrmSD/fidget-spinner"
