@@ -1,4 +1,5 @@
 "use client";
+
 import React, { useState, useEffect, Fragment } from "react";
 import { Disclosure, Menu, Transition } from "@headlessui/react";
 import { BellIcon, MenuIcon, XIcon } from "@heroicons/react/outline";
@@ -8,7 +9,7 @@ import { toast } from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import { useDebounce } from "use-debounce";
 
-export const navigation = [
+export const initialNavigation = [
   { name: "Home", href: "/home", current: false },
   { name: "Jobs", href: "/jobs", current: false },
   { name: "Post a Job", href: "/profile/job", current: false },
@@ -22,19 +23,11 @@ export function classNames(...classes: string[]) {
 export const Navbar: React.FC<{ search?: string }> = ({ search }) => {
   const [isSearchBarVisible, setIsSearchBarVisible] = useState<Boolean>(true);
   const [searchText, setSearchText] = useState("");
+  const [navigation, setNavigation] = useState(initialNavigation);
   const [debouncedSearch] = useDebounce((value: string) => {
     router.push(`/jobs?search=${value}`);
-  }, 5000);
+  }, 500);
   const router = useRouter();
-
-  useEffect(() => {
-    // Update the current property in navigation based on the current route
-    const updatedNavigation = navigation.map((item) => ({
-      ...item,
-      current: item.href === router.pathname,
-    }));
-    navigation.splice(0, navigation.length, ...updatedNavigation);
-  }, [router.pathname]);
 
   const handleSearch = (e: any) => {
     if (e.key == "Enter") {
@@ -42,6 +35,14 @@ export const Navbar: React.FC<{ search?: string }> = ({ search }) => {
     } else {
       debouncedSearch(searchText);
     }
+  };
+
+  const handleNavigationClick = (name: string) => {
+    const updatedNavigation = initialNavigation.map((item) => ({
+      ...item,
+      current: item.name === name,
+    }));
+    setNavigation(updatedNavigation);
   };
 
   useEffect(() => {
@@ -58,7 +59,7 @@ export const Navbar: React.FC<{ search?: string }> = ({ search }) => {
   const logout = async () => {
     try {
       await axios.get("api/auth/signout");
-      toast.success("Logout Sucessful");
+      toast.success("Logout Successful");
       router.push("/signup");
     } catch (error: any) {
       console.log(error.message);
@@ -68,7 +69,10 @@ export const Navbar: React.FC<{ search?: string }> = ({ search }) => {
 
   return (
     <>
-      <Disclosure as="nav" className="bg-gray-800 scrollbar-hide">
+      <Disclosure
+        as="nav"
+        className="bg-gray-150 dark:bg-gray-800 scrollbar-hide shadow transition hover:shadow-md z-40 m-5 ml-18 mr-18 rounded-2xl"
+      >
         {({ open }): React.JSX.Element => (
           <>
             <div className="shadow transition hover:shadow-md z-40 rounded-2xl">
@@ -76,7 +80,7 @@ export const Navbar: React.FC<{ search?: string }> = ({ search }) => {
                 <div className="relative flex h-16 items-center justify-between">
                   <div className="absolute inset-y-0 left-0 flex items-center sm:hidden">
                     {/* Mobile menu button*/}
-                    <Disclosure.Button className="relative inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white">
+                    <Disclosure.Button className="relative inline-flex items-center justify-center rounded-md p-2 text-gray-800 dark:text-gray-200 hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white">
                       <span className="absolute -inset-0.5" />
                       <span className="sr-only">Open main menu</span>
                       {open ? (
@@ -103,10 +107,11 @@ export const Navbar: React.FC<{ search?: string }> = ({ search }) => {
                           <a
                             key={item.name}
                             href={item.href}
+                            onClick={() => handleNavigationClick(item.name)}
                             className={classNames(
                               item.current
-                                ? "bg-gray-900 text-white"
-                                : "text-gray-300 hover:bg-gray-700 hover:text-white",
+                                ? "bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-white"
+                                : "text-gray-800 dark:text-gray-200 hover:bg-gray-300 dark:hover:bg-gray-600 hover:text-gray-800 dark:hover:text-white",
                               "rounded-md px-3 py-2 text-sm font-medium"
                             )}
                             aria-current={item.current ? "page" : undefined}
@@ -118,15 +123,15 @@ export const Navbar: React.FC<{ search?: string }> = ({ search }) => {
                     </div>
                   </div>
 
-                  {/*Search Bar */}
+                  {/* Search Bar */}
                   <div
-                    className="searchBar pt-2 relative mx-auto text-gray-600"
+                    className="searchBar pt-2 relative mx-auto text-gray-600 dark:text-gray-200"
                     style={{
                       display: isSearchBarVisible ? "block" : "none",
                     }}
                   >
                     <input
-                      className="border-2 border-gray-700 bg-black text-gray-200 h-10 px-5 pr-16 rounded-lg text-sm focus:outline-none"
+                      className="border-2 border-gray-700 dark:border-gray-500 bg-white dark:bg-gray-700 text-gray-800 dark:text-white h-10 px-5 pr-16 rounded-lg text-sm focus:outline-none"
                       type="search"
                       name="search"
                       placeholder="Search"
@@ -141,7 +146,7 @@ export const Navbar: React.FC<{ search?: string }> = ({ search }) => {
                       onClick={handleSearch}
                     >
                       <svg
-                        className="text-gray-600 h-4 w-4 fill-current"
+                        className="text-gray-600 dark:text-gray-200 h-4 w-4 fill-current"
                         xmlns="http://www.w3.org/2000/svg"
                         xmlnsXlink="http://www.w3.org/1999/xlink"
                         version="1.1"
@@ -149,9 +154,7 @@ export const Navbar: React.FC<{ search?: string }> = ({ search }) => {
                         x="0px"
                         y="0px"
                         viewBox="0 0 56.966 56.966"
-                        style={
-                          { enableBackground: "new 0 0 56.966 56.966" } as any
-                        }
+                        style={{ enableBackground: "new 0 0 56.966 56.966" }}
                         xmlSpace="preserve"
                         width="512px"
                         height="512px"
@@ -162,19 +165,19 @@ export const Navbar: React.FC<{ search?: string }> = ({ search }) => {
                   </div>
 
                   <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
-                    <button
+                    {/*<button
                       type="button"
-                      className="relative rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
+                      className="relative rounded-full bg-gray-800 dark:bg-gray-200 p-1 text-gray-400 dark:text-white hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
                     >
                       <span className="absolute -inset-1.5" />
                       <span className="sr-only">View notifications</span>
                       <BellIcon className="h-6 w-6" aria-hidden="true" />
-                    </button>
+                      </button>*/}
 
                     {/* Profile dropdown */}
                     <Menu as="div" className="relative ml-3">
                       <div>
-                        <Menu.Button className="relative flex rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
+                        <Menu.Button className="relative flex rounded-full bg-gray-300 dark:bg-gray-700 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-00">
                           <span className="absolute -inset-1.5" />
                           <span className="sr-only">Open user menu</span>
                           <img
@@ -193,14 +196,14 @@ export const Navbar: React.FC<{ search?: string }> = ({ search }) => {
                         leaveFrom="transform opacity-100 scale-100"
                         leaveTo="transform opacity-0 scale-95"
                       >
-                        <Menu.Items className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-gray-800 py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                        <Menu.Items className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-gray-200 dark:bg-gray-800 py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
                           <Menu.Item>
                             {({ active }) => (
                               <Link
                                 href="/profile"
                                 className={classNames(
-                                  active ? "bg-gray-900" : "",
-                                  "block px-4 py-2 text-sm text-gray-300"
+                                  active ? "bg-gray-300 dark:bg-gray-800" : "",
+                                  "block px-4 py-2 text-sm text-gray-800 dark:text-gray-300"
                                 )}
                               >
                                 Your Profile
@@ -212,8 +215,8 @@ export const Navbar: React.FC<{ search?: string }> = ({ search }) => {
                               <Link
                                 href="/profile"
                                 className={classNames(
-                                  active ? "bg-gray-900" : "",
-                                  "block px-4 py-2 text-sm text-gray-300"
+                                  active ? "bg-gray-300 dark:bg-gray-800" : "",
+                                  "block px-4 py-2 text-sm text-gray-800 dark:text-gray-300"
                                 )}
                               >
                                 Settings
@@ -223,10 +226,10 @@ export const Navbar: React.FC<{ search?: string }> = ({ search }) => {
                           <Menu.Item>
                             {({ active }) => (
                               <Link
-                                href="#"
+                                href="/signout"
                                 className={classNames(
-                                  active ? "bg-gray-900" : "",
-                                  "block px-4 py-2 text-sm text-gray-300"
+                                  active ? "bg-gray-300 dark:bg-gray-800" : "",
+                                  "block px-4 py-2 text-sm text-gray-800 dark:text-gray-300"
                                 )}
                                 onClick={() => logout()}
                               >
@@ -240,7 +243,6 @@ export const Navbar: React.FC<{ search?: string }> = ({ search }) => {
                   </div>
                 </div>
               </div>
-
               <Disclosure.Panel className="sm:hidden">
                 <div className="space-y-1 px-2 pb-3 pt-2">
                   {navigation.map((item) => (
@@ -248,10 +250,11 @@ export const Navbar: React.FC<{ search?: string }> = ({ search }) => {
                       key={item.name}
                       as="a"
                       href={item.href}
+                      onClick={() => handleNavigationClick(item.name)}
                       className={classNames(
                         item.current
-                          ? "bg-gray-900 text-white"
-                          : "text-gray-300 hover:bg-gray-700 hover:text-white",
+                          ? "bg-gray-300 dark:bg-gray-800 text-black dark:text-white"
+                          : "text-gray-800 dark:text-gray-300 hover:bg-gray-700 dark:hover:bg-gray-600 hover:text-black dark:hover:text-white",
                         "block rounded-md px-3 py-2 text-base font-medium"
                       )}
                       aria-current={item.current ? "page" : undefined}
