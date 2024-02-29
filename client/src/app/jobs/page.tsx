@@ -102,7 +102,6 @@ const Page: NextPage<PageProps> = ({ searchParams }) => {
   };
 
   const handleSliderChange = (value: number | number[]) => {
-    console.log(" before");
     if (Array.isArray(value)) {
       const sliderValue = parseInt(value[0].toString(), 10);
       setExperience(sliderValue);
@@ -177,86 +176,106 @@ const Page: NextPage<PageProps> = ({ searchParams }) => {
     router.push(`/jobs/${jobId}`);
   };
 
+  const toggleSidebar = () => {
+    setSideBar(!sideBar);
+  };
+
   return (
     <>
       <div className="flex flex-row">
         {/* Side bar Menu */}
-        {sideBar && (
-          <div className="flex">
-            <div className="h-[39vw] bg-gray-900 text-white p-[8px] w-[15vw] overflow-hidden flex flex-col m-4 rounded-xl">
-              <Accordion type="single" collapsible>
-                <AccordionItem value="item-1">
-                  <AccordionTrigger>Is it accessible?</AccordionTrigger>
-                  <AccordionContent>
-                    <div className="container my-4" style={{ width: "500px" }}>
-                      <form className="form w-100">
-                        <h3>Work Type</h3>
-                        {filteredData.work.map((item, index) => (
-                          <div className="form-check" key={index}>
-                            <input
-                              type="checkbox"
-                              className="form-check-input"
-                              name={item.work}
-                              checked={item.isChecked}
-                              onChange={() => handleChange("work", index)}
-                            />
-                            <label className="form-check-label ms-2">
-                              {item.work}
-                            </label>
-                          </div>
-                        ))}
-                      </form>
-                    </div>
-                  </AccordionContent>
-                </AccordionItem>
-              </Accordion>
-              <Accordion type="single" collapsible>
-                <AccordionItem value="item-2">
-                  <AccordionTrigger>Salary</AccordionTrigger>
-                  <AccordionContent>
-                    <div className="container my-4" style={{ width: "500px" }}>
-                      <form className="form w-100">
-                        <h3>Salary</h3>
-                        {filteredData.salary.map((item, index) => (
-                          <div className="form-check" key={index}>
-                            <input
-                              type="checkbox"
-                              className="form-check-input"
-                              name={item.salary}
-                              checked={item.isChecked}
-                              onChange={() => handleChange("salary", index)}
-                            />
-                            <label className="form-check-label ms-2">
-                              {item.salary}
-                            </label>
-                          </div>
-                        ))}
-                      </form>
-                    </div>
-                  </AccordionContent>
-                </AccordionItem>
-              </Accordion>
-              <Accordion type="single" collapsible>
-                <AccordionItem value="item-1">
-                  <AccordionTrigger>Is it accessible?</AccordionTrigger>
-                  <AccordionContent>
-                    <div className="p-5">
-                      <Button onClick={() => clearExperience()}>
-                        Clear Experience Filter
-                      </Button>
-                      <Slider
-                        onValueChange={handleSliderChange}
-                        step={1}
-                        min={-1}
-                        max={6}
-                      />
-                    </div>
-                  </AccordionContent>
-                </AccordionItem>
-              </Accordion>
+        <div className="shadow transition hover:shadow-md z-40 m-5 rounded-2xl">
+          {sideBar && (
+            <div className="flex border-gray-500">
+              <div
+                className={` h-[40vw] bg-white text-gray-700 p-[8px] w-[18vw] overflow-hidden flex flex-col m-4 rounded-xl ${
+                  sideBar ? "block" : "hidden"
+                }`}
+              >
+                <button
+                  onClick={toggleSidebar}
+                  className="justify-between py-2 px-4 "
+                >
+                  <b>X</b>
+                </button>
+                <Accordion type="single" collapsible>
+                  <AccordionItem value="item-1">
+                    <AccordionTrigger>Work Type</AccordionTrigger>
+                    <AccordionContent>
+                      <div
+                        className="container my-4"
+                        style={{ width: "500px" }}
+                      >
+                        <form className="form w-100">
+                          {filteredData.work.map((item, index) => (
+                            <div className="form-check" key={index}>
+                              <input
+                                type="checkbox"
+                                className="form-check-input rounded-sm"
+                                name={item.work}
+                                checked={item.isChecked}
+                                onChange={() => handleChange("work", index)}
+                              />
+                              <label className="form-check-label ms-2">
+                                {item.work}
+                              </label>
+                            </div>
+                          ))}
+                        </form>
+                      </div>
+                    </AccordionContent>
+                  </AccordionItem>
+                </Accordion>
+                <Accordion type="single" collapsible>
+                  <AccordionItem value="item-2">
+                    <AccordionTrigger>Salary</AccordionTrigger>
+                    <AccordionContent>
+                      <div
+                        className="container my-4"
+                        style={{ width: "500px" }}
+                      >
+                        <form className="form w-100">
+                          {filteredData.salary.map((item, index) => (
+                            <div className="form-check" key={index}>
+                              <input
+                                type="checkbox"
+                                className="form-check-input rounded-sm"
+                                name={item.salary}
+                                checked={item.isChecked}
+                                onChange={() => handleChange("salary", index)}
+                              />
+                              <label className="form-check-label ms-2">
+                                {item.salary}
+                              </label>
+                            </div>
+                          ))}
+                        </form>
+                      </div>
+                    </AccordionContent>
+                  </AccordionItem>
+                </Accordion>
+                <Accordion type="single" collapsible>
+                  <AccordionItem value="item-1">
+                    <AccordionTrigger>Experience</AccordionTrigger>
+                    <AccordionContent>
+                      <div className="p-5 space-y-5">
+                        <Button onClick={() => clearExperience()}>
+                          Clear Experience Filter
+                        </Button>
+                        <Slider
+                          onValueChange={handleSliderChange}
+                          step={1}
+                          min={-1}
+                          max={6}
+                        />
+                      </div>
+                    </AccordionContent>
+                  </AccordionItem>
+                </Accordion>
+              </div>
             </div>
-          </div>
-        )}
+          )}
+        </div>
         <main className="mt-5 p-5 max-h-screen overflow-auto">
           {error ? (
             <h1>error</h1>
@@ -277,12 +296,12 @@ const Page: NextPage<PageProps> = ({ searchParams }) => {
           ) : (
             <div>
               {!sideBar && (
-                <button
+                <Button
                   className="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded ml-[80%]"
-                  onClick={() => setSideBar(!sideBar)}
+                  onClick={toggleSidebar}
                 >
                   Filters
-                </button>
+                </Button>
               )}
               {data.map((job, i) => {
                 return (
