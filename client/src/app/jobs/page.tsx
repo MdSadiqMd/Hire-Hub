@@ -334,7 +334,7 @@ const Page: NextPage<PageProps> = ({ searchParams }) => {
                         >
                           {job.jobtitle}
                         </Link>
-                        <p className="overflow-hidden pr-2 text-sm">
+                        <p className="overflow-hidden pr-2 text-sm line-clamp-3 truncate">
                           {job.jobDescription}
                         </p>
                         <div className="mt-5 flex flex-col space-y-3 text-sm font-medium text-gray-500 sm:flex-row sm:items-center sm:space-y-0 sm:space-x-2">

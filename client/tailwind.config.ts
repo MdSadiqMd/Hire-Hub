@@ -15,6 +15,11 @@ const config: Config = {
       },
     },
   },
-  plugins: [require("@tailwindcss/forms"), require("tailwindcss-animate"),require('tailwind-scrollbar-hide')],
+  plugins: [
+    require("@tailwindcss/forms"),
+    require("tailwindcss-animate"),
+    require("tailwind-scrollbar-hide"),
+    require("@tailwindcss/line-clamp"),
+  ],
 };
 export default config;
