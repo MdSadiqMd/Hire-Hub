@@ -184,11 +184,11 @@ const Page: NextPage<PageProps> = ({ searchParams }) => {
     <>
       <div className="flex flex-row">
         {/* Side bar Menu */}
-        <div className="shadow transition hover:shadow-md z-40 m-5 rounded-2xl">
+        <div className="shadow transition hover:shadow-md z-40 m-5 rounded-2xl dark:bg-gray-800">
           {sideBar && (
             <div className="flex border-gray-500">
               <div
-                className={` h-[40vw] bg-white text-gray-700 p-[8px] w-[18vw] overflow-hidden flex flex-col m-4 rounded-xl ${
+                className={` h-[40vw] bg-white dark:bg-gray-900 text-gray-700 dark:text-gray-300 p-[8px] w-[18vw] overflow-hidden flex flex-col m-4 rounded-xl ${
                   sideBar ? "block" : "hidden"
                 }`}
               >
@@ -285,10 +285,10 @@ const Page: NextPage<PageProps> = ({ searchParams }) => {
                 .fill(null)
                 .map((_, index) => (
                   <div key={index} className="flex items-center space-x-4">
-                    <Skeleton className="h-12 w-12 rounded-full bg-gray-200" />
+                    <Skeleton className="h-12 w-12 rounded-full bg-gray-200 dark:bg-gray-700" />
                     <div className="space-y-2">
-                      <Skeleton className="h-4 w-[250px] bg-gray-200" />
-                      <Skeleton className="h-4 w-[200px] bg-gray-200" />
+                      <Skeleton className="h-4 w-[250px] bg-gray-200 dark:bg-gray-700" />
+                      <Skeleton className="h-4 w-[200px] bg-gray-200 dark:bg-gray-700" />
                     </div>
                   </div>
                 ))}
@@ -310,22 +310,22 @@ const Page: NextPage<PageProps> = ({ searchParams }) => {
                     onClick={() => handleClick(job._id)}
                     style={{ cursor: "pointer" }}
                   >
-                    <div className="group mx-2 mt-4 grid max-w-screen-md grid-cols-12 space-x-8 overflow-hidden rounded-lg border py-8 text-gray-700 shadow transition hover:shadow-lg sm:mx-auto">
+                    <div className="group mx-2 mt-4 grid max-w-screen-md grid-cols-12 space-x-8 overflow-hidden rounded-lg border py-8 text-gray-700 dark:text-gray-300 shadow transition hover:shadow-lg sm:mx-auto">
                       <Link
                         href="#"
                         passHref
-                        className="order-2 col-span-1 mt-4 -ml-14 text-left text-gray-600 hover:text-gray-700 sm:-order-1 sm:ml-4"
+                        className="order-2 col-span-1 mt-4 -ml-14 text-left text-gray-600 dark:text-gray-400 hover:text-gray-700 sm:-order-1 sm:ml-4"
                       >
                         <div className="group relative h-16 w-16 overflow-hidden rounded-lg">
                           <img
                             src={job.companyLogo ?? "/default-logo.png"} // Use a default value if companyLogo is null
                             alt=""
-                            className="h-full w-full object-cover text-gray-700"
+                            className="h-full w-full object-cover text-gray-700 dark:text-gray-300"
                           />
                         </div>
                       </Link>
                       <div className="col-span-11 flex flex-col pr-8 text-left sm:pl-4">
-                        <h3 className="text-sm text-gray-600">
+                        <h3 className="text-sm text-gray-600 dark:text-gray-400">
                           {job.companyName}
                         </h3>
                         <Link
