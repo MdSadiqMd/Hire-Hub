@@ -8,6 +8,7 @@ import Link from "next/link";
 import { toast } from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import { useDebounce } from "use-debounce";
+import {ModeToggle} from '@/components/ui/toggleButton'
 
 export const initialNavigation = [
   { name: "Home", href: "/home", current: false },
@@ -173,6 +174,7 @@ export const Navbar: React.FC<{ search?: string }> = ({ search }) => {
                       <span className="sr-only">View notifications</span>
                       <BellIcon className="h-6 w-6" aria-hidden="true" />
                       </button>*/}
+                    <ModeToggle />
 
                     {/* Profile dropdown */}
                     <Menu as="div" className="relative ml-3">
