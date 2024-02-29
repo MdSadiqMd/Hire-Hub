@@ -62,11 +62,9 @@ const Page: FC<PageProps> = ({ params }) => {
     "bg-pink-50 text-pink-700 ring-pink-700/10",
   ];
 
-  const badgeColors = badgeStyles.map((style) => style.split(" ")[1]);
-
   return (
     <>
-      <div className="group mx-2 mt-4 grid max-w-screen-md grid-cols-12 space-x-8 overflow-hidden rounded-lg border py-6 text-gray-700 shadow transition hover:shadow-lg sm:mx-auto">
+      <div className="group text-gray-800 dark:text-gray-300 mx-2 mt-4 grid max-w-screen-md grid-cols-12 space-x-8 overflow-hidden rounded-lg border py-6 shadow transition hover:shadow-lg sm:mx-auto">
         <Link
           href="#"
           passHref
@@ -81,7 +79,9 @@ const Page: FC<PageProps> = ({ params }) => {
           </div>
         </Link>
         <div className="col-span-11 flex flex-col pr-8 text-left sm:pl-4">
-          <h3 className="text-sm text-gray-600">{data.companyName}</h3>
+          <h3 className="text-sm text-gray-650 dark:text-gray-10">
+            {data.companyName}
+          </h3>
           <Link
             href="#"
             className="mb-3 overflow-hidden pr-7 text-lg font-semibold sm:text-xl"
@@ -112,13 +112,15 @@ const Page: FC<PageProps> = ({ params }) => {
           </div>
           <div className="mt-5 flex flex-col space-y-3 text-sm font-medium text-gray-500 sm:flex-row sm:items-center sm:space-y-0 sm:space-x-2">
             <div>
-              Experience:
+              <span className="text-gray-800 dark:text-gray-300">
+                Experience:
+              </span>
               <span className="ml-2 mr-3 rounded-full bg-green-100 px-2 py-0.5 text-green-900">
                 {data.experience}
               </span>
             </div>
             <div>
-              Salary:
+              <span className="text-gray-800 dark:text-gray-300">Salary:</span>
               <span className="ml-2 mr-3 rounded-full bg-blue-100 px-2 py-0 text-blue-900">
                 {formatSalaryRange(data.salary)}
               </span>
@@ -128,7 +130,7 @@ const Page: FC<PageProps> = ({ params }) => {
           <hr />
           <div className="p-1 space-y-2 flex flex-row justify-between">
             <div className="flex mt-2 items-center text-sm font-medium text-gray-500">
-              <p>
+              <p className="text-gray-700 dark:text-gray-400">
                 {data.updatedAt ? "Updated At: " : "Published At: "}
                 {formatDate(data.updatedAt ?? data.postedAt)}
               </p>
@@ -139,29 +141,41 @@ const Page: FC<PageProps> = ({ params }) => {
       </div>
 
       <div className="group mx-2 mt-4 grid max-w-screen-md grid-cols-12 space-x-8 overflow-hidden rounded-lg border py-8 text-gray-600 shadow transition hover:shadow-lg sm:mx-auto">
-        <div className="col-span-11 flex flex-col pr-8 text-left text-base sm:pl-4">
-          <h1 className="text-bold text-lg text-gray-700 font-semibold">
+        <div className="col-span-11 p-3 flex flex-col pr-8 text-left text-base sm:pl-4">
+          <h1 className="text-bold text-lg text-gray-700 dark:text-white font-semibold">
             Job Description
           </h1>
-          <div className="p-1">
+          <div className="p-1 text-gray-700 dark:text-gray-400">
             <h3>{data.jobDescription}</h3>
             <h2>
-              <span className="font-semibold">Role:</span> {data.jobtitle}
+              <span className="font-semibold text-gray-800 dark:text-gray-300">
+                Role:
+              </span>{" "}
+              {data.jobtitle}
             </h2>
             <h2>
-              <span className="font-semibold">Employment Type:</span>{" "}
+              <span className="font-semibold text-gray-800 dark:text-gray-300">
+                Employment Type:
+              </span>{" "}
               {data.workType}
             </h2>
             <h2>
-              <span className="font-semibold">Role Category:</span> Software
+              <span className="font-semibold text-gray-800 dark:text-gray-300">
+                Role Category:
+              </span>{" "}
+              Software
             </h2>
             <h2>
-              <span className="font-semibold">Education Qualifications:</span>{" "}
+              <span className="font-semibold text-gray-800 dark:text-gray-300">
+                Education Qualifications:
+              </span>{" "}
               <br />
               {data.educationQualification}
             </h2>
             <h2>
-              <span className="font-semibold">To Know More Visit: </span>{" "}
+              <span className="font-semibold text-gray-800 dark:text-gray-300">
+                To Know More Visit:{" "}
+              </span>{" "}
               <Link
                 href={`http://www.${data.companyName.toLowerCase()}.com/careers`}
                 target="_blank"
@@ -171,8 +185,11 @@ const Page: FC<PageProps> = ({ params }) => {
               </Link>
             </h2>
             <div>
-              <span className="font-semibold">Key Skills:</span> <br />
-              <h5 className="text-white space-x-2 mt-2 flex flex-row">
+              <span className="font-semibold text-gray-800 dark:text-gray-300">
+                Key Skills:
+              </span>{" "}
+              <br />
+              <h5 className="text-gray-700 space-x-2 mt-2 flex flex-row">
                 {data.skillsRequired.map((skill, index) => (
                   <div key={index}>
                     <span
@@ -191,11 +208,11 @@ const Page: FC<PageProps> = ({ params }) => {
       </div>
 
       <div className="group mx-2 mt-4 mb-5 grid max-w-screen-md grid-cols-12 space-x-8 overflow-hidden rounded-lg border py-6 text-gray-700 shadow transition hover:shadow-lg sm:mx-auto">
-        <div className="col-span-11 flex flex-col pr-8 text-left text-base sm:pl-4">
-          <h1 className="text-lg text-gray-700 font-semibold">
+        <div className="col-span-11  flex flex-col pr-8 text-left text-base sm:pl-4">
+          <h1 className="text-lg text-gray-700 dark:text-white font-semibold">
             Beware of Imposters
           </h1>
-          <p className="font-medium text-gray-500">
+          <p className="font-medium text-gray-500 dark:text-gray-400">
             At Hire Hub, we want to emphasize that we never promise interviews
             in exchange for money. Unfortunately, there are fraudsters out there
             who may request a registration fee or a refundable fee under false
