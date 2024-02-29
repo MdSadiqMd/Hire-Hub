@@ -11,6 +11,8 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Icons } from "@/components/ui/icons";
 import Image from "next/image";
+import { signIn } from "next-auth/react";
+import { useSession } from "next-auth/react";
 
 const LoginPage = () => {
   const router = useRouter();
@@ -18,6 +20,19 @@ const LoginPage = () => {
     email: "",
     password: "",
   });
+
+  const { data: session, status } = useSession();
+  console.log(session);
+
+  useEffect(() => {
+    if (status === "authenticated" && session?.user) {
+      setUser({
+        email: session.user.email ?? "",
+        password: "",
+      });
+    }
+    router.push("/login");
+  }, [session, status]);
 
   const [isLoading, setIsLoading] = useState(false);
 
@@ -57,7 +72,8 @@ const LoginPage = () => {
     description: "Authentication forms built using the components.",
   };
 
-  {/*return (
+  {
+    /*return (
     <div>
         <div className="flex flex-col items-center justify-center min-h-screen py-2">
         <h1>{loading?"Loading":"Login page"}</h1>
@@ -86,7 +102,8 @@ const LoginPage = () => {
             <Link href="/signup">Visit Signup Page</Link>
         </div>
     </div>
-  )*/}
+  )*/
+  }
 
   return (
     <>
@@ -199,7 +216,11 @@ const LoginPage = () => {
                   </span>
                 </div>
               </div>
-              <Button variant="outline" type="button" disabled={isLoading}>
+              <Button
+                variant="outline"
+                type="button"
+                onClick={() => signIn("github")}
+              >
                 {isLoading ? (
                   <Icons
                     imageLink="https://icons8.com/icon/xS10HpCgrmSD/fidget-spinner"

@@ -21,6 +21,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Icons } from "@/components/ui/icons";
 import { signIn } from "next-auth/react";
+import { useSession } from "next-auth/react";
 
 export default function SignupPage() {
   const router = useRouter();
@@ -30,7 +31,8 @@ export default function SignupPage() {
     password: "",
   });
 
-  /*const { data: session, status } = useSession();
+  const { data: session, status } = useSession();
+  console.log(session);
 
   useEffect(() => {
     if (status === "authenticated" && session?.user) {
@@ -39,8 +41,9 @@ export default function SignupPage() {
         email: session.user.email ?? "",
         password: "",
       });
+      router.push("/login");
     }
-  }, [session, status]);*/
+  }, [session, status]);
 
   const [loading, isLoading] = useState(false);
 
@@ -132,10 +135,11 @@ export default function SignupPage() {
                 </CardDescription>
               </CardHeader>
               <CardContent className="grid gap-4">
-                {/*<div className="grid grid-cols-2 gap-6">
+                <div className="grid grid-cols-2 gap-6">
                   <Button
                     variant="outline"
                     type="button"
+                    onClick={() => signIn("github")}
                   >
                     {loading ? (
                       <Icons
@@ -153,6 +157,7 @@ export default function SignupPage() {
                   <Button
                     variant="outline"
                     type="button"
+                    onClick={() => signIn("google")}
                   >
                     {loading ? (
                       <Icons
@@ -167,7 +172,7 @@ export default function SignupPage() {
                     )}{" "}
                     Google
                   </Button>
-                    </div>
+                </div>
                 <div className="relative">
                   <div className="absolute inset-0 flex items-center">
                     <span className="w-full border-t" />
@@ -177,7 +182,7 @@ export default function SignupPage() {
                       Or continue with
                     </span>
                   </div>
-                </div>*/}
+                </div>
                 <div className="grid gap-2">
                   <Label htmlFor="email">UserName</Label>
                   <Input
