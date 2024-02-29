@@ -15,7 +15,7 @@ export async function POST(request: NextRequest) {
     if (user) {
       console.log("User found");
       return NextResponse.json(
-        { error: "User already Found" },
+        { message: "User already Found", success: true, user },
         { status: 400 }
       );
     }
@@ -33,11 +33,14 @@ export async function POST(request: NextRequest) {
     const savedUser = await newUser.save();
     console.log(savedUser);
 
-    return NextResponse.json({
-      message: "User Created Successfully",
-      success: true,
-      savedUser,
-    });
+    return NextResponse.json(
+      {
+        message: "User Created Successfully",
+        success: true,
+        savedUser,
+      },
+      { status: 200 }
+    );
   } catch (error: any) {
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
