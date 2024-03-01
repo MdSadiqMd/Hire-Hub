@@ -37,8 +37,8 @@ export default function SignupPage() {
   useEffect(() => {
     if (status === "authenticated" && session?.user) {
       setUser({
-        username: session.user.name ?? "",
-        email: session.user.email ?? "",
+        username: session?.user.name ?? "",
+        email: session?.user.email ?? "",
         password: "",
       });
       router.push("/login");
@@ -78,14 +78,14 @@ export default function SignupPage() {
     <>
       <div className="md:hidden">
         <Image
-          src="/examples/authentication-light.png"
+          src="https://picsum.photos/200"
           width={1280}
           height={843}
           alt="Authentication"
           className="block dark:hidden"
         />
         <Image
-          src="/examples/authentication-dark.png"
+          src="https://picsum.photos/200"
           width={1280}
           height={843}
           alt="Authentication"
@@ -139,7 +139,11 @@ export default function SignupPage() {
                   <Button
                     variant="outline"
                     type="button"
-                    onClick={() => signIn("github")}
+                    onClick={() =>
+                      signIn("github", {
+                        callbackUrl: "http://localhost:3000/jobs",
+                      })
+                    }
                   >
                     {loading ? (
                       <Icons
@@ -157,7 +161,11 @@ export default function SignupPage() {
                   <Button
                     variant="outline"
                     type="button"
-                    onClick={() => signIn("google")}
+                    onClick={() =>
+                      signIn("google", {
+                        callbackUrl: "http://localhost:3000/jobs",
+                      })
+                    }
                   >
                     {loading ? (
                       <Icons

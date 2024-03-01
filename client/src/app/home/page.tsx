@@ -19,7 +19,7 @@ const Page: NextPage = () => {
             </p>
 
             <div className="flex flex-col lg:flex-row space-x-10">
-              <Button variant="primary" className="h-12 border-white">
+              <Button>
                 <Link
                   href="#"
                   className="inline-flex items-center justify-center px-5 py-3 mb-2 lg:mb-0 lg:mr-3 text-base font-medium text-center text-white"
