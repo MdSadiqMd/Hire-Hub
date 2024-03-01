@@ -21,7 +21,7 @@ const Page: NextPage = () => {
             <div className="flex flex-col lg:flex-row lg:space-x-10 lg:space-y-0 space-y-4">
               <button className="bg-transparent shadow hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 lg:py-3 lg:px-6 border border-blue-500 hover:border-transparent rounded">
                 <Link
-                  href="#"
+                  href="/jobs"
                   className="inline-flex items-center justify-center px-5 py-3 mb-2 lg:mb-0 lg:mr-3 text-base font-medium text-center text-white"
                 >
                   Find Jobs
@@ -40,9 +40,9 @@ const Page: NextPage = () => {
                 </Link>
               </button>
 
-              <button className="bg-transparent shadow hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 lg:py-3 lg:px-6 border border-blue-500 hover:border-transparent rounded">
+              <button className="bg-transparent shadow hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 lg:py-2 lg:px-4 border border-blue-500 hover:border-transparent rounded">
                 <Link
-                  href="#"
+                  href="profile/job"
                   className="inline-flex items-center justify-center px-5 py-3 text-base font-medium text-center text-white"
                 >
                   Post a Job
