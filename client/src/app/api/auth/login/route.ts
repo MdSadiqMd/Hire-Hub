@@ -3,18 +3,22 @@ import User from "@/Models/userModels";
 import { NextRequest, NextResponse } from "next/server";
 import bcryptjs from "bcryptjs";
 import jwt from "jsonwebtoken";
+import { useRouter } from "next/navigation";
 
 connectDB();
 
 export async function POST(request: NextRequest) {
   try {
+    const router = useRouter();
     const reqBody = await request.json();
     const { email, password } = reqBody;
     console.log(reqBody);
 
     // Check if the user exists or not
     const user = await User.findOne({ email });
+    
     if (!user) {
+      router.push('/signup');
       return NextResponse.json({ error: "User not Exist" }, { status: 400 });
     }
     console.log("User Exists");

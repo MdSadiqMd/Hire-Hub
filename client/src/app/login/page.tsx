@@ -13,6 +13,7 @@ import { Icons } from "@/components/ui/icons";
 import Image from "next/image";
 import { signIn } from "next-auth/react";
 import { useSession } from "next-auth/react";
+import User from "@/Models/userModels";
 
 const LoginPage = () => {
   const router = useRouter();
@@ -43,6 +44,9 @@ const LoginPage = () => {
       }
       setIsLoading(true);
       const response = await axios.post("/api/auth/login", user);
+      if (response.status == 400) {
+        router.push("/signup");
+      }
       console.log("Login Success", response.data);
       toast.success("Login Successfull");
       router.push("/jobs");

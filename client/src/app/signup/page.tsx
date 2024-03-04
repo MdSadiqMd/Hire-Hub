@@ -22,6 +22,7 @@ import { Label } from "@/components/ui/label";
 import { Icons } from "@/components/ui/icons";
 import { signIn } from "next-auth/react";
 import { useSession } from "next-auth/react";
+import User from "@/Models/userModels";
 
 export default function SignupPage() {
   const router = useRouter();
@@ -58,6 +59,7 @@ export default function SignupPage() {
           email: session?.user?.email ?? "",
           password: "",
         });
+        User.insertMany(user);
         router.push("/login");
       }
       console.log("signup Success", response.data);
