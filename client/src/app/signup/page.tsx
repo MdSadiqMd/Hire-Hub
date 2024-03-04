@@ -35,13 +35,13 @@ export default function SignupPage() {
   console.log(session);
 
   useEffect(() => {
-    if (status === "authenticated" && session?.user) {
+    if (session?.user?.email !== undefined && session?.user?.email) {
       setUser({
-        username: session?.user.name ?? "",
-        email: session?.user.email ?? "",
+        username: session?.user?.name ?? "",
+        email: session?.user?.email ?? "",
         password: "",
       });
-      router.push("/login");
+      router.push("/signup");
     }
   }, [session, status]);
 
@@ -52,8 +52,16 @@ export default function SignupPage() {
       isLoading(true);
       const response = await axios.post("/api/auth/signup", user);
       console.log("request received");
+      if (session?.user?.email !== undefined && session?.user?.email) {
+        setUser({
+          username: session?.user?.name ?? "",
+          email: session?.user?.email ?? "",
+          password: "",
+        });
+        router.push("/login");
+      }
       console.log("signup Success", response.data);
-      router.push("/login");
+      router.push("/jobs");
     } catch (error: any) {
       console.log("Signup failed");
       toast.error(error.message);
