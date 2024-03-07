@@ -23,7 +23,7 @@ const LoginPage = () => {
   });
 
   const { data: session, status } = useSession();
-  console.log(session);
+  //console.log(session);
 
   useEffect(() => {
     if (status === "authenticated" && session?.user) {
@@ -32,8 +32,8 @@ const LoginPage = () => {
         password: "",
       });
     }
-    router.push("/login");
-  }, [session, status]);
+    router.push("/jobs");
+  }, [session]);
 
   const [isLoading, setIsLoading] = useState(false);
 
@@ -44,9 +44,6 @@ const LoginPage = () => {
       }
       setIsLoading(true);
       const response = await axios.post("/api/auth/login", user);
-      if (response.status == 400) {
-        router.push("/signup");
-      }
       console.log("Login Success", response.data);
       toast.success("Login Successfull");
       router.push("/jobs");

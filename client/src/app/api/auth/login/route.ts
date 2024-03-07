@@ -3,13 +3,12 @@ import User from "@/Models/userModels";
 import { NextRequest, NextResponse } from "next/server";
 import bcryptjs from "bcryptjs";
 import jwt from "jsonwebtoken";
-import { useRouter } from "next/navigation";
 
 connectDB();
 
 export async function POST(request: NextRequest) {
   try {
-    const router = useRouter();
+    console.log("Request Body:", request.body); 
     const reqBody = await request.json();
     const { email, password } = reqBody;
     console.log(reqBody);
@@ -18,8 +17,7 @@ export async function POST(request: NextRequest) {
     const user = await User.findOne({ email });
     
     if (!user) {
-      router.push('/signup');
-      return NextResponse.json({ error: "User not Exist" }, { status: 400 });
+      return NextResponse.json({ error: "User not Exist" }, { status: 200 });
     }
     console.log("User Exists");
 
@@ -56,6 +54,6 @@ export async function POST(request: NextRequest) {
     
     return response;
   } catch (error: any) {
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    return NextResponse.json({ error: error.message }, { status: 200 });
   }
 }

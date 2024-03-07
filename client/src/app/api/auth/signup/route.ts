@@ -16,7 +16,7 @@ export async function POST(request: NextRequest) {
       console.log("User found");
       return NextResponse.json(
         { message: "User already Found", success: true, user },
-        { status: 400 }
+        { status: 200 }
       );
     }
 

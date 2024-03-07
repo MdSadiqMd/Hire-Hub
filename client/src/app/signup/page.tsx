@@ -8,7 +8,6 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import className from "classnames";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React, { useState, useEffect } from "react";
@@ -33,7 +32,7 @@ export default function SignupPage() {
   });
 
   const { data: session, status } = useSession();
-  console.log(session);
+  //console.log(session);
 
   useEffect(() => {
     if (session?.user?.email !== undefined && session?.user?.email) {
@@ -63,7 +62,7 @@ export default function SignupPage() {
         router.push("/login");
       }
       console.log("signup Success", response.data);
-      router.push("/jobs");
+      router.push("/login");
     } catch (error: any) {
       console.log("Signup failed");
       toast.error(error.message);
