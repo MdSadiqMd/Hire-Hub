@@ -43,11 +43,12 @@ interface PageProps {
 }
 
 const Page: NextPage<PageProps> = ({ searchParams }) => {
+  const router = useRouter();
   const [data, setData] = useState<JobData[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const [sideBar, setSideBar] = useState(true);
-  const router = useRouter();
+  const [sideBarClose, setSideBarClose] = useState(false);
   const search = useSearchParams().get("search");
   const [experience, setExperience] = useState(-1);
   const [filteredData, setFilteredData] = useState({
@@ -178,6 +179,7 @@ const Page: NextPage<PageProps> = ({ searchParams }) => {
 
   const toggleSidebar = () => {
     setSideBar(!sideBar);
+    setSideBarClose(!sideBarClose);
   };
 
   return (
@@ -192,12 +194,14 @@ const Page: NextPage<PageProps> = ({ searchParams }) => {
                   sideBar ? "block" : "hidden"
                 }`}
               >
-                <button
-                  onClick={toggleSidebar}
-                  className="justify-between py-2 px-4 "
-                >
-                  <b>X</b>
-                </button>
+                {sideBarClose && (
+                  <button
+                    onClick={toggleSidebar}
+                    className="justify-between py-2 px-4 "
+                  >
+                    <b>X</b>
+                  </button>
+                )}
                 <Accordion type="single" collapsible>
                   <AccordionItem value="item-1">
                     <AccordionTrigger>Work Type</AccordionTrigger>
