@@ -43,7 +43,7 @@ export default function SignupPage() {
       });
       router.push("/signup");
     }
-  }, [session, status]);
+  }, [session]);
 
   const [loading, isLoading] = useState(false);
 
