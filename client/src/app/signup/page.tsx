@@ -33,6 +33,7 @@ export default function SignupPage() {
 
   const { data: session, status } = useSession();
   console.log(session);
+  console.log(status);
 
   useEffect(() => {
     if (session?.user?.email !== undefined && session?.user?.email) {
@@ -52,7 +53,11 @@ export default function SignupPage() {
       isLoading(true);
       const response = await axios.post("/api/auth/signup", user);
       console.log("request received");
-      if (session?.user?.email !== undefined && session?.user?.email) {
+      if (
+        session?.user?.email !== undefined &&
+        session?.user?.email &&
+        status == "authenticated"
+      ) {
         setUser({
           username: session?.user?.name ?? "",
           email: session?.user?.email ?? "",
