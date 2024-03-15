@@ -32,7 +32,7 @@ export default function SignupPage() {
   });
 
   const { data: session, status } = useSession();
-  //console.log(session);
+  console.log(session);
 
   useEffect(() => {
     if (session?.user?.email !== undefined && session?.user?.email) {
