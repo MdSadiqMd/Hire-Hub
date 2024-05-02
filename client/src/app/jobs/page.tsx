@@ -198,7 +198,7 @@ const Page: NextPage<PageProps> = ({ searchParams }) => {
         {/* Side bar Menu */}
         <div className="self-start shadow transition hover:shadow-md z-40 ml-1 md:m-5 lg:m-5 lg:mr-1 rounded-2xl dark:bg-gray-800 lg:w-1/4 lg:h-full">
           {!sideBar && (
-            <div className="absolute lg:fixed  h-full w-100% bg-#020817/50 backdrop-blur-sm lg:backdrop-blur-none lg:w-full lg:sticky">
+            <div className="absolute  h-full w-100% bg-#020817/50 backdrop-blur-sm lg:backdrop-blur-none lg:w-full lg:sticky">
               <div className="flex lg:border-gray-1200 border-2 border-solid border-red lg:border-0">
                 <div
                   className={`h-[100vw] md:h-[50vw] bg-white dark:bg-gray-900 text-gray-700 dark:text-gray-300 p-[8px] w-[90vw] lg:w-[80vw] overflow-y-auto flex flex-col m-4  rounded-xl ${
