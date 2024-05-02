@@ -1,5 +1,6 @@
 "use client";
 import React, { useState, useEffect } from "react";
+import { useMediaQuery } from 'react-responsive';
 import type { NextPage } from "next";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -47,7 +48,7 @@ const Page: NextPage<PageProps> = ({ searchParams }) => {
   const [data, setData] = useState<JobData[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
-  const [sideBar, setSideBar] = useState(true);
+  const [sideBar, setSideBar] = useState(false);
   const [sideBarClose, setSideBarClose] = useState(false);
   const search = useSearchParams().get("search");
   const [experience, setExperience] = useState(-1);
@@ -134,6 +135,15 @@ const Page: NextPage<PageProps> = ({ searchParams }) => {
     updateUrlParams({ workType, salary });
   };
 
+  const isMobile = useMediaQuery({ maxWidth: 768 });
+  React.useEffect(() => {
+    if (isMobile) {
+      setSideBar(true);
+    } else {
+      setSideBar(false);
+    }
+  }, [isMobile]);
+
   useEffect(() => {
     const handleResize = () => {
       if (window.innerWidth < 580) {
@@ -186,101 +196,105 @@ const Page: NextPage<PageProps> = ({ searchParams }) => {
     <>
       <div className="flex flex-row">
         {/* Side bar Menu */}
-        <div className="shadow transition hover:shadow-md z-40 m-5 rounded-2xl dark:bg-gray-800">
-          {sideBar && (
-            <div className="flex border-gray-500">
-              <div
-                className={` h-[40vw] bg-white dark:bg-gray-900 text-gray-700 dark:text-gray-300 p-[8px] w-[18vw] overflow-hidden flex flex-col m-4 rounded-xl ${
-                  sideBar ? "block" : "hidden"
-                }`}
-              >
-                {sideBarClose && (
-                  <button
-                    onClick={toggleSidebar}
-                    className="justify-between py-2 px-4 "
-                  >
-                    <b>X</b>
-                  </button>
-                )}
-                <Accordion type="single" collapsible>
-                  <AccordionItem value="item-1">
-                    <AccordionTrigger>Work Type</AccordionTrigger>
-                    <AccordionContent>
-                      <div
-                        className="container my-4"
-                        style={{ width: "500px" }}
-                      >
-                        <form className="form w-100">
-                          {filteredData.work.map((item, index) => (
-                            <div className="form-check" key={index}>
-                              <input
-                                type="checkbox"
-                                className="form-check-input rounded-sm"
-                                name={item.work}
-                                checked={item.isChecked}
-                                onChange={() => handleChange("work", index)}
-                              />
-                              <label className="form-check-label ms-2">
-                                {item.work}
-                              </label>
-                            </div>
-                          ))}
-                        </form>
-                      </div>
-                    </AccordionContent>
-                  </AccordionItem>
-                </Accordion>
-                <Accordion type="single" collapsible>
-                  <AccordionItem value="item-2">
-                    <AccordionTrigger>Salary</AccordionTrigger>
-                    <AccordionContent>
-                      <div
-                        className="container my-4"
-                        style={{ width: "500px" }}
-                      >
-                        <form className="form w-100">
-                          {filteredData.salary.map((item, index) => (
-                            <div className="form-check" key={index}>
-                              <input
-                                type="checkbox"
-                                className="form-check-input rounded-sm"
-                                name={item.salary}
-                                checked={item.isChecked}
-                                onChange={() => handleChange("salary", index)}
-                              />
-                              <label className="form-check-label ms-2">
-                                {item.salary}
-                              </label>
-                            </div>
-                          ))}
-                        </form>
-                      </div>
-                    </AccordionContent>
-                  </AccordionItem>
-                </Accordion>
-                <Accordion type="single" collapsible>
-                  <AccordionItem value="item-1">
-                    <AccordionTrigger>Experience</AccordionTrigger>
-                    <AccordionContent>
-                      <div className="p-5 space-y-5">
-                        <Button onClick={() => clearExperience()}>
-                          Clear Experience Filter
-                        </Button>
-                        <Slider
-                          onValueChange={handleSliderChange}
-                          step={1}
-                          min={-1}
-                          max={6}
-                        />
-                      </div>
-                    </AccordionContent>
-                  </AccordionItem>
-                </Accordion>
+        <div className="self-start shadow transition hover:shadow-md z-40 ml-1 md:m-5 lg:m-5 lg:mr-1 rounded-2xl dark:bg-gray-800 lg:w-1/4 lg:h-full">
+          {!sideBar && (
+            <div className="absolute lg:fixed  h-full w-100% bg-#020817/50 backdrop-blur-sm lg:backdrop-blur-none lg:w-full lg:sticky">
+              <div className="flex lg:border-gray-1200 border-2 border-solid border-red lg:border-0">
+                <div
+                  className={`h-[100vw] md:h-[50vw] bg-white dark:bg-gray-900 text-gray-700 dark:text-gray-300 p-[8px] w-[90vw] lg:w-[80vw] overflow-y-auto flex flex-col m-4  rounded-xl ${
+                    !sideBar ? "block" : "hidden"
+                  }`}
+                >
+                  {sideBarClose && (
+                    <button
+                      onClick={toggleSidebar}
+                      className="justify-between text-3xl py-2 px-4 lg:hidden"
+                    >
+                      <b>X</b>
+                    </button>
+                  )}
+                  <Accordion type="single" collapsible>
+                    <AccordionItem value="item-1">
+                      <AccordionTrigger>Work Type</AccordionTrigger>
+                      <AccordionContent>
+                        <div
+                          className="container my-4"
+                          style={{ width: "500px" }}
+                        >
+                          <form className="form w-100">
+                            {filteredData.work.map((item, index) => (
+                              <div className="form-check" key={index}>
+                                <input
+                                  type="checkbox"
+                                  className="form-check-input rounded-sm"
+                                  name={item.work}
+                                  checked={item.isChecked}
+                                  onChange={() => handleChange("work", index)}
+                                />
+                                <label className="form-check-label ms-2">
+                                  {item.work}
+                                </label>
+                              </div>
+                            ))}
+                          </form>
+                        </div>
+                      </AccordionContent>
+                    </AccordionItem>
+                  </Accordion>
+                  <Accordion type="single" collapsible>
+                    <AccordionItem value="item-2">
+                      <AccordionTrigger>Salary</AccordionTrigger>
+                      <AccordionContent>
+                        <div
+                          className="container my-4"
+                          style={{ width: "500px" }}
+                        >
+                          <form className="form w-100">
+                            {filteredData.salary.map((item, index) => (
+                              <div className="form-check" key={index}>
+                                <input
+                                  type="checkbox"
+                                  className="form-check-input rounded-sm"
+                                  name={item.salary}
+                                  checked={item.isChecked}
+                                  onChange={() => handleChange("salary", index)}
+                                />
+                                <label className="form-check-label ms-2">
+                                  {item.salary}
+                                </label>
+                              </div>
+                            ))}
+                          </form>
+                        </div>
+                      </AccordionContent>
+                    </AccordionItem>
+                  </Accordion>
+                  <Accordion type="single" collapsible>
+                    <AccordionItem value="item-1">
+                      <AccordionTrigger>Experience</AccordionTrigger>
+                      <AccordionContent>
+                        <div className="p-5 space-y-5">
+                          <Button onClick={() => clearExperience()}>
+                            Clear Experience Filter
+                          </Button>
+                          <Slider
+                            onValueChange={handleSliderChange}
+                            step={1}
+                            min={-1}
+                            max={6}
+                          />
+                        </div>
+                      </AccordionContent>
+                    </AccordionItem>
+                  </Accordion>
+                </div>
               </div>
             </div>
+            
           )}
         </div>
-        <main className="mt-5 p-5 max-h-screen overflow-auto">
+        {/* Main Content */}
+        <main className=" mt-5 p-2 pl-0 lg:pl-2 pt-0 max-h-screen overflow-auto">
           {error ? (
             <h1>error</h1>
           ) : loading ? (
@@ -298,15 +312,17 @@ const Page: NextPage<PageProps> = ({ searchParams }) => {
                 ))}
             </div>
           ) : (
-            <div>
-              {!sideBar && (
-                <Button
-                  className="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded ml-[80%]"
-                  onClick={toggleSidebar}
-                >
-                  Filters
-                </Button>
-              )}
+            <div className="flex flex-col justify-start content-center  ">
+              <div className="w-[90%] bg-[#020817] self-end absolute mb-5">
+                {sideBar && (
+                  <Button
+                    className="bg-transparent lg:hidden hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded ml-[80%]"
+                    onClick={toggleSidebar}
+                  >
+                    Filters
+                  </Button>
+                )}
+              </div>
               {data.map((job, i) => {
                 return (
                   <div
@@ -314,7 +330,7 @@ const Page: NextPage<PageProps> = ({ searchParams }) => {
                     onClick={() => handleClick(job._id)}
                     style={{ cursor: "pointer" }}
                   >
-                    <div className="group mx-2 mt-4 grid max-w-screen-md grid-cols-12 space-x-8 overflow-hidden rounded-lg border py-8 text-gray-700 dark:text-gray-300 shadow transition hover:shadow-lg sm:mx-auto">
+                    <div className="group mx-2 mt-5 grid max-w-screen-md grid-cols-12 space-x-8 overflow-hidden rounded-lg border py-8 text-gray-700 dark:text-gray-300 shadow transition hover:shadow-lg sm:mx-auto">
                       <Link
                         href="#"
                         passHref
