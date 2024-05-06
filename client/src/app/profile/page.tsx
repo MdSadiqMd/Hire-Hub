@@ -1,4 +1,5 @@
 "use client";
+
 import Link from "next/link";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useFieldArray, useForm } from "react-hook-form";
@@ -17,6 +18,8 @@ import {
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/text-area";
 import { toast } from "@/components/ui/use-toast";
+import axios from 'axios'
+import User from "@/Models/userModels";
 
 const profileFormSchema = z.object({
   username: z
@@ -69,16 +72,16 @@ export default function ProfileForm() {
     control: form.control,
   });
 
-  function onSubmit(data: ProfileFormValues) {
-    console.log(data);
-    /*toast({
-      title: "You submitted the following values:",
-      description: (
-        <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-          <code className="text-white">{JSON.stringify(data, null, 2)}</code>
-        </pre>
-      ),
-    });*/
+  async function onSubmit(data: ProfileFormValues) {
+    if (data) {
+      try {
+        console.log(data);
+        const res = await axios.post("/api/editProfile", { data: data });
+        console.log(res);
+      } catch (error) {
+        console.error("An error occurred:", error);
+      }
+    }
   }
 
   return (
