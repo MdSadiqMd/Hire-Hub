@@ -24,7 +24,7 @@ const LoginPage = () => {
 
   const { data: session, status } = useSession();
   //console.log(session);
-
+  /*
   useEffect(() => {
     if (status === "authenticated" && session?.user) {
       setUser({
@@ -34,7 +34,7 @@ const LoginPage = () => {
     }
     router.push("/jobs");
   }, [session]);
-
+  */
   const [isLoading, setIsLoading] = useState(false);
 
   const onLogin = async () => {
