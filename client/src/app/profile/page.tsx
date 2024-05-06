@@ -18,7 +18,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/text-area";
 import { toast } from "@/components/ui/use-toast";
-import axios from 'axios'
+import axios from "axios";
 import User from "@/Models/userModels";
 
 const profileFormSchema = z.object({
