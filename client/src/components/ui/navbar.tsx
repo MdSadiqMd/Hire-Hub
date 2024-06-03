@@ -8,7 +8,7 @@ import Link from "next/link";
 import { toast } from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import { useDebounce } from "use-debounce";
-import {ModeToggle} from '@/components/ui/toggleButton'
+import { ModeToggle } from "@/components/ui/toggleButton";
 
 export const initialNavigation = [
   { name: "Home", href: "/home", current: false },
@@ -155,7 +155,6 @@ export const Navbar: React.FC<{ search?: string }> = ({ search }) => {
                         x="0px"
                         y="0px"
                         viewBox="0 0 56.966 56.966"
-                        style={{ enableBackground: "new 0 0 56.966 56.966" }}
                         xmlSpace="preserve"
                         width="512px"
                         height="512px"
@@ -184,7 +183,7 @@ export const Navbar: React.FC<{ search?: string }> = ({ search }) => {
                           <span className="sr-only">Open user menu</span>
                           <img
                             className="h-8 w-8 rounded-full"
-                            src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+                            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcREl1TQtDYX5h2D_zEWAcR7uZge3w8w-BVjd-4QqFc4ZncS05EcIP7oVgvJWHY7ETxPp8Y&usqp=CAU"
                             alt=""
                           />
                         </Menu.Button>
