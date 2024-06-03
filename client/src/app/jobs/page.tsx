@@ -1,6 +1,6 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import { useMediaQuery } from 'react-responsive';
+import { useMediaQuery } from "react-responsive";
 import type { NextPage } from "next";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -17,6 +17,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import AdBanner from "@/components/ui/adbanner";
 
 interface JobData {
   [x: string]: any;
@@ -290,7 +291,6 @@ const Page: NextPage<PageProps> = ({ searchParams }) => {
                 </div>
               </div>
             </div>
-            
           )}
         </div>
         {/* Main Content */}
@@ -394,6 +394,14 @@ const Page: NextPage<PageProps> = ({ searchParams }) => {
             </div>
           )}
         </main>
+        {/* Ads Content */}
+        <div className="bg-white">
+          <AdBanner
+            dataAdFormat="auto"
+            dataFullWidthResponsive={true}
+            dataAdSlot="1807507629"
+          />
+        </div>
       </div>
     </>
   );

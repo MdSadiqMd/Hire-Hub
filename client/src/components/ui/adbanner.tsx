@@ -7,7 +7,8 @@ type AdBannerTypes = {
   dataAdFormat: string;
   dataFullWidthResponsive: boolean;
 };
-{/* <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8144091131283360"
+{
+  /* <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8144091131283360"
      crossorigin="anonymous"></script>
 <!-- adsbygoogle -->
 <ins class="adsbygoogle"
@@ -18,21 +19,32 @@ type AdBannerTypes = {
      data-full-width-responsive="true"></ins>
 <script>
      (adsbygoogle = window.adsbygoogle || []).push({});
-</script> */}
+</script> */
+}
 const AdBanner = ({
   dataAdSlot,
   dataAdFormat,
   dataFullWidthResponsive,
 }: AdBannerTypes) => {
   useEffect(() => {
-    try {
-      ((window as any).adsbygoogle = (window as any).adsbygoogle || []).push(
-        {}
-      );
-    } catch (error) {
-      console.log(error);
-    }
+    const handleAds = () => {
+      const adsbygoogle = (window as any).adsbygoogle || [];
+      try {
+        adsbygoogle.push({});
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    const script = document.createElement("script");
+    script.async = true;
+    script.src = "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js";
+    script.onload = handleAds;
+    document.head.appendChild(script);
+    return () => {
+      document.head.removeChild(script);
+    };
   }, []);
+
   return (
     <ins
       className="adsbygoogle"
