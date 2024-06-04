@@ -7,6 +7,9 @@ type AdBannerTypes = {
   dataAdFormat: string;
   dataFullWidthResponsive: boolean;
 };
+interface Window {
+  adsbygoogle: { [key: string]: unknown }[];
+}
 {
   /* <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8144091131283360"
      crossorigin="anonymous"></script>
@@ -28,21 +31,27 @@ const AdBanner = ({
 }: AdBannerTypes) => {
   useEffect(() => {
     const handleAds = () => {
-      const adsbygoogle = (window as any).adsbygoogle || [];
       try {
-        adsbygoogle.push({});
+        let adsbygoogle: Window;
+        (adsbygoogle = (window as any).adsbygoogle || []).push({});
       } catch (error) {
         console.log(error);
       }
     };
-    const script = document.createElement("script");
-    script.async = true;
-    script.src = "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js";
-    script.onload = handleAds;
-    document.head.appendChild(script);
-    return () => {
-      document.head.removeChild(script);
-    };
+
+    const scriptExists = document.querySelector(
+      `script[src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"]`
+    );
+    if (!scriptExists) {
+      const script = document.createElement("script");
+      script.async = true;
+      script.src =
+        "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js";
+      script.onload = handleAds;
+      document.head.appendChild(script);
+    } else {
+      handleAds();
+    }
   }, []);
 
   return (
