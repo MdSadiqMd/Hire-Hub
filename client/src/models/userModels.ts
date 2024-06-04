@@ -4,6 +4,7 @@ interface UserInterface extends Document {
   username: string;
   email: string;
   password: string;
+  authProviderId: string;
   isVerified: boolean;
   isAdmin: boolean;
   forgotPasswordToken?: string;
@@ -25,12 +26,13 @@ const userSchema = new Schema<UserInterface>({
   },
   password: {
     type: String,
-    required: [true, "Please Provide a Password"],
+    select: false,
     validate: {
       validator: (value: any) => value.length > 6,
       message: "Password must be greater than 6 characters",
     },
   },
+  authProviderId: { type: String },
   isVerified: {
     type: Boolean,
     default: false,

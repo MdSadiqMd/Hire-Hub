@@ -9,7 +9,6 @@ import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Icons } from "@/components/ui/icons";
 import Image from "next/image";
 import { signIn } from "next-auth/react";
 import { useSession } from "next-auth/react";
@@ -41,13 +40,19 @@ const LoginPage = () => {
         toast.error("Please fill all feilds");
       }
       setIsLoading(true);
+      /* await signIn("credentials", {
+        email: user.email,
+        password: user.password,
+        redirect: true,
+        callbackUrl: "/jobs",
+      }); */
       const response = await axios.post("/api/auth/login", user);
       console.log("Login Success", response.data);
       toast.success("Login Successfull");
       router.push("/jobs");
     } catch (error: any) {
       console.log("Login failed");
-      toast.error(error.message);
+      console.error(error.message);
     } finally {
       setIsLoading(false);
     }
@@ -135,6 +140,7 @@ const LoginPage = () => {
                       id="email"
                       placeholder="name@example.com"
                       type="email"
+                      name="email"
                       autoCapitalize="none"
                       autoComplete="email"
                       autoCorrect="off"
@@ -152,6 +158,7 @@ const LoginPage = () => {
                       id="password"
                       placeholder="Enter your password"
                       type="password"
+                      name="password"
                       autoCapitalize="none"
                       autoComplete="password"
                       autoCorrect="off"
