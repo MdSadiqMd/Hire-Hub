@@ -160,14 +160,20 @@ export default function SignupPage() {
                     }
                   >
                     {loading ? (
-                      <Icons
-                        imageLink="https://icons8.com/icon/xS10HpCgrmSD/fidget-spinner"
-                        className="mr-2 h-4 w-4 animate-spin"
+                      <Image
+                        src="/github.svg"
+                        className="mr-2 h-4 w-4"
+                        alt="github"
+                        width={30}
+                        height={30}
                       />
                     ) : (
-                      <Icons
-                        imageLink="https://icons8.com/icon/WCL5hPLvhUjQ/github"
-                        className="mr-2 h-4 w-4"
+                      <Image
+                        src="/googlecloudspanner.svg"
+                        className="mr-2 h-4 w-4 animate-spin"
+                        alt="loading"
+                        width={30}
+                        height={30}
                       />
                     )}{" "}
                     Github
@@ -182,14 +188,20 @@ export default function SignupPage() {
                     }
                   >
                     {loading ? (
-                      <Icons
-                        imageLink="https://icons8.com/icon/xS10HpCgrmSD/fidget-spinner"
-                        className="mr-2 h-4 w-4 animate-spin"
+                      <Image
+                        src="/google-color.svg"
+                        className="mr-2 h-4 w-4"
+                        alt="google"
+                        width={30}
+                        height={30}
                       />
                     ) : (
-                      <Icons
-                        imageLink="https://icons8.com/icon/17949/google"
-                        className="mr-2 h-4 w-4"
+                      <Image
+                        src="/googlecloudspanner.svg"
+                        className="mr-2 h-4 w-4 animate-spin"
+                        alt="loading"
+                        width={30}
+                        height={30}
                       />
                     )}{" "}
                     Google

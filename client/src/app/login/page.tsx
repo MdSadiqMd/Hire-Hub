@@ -13,7 +13,6 @@ import { Icons } from "@/components/ui/icons";
 import Image from "next/image";
 import { signIn } from "next-auth/react";
 import { useSession } from "next-auth/react";
-import User from "@/Models/userModels";
 
 const LoginPage = () => {
   const router = useRouter();
@@ -23,8 +22,7 @@ const LoginPage = () => {
   });
 
   const { data: session, status } = useSession();
-  //console.log(session);
-  /*
+  console.log(session);
   useEffect(() => {
     if (status === "authenticated" && session?.user) {
       setUser({
@@ -34,7 +32,7 @@ const LoginPage = () => {
     }
     router.push("/jobs");
   }, [session]);
-  */
+
   const [isLoading, setIsLoading] = useState(false);
 
   const onLogin = async () => {
@@ -164,12 +162,6 @@ const LoginPage = () => {
                     />
                   </div>
                   <Button disabled={isLoading} onClick={() => onLogin()}>
-                    {isLoading && (
-                      <Icons
-                        imageLink="https://icons8.com/icon/xS10HpCgrmSD/fidget-spinner"
-                        className="mr-2 h-4 w-4 animate-spin"
-                      />
-                    )}
                     Sign In with Email
                   </Button>
                 </div>
@@ -189,15 +181,21 @@ const LoginPage = () => {
                 type="button"
                 onClick={() => signIn("github")}
               >
-                {isLoading ? (
-                  <Icons
-                    imageLink="https://icons8.com/icon/xS10HpCgrmSD/fidget-spinner"
-                    className="mr-2 h-4 w-4 animate-spin"
+                {!isLoading ? (
+                  <Image
+                    src="/github.svg"
+                    className="mr-2 h-4 w-4 "
+                    alt="github"
+                    width={30}
+                    height={30}
                   />
                 ) : (
-                  <Icons
-                    imageLink="https://icons8.com/icon/17949/google"
-                    className="mr-2 h-4 w-4"
+                  <Image
+                    src="/googlecloudspanner.svg"
+                    className="mr-2 h-4 w-4 animate-spin"
+                    alt="loading"
+                    width={30}
+                    height={30}
                   />
                 )}{" "}
                 Github

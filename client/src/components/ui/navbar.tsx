@@ -227,7 +227,7 @@ export const Navbar: React.FC<{ search?: string }> = ({ search }) => {
                           <Menu.Item>
                             {({ active }) => (
                               <Link
-                                href="/signout"
+                                href="/signup"
                                 className={classNames(
                                   active ? "bg-gray-300 dark:bg-gray-800" : "",
                                   "block px-4 py-2 text-sm text-gray-800 dark:text-gray-300"
