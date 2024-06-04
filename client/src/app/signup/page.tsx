@@ -263,7 +263,7 @@ export default function SignupPage() {
               </CardFooter>
             </Card>
           </div>
-          <p className="px-8 text-center text-sm text-muted-foreground">
+          <p className="px-8 py-5 text-center text-sm text-muted-foreground">
             By clicking continue, you agree to our{" "}
             <Link
               href="/terms"

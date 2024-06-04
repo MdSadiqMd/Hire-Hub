@@ -183,32 +183,58 @@ const LoginPage = () => {
                   </span>
                 </div>
               </div>
-              <Button
-                variant="outline"
-                type="button"
-                onClick={() => signIn("github")}
-              >
-                {!isLoading ? (
-                  <Image
-                    src="/github.svg"
-                    className="mr-2 h-4 w-4 "
-                    alt="github"
-                    width={30}
-                    height={30}
-                  />
-                ) : (
-                  <Image
-                    src="/googlecloudspanner.svg"
-                    className="mr-2 h-4 w-4 animate-spin"
-                    alt="loading"
-                    width={30}
-                    height={30}
-                  />
-                )}{" "}
-                Github
-              </Button>
+              <div className="flex flex-col space-y-3">
+                <Button
+                  variant="outline"
+                  type="button"
+                  onClick={() => signIn("google")}
+                >
+                  {!isLoading ? (
+                    <Image
+                      src="/google-color.svg"
+                      className="mr-2 h-4 w-4 "
+                      alt="github"
+                      width={30}
+                      height={30}
+                    />
+                  ) : (
+                    <Image
+                      src="/googlecloudspanner.svg"
+                      className="mr-2 h-4 w-4 animate-spin"
+                      alt="loading"
+                      width={30}
+                      height={30}
+                    />
+                  )}{" "}
+                  Google
+                </Button>
+                <Button
+                  variant="outline"
+                  type="button"
+                  onClick={() => signIn("github")}
+                >
+                  {!isLoading ? (
+                    <Image
+                      src="/github.svg"
+                      className="mr-2 h-4 w-4 "
+                      alt="github"
+                      width={30}
+                      height={30}
+                    />
+                  ) : (
+                    <Image
+                      src="/googlecloudspanner.svg"
+                      className="mr-2 h-4 w-4 animate-spin"
+                      alt="loading"
+                      width={30}
+                      height={30}
+                    />
+                  )}{" "}
+                  Github
+                </Button>
+              </div>
             </div>
-            <p className="px-8 text-center text-sm text-muted-foreground">
+            <p className="px-8 py-5 text-center text-sm text-muted-foreground">
               By clicking continue, you agree to our{" "}
               <Link
                 href="/terms"
