@@ -1,62 +1,47 @@
 "use client";
 
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
+import { useSearchParams } from "next/navigation";
 
 type AdBannerTypes = {
   dataAdSlot: string;
   dataAdFormat: string;
   dataFullWidthResponsive: boolean;
 };
-interface Window {
-  adsbygoogle: { [key: string]: unknown }[];
+declare global {
+  interface Window {
+    adsbygoogle: any[];
+  }
 }
-{
-  /* <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8144091131283360"
-     crossorigin="anonymous"></script>
-<!-- adsbygoogle -->
-<ins class="adsbygoogle"
-     style="display:block"
-     data-ad-client="ca-pub-8144091131283360"
-     data-ad-slot="1807507629"
-     data-ad-format="auto"
-     data-full-width-responsive="true"></ins>
-<script>
-     (adsbygoogle = window.adsbygoogle || []).push({});
-</script> */
-}
+
 const AdBanner = ({
   dataAdSlot,
   dataAdFormat,
   dataFullWidthResponsive,
 }: AdBannerTypes) => {
+  const searchParams = useSearchParams();
+  const adsLoaded = useRef<any>(false);
+
   useEffect(() => {
-    const handleAds = () => {
+    const loadAd = () => {
       try {
-        let adsbygoogle: Window;
-        (adsbygoogle = (window as any).adsbygoogle || []).push({});
+        if (typeof window !== "undefined" && window.adsbygoogle) {
+          window.adsbygoogle = window.adsbygoogle || [];
+          window.adsbygoogle.push({});
+          adsLoaded.current = true;
+        }
       } catch (error) {
         console.log(error);
       }
     };
-
-    const scriptExists = document.querySelector(
-      `script[src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"]`
-    );
-    if (!scriptExists) {
-      const script = document.createElement("script");
-      script.async = true;
-      script.src =
-        "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js";
-      script.onload = handleAds;
-      document.head.appendChild(script);
-    } else {
-      handleAds();
+    if (searchParams && !adsLoaded.current) {
+      setTimeout(loadAd, 0);
     }
-  }, []);
+  }, [searchParams]);
 
   return (
     <ins
-      className="adsbygoogle"
+      className="adsbygoogle adbanner-customize"
       style={{ display: "block" }}
       data-ad-client="ca-pub-8144091131283360"
       data-ad-slot={dataAdSlot}
