@@ -4,18 +4,15 @@ import jobModel from "@/Models/jobModels";
 
 export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url);
-  console.log(searchParams);
+  // console.log(searchParams);
   const query = searchParams.get("search");
   const workType = searchParams.getAll("workType").join(",");
   const salary = searchParams.getAll("salary").join(",");
   const experience = searchParams.get("experience");
-  console.log(query);
-  console.log("before");
+  /* console.log(query);
   console.log(workType);
-  console.log("after");
   console.log(salary);
-  console.log("before");
-  console.log(experience);
+  console.log(experience); */
   try {
     console.log("connecting MongoDB");
     await connectDB();
@@ -23,7 +20,7 @@ export async function GET(req: NextRequest) {
     let result;
     switch (true) {
       case query && query !== "null":
-        console.log("Aggregation Pipeline");
+        // console.log("Aggregation Pipeline");
         result = await jobModel.aggregate([
           {
             $search: {
@@ -39,7 +36,7 @@ export async function GET(req: NextRequest) {
         ]);
         break;
       case workType && workType !== "":
-        console.log("Aggregation Pipeline Filter");
+        // console.log("Aggregation Pipeline Filter");
         result = await jobModel.aggregate([
           {
             $search: {
@@ -56,7 +53,7 @@ export async function GET(req: NextRequest) {
         break;
       case salary && salary !== "null":
         const salaryValue = parseInt(salary.slice(0, -1)) * 1000;
-        console.log(salaryValue);
+        // console.log(salaryValue);
         result = await jobModel.aggregate([
           {
             $match: {
@@ -68,7 +65,7 @@ export async function GET(req: NextRequest) {
         ]);
         break;
       case experience && experience !== "null" && experience !== "-1":
-        console.log(experience);
+        // console.log(experience);
         result = await jobModel.aggregate([
           {
             $match: {
@@ -112,8 +109,18 @@ export async function GET(req: NextRequest) {
       default:
         result = await jobModel.find({});
     }
-    return NextResponse.json({ result }, { status: 200 });
+    const response = NextResponse.json({ result }, { status: 200 });
+    response.headers.set(
+      "Cache-Control",
+      "s-maxage=86400, stale-while-revalidate=59"
+    );
+    return response;
   } catch (error) {
-    return NextResponse.json({ msg: "connection failed" }, { status: 400 });
+    const response = NextResponse.json(
+      { msg: "connection failed" },
+      { status: 400 }
+    );
+    response.headers.set("Cache-Control", "no-store");
+    return response;
   }
 }
