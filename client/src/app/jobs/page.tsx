@@ -304,7 +304,7 @@ const Page: NextPage<PageProps> = ({ searchParams }) => {
                 .map((_, index) => (
                   <div
                     key={index}
-                    className="border border-gray-400 shadow p-4"
+                    className="border border-gray-200 dark:border-gray-800 shadow p-4"
                   >
                     <div className="flex items-center space-x-4">
                       <Skeleton className="h-20 w-20 rounded-full bg-gray-200 dark:bg-gray-700" />
@@ -315,6 +315,7 @@ const Page: NextPage<PageProps> = ({ searchParams }) => {
                           <Skeleton className="h-4 bg-gray-200 dark:bg-gray-700 rounded col-span-1" />
                         </div>
                         <Skeleton className="h-4 w-[350px] bg-gray-200 dark:bg-gray-700" />
+                        <Skeleton className="h-4 w-[400px] bg-gray-200 dark:bg-gray-700" />
                       </div>
                     </div>
                   </div>
