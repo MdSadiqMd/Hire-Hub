@@ -1,7 +1,7 @@
-"use client"
+"use client";
 import Link from "next/link";
 import { useState } from "react";
-import Image from "next/image"; 
+import Image from "next/image";
 
 export const Banner: React.FC<{ children?: React.ReactNode }> = (props) => {
   const [display, setDisplay] = useState(true);
@@ -15,7 +15,7 @@ export const Banner: React.FC<{ children?: React.ReactNode }> = (props) => {
       {display && (
         <div
           id="marketing-banner"
-          className="fixed z-100 flex flex-col md:flex-row justify-between w-[calc(50%-2rem)] p-4 -translate-x-1/2 bg-slate-800 border border-gray-700 rounded-lg shadow-sm lg:max-w-7xl left-1/2 top-6 light:bg-slate-100 light:border-gray-100"
+          className="fixed z-100 flex flex-col md:flex-row justify-between w-[calc(50%-2rem)] p-4 -translate-x-1/2 bg-slate-100 dark:bg-slate-800 border border-slate-100 dark:border-gray-700 rounded-lg shadow-sm lg:max-w-7xl left-1/2 top-6 light:bg-slate-100 light:border-gray-100"
         >
           <div className="flex flex-col items-start mb-3 me-4 md:items-center md:flex-row md:mb-0">
             <Link
@@ -30,13 +30,13 @@ export const Banner: React.FC<{ children?: React.ReactNode }> = (props) => {
                 className="scale-150"
               />
             </Link>
-            <p className="flex items-center text-sm font-normal text-gray-300 dark:text-gray-400">
+            <p className="flex items-center text-sm font-normal text-gray-700 dark:text-gray-300">
               Post a job now and tap into a pool of exceptional talent!
             </p>
           </div>
           <div className="flex items-center flex-shrink-0">
             <a
-              href="#"
+              href="/profile/job"
               className="px-5 py-2 me-2 text-xs font-medium text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
             >
               Post Job
@@ -44,7 +44,7 @@ export const Banner: React.FC<{ children?: React.ReactNode }> = (props) => {
             <button
               data-dismiss-target="#marketing-banner"
               type="button"
-              className="flex-shrink-0 inline-flex justify-center w-7 h-7 items-center text-gray-400 hover:bg-gray-500 hover:text-gray-900 rounded-lg text-sm p-1.5 dark:hover:bg-gray-600 dark:hover:text-white"
+              className="flex-shrink-0 inline-flex justify-center w-7 h-7 items-center text-gray-400 hover:bg-gray-400 hover:text-gray-900 rounded-lg text-sm p-1.5 dark:hover:bg-gray-600 dark:hover:text-white"
               onClick={handleBanner}
             >
               <svg
