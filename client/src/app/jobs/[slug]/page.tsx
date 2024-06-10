@@ -5,6 +5,7 @@ import Link from "next/link";
 import { formatSalaryRange } from "@/helpers/formatSalary";
 import { formatDate } from "@/helpers/formatDate";
 import { Button } from "@/components/ui/button";
+import JobFallback from "@/components/ui/job-fallback";
 
 interface JobData {
   jobtitle: string;
@@ -48,7 +49,7 @@ const Page: FC<PageProps> = ({ params }) => {
   }, [params.slug]);
 
   if (!data) {
-    return <div>Loading...</div>;
+    return <JobFallback />;
   }
 
   const badgeStyles = [
