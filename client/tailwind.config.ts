@@ -19,7 +19,6 @@ const config: Config = {
     require("@tailwindcss/forms"),
     require("tailwindcss-animate"),
     require("tailwind-scrollbar-hide"),
-    require("@tailwindcss/line-clamp"),
   ],
 };
 export default config;

@@ -77,6 +77,5 @@ module.exports = {
     require("tailwindcss-animate"),
     require("@tailwindcss/forms"),
     require("tailwind-scrollbar-hide"),
-    require("@tailwindcss/line-clamp"),
   ],
 };
