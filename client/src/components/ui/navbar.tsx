@@ -101,8 +101,7 @@ export const Navbar: React.FC<{ search?: string }> = ({ search }) => {
                         className="h-8 w-auto"
                         src="/logo.svg"
                         alt="Your Company"
-                        width={undefined}
-                        height={undefined}
+                        fill
                       />
                     </div>
                     <div className="hidden sm:ml-6 sm:block">
@@ -188,8 +187,8 @@ export const Navbar: React.FC<{ search?: string }> = ({ search }) => {
                             className="h-8 w-8 rounded-full"
                             src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcREl1TQtDYX5h2D_zEWAcR7uZge3w8w-BVjd-4QqFc4ZncS05EcIP7oVgvJWHY7ETxPp8Y&usqp=CAU"
                             alt=""
-                            width={undefined}
-                            height={undefined}
+                            width={15}
+                            height={15}
                           />
                         </Menu.Button>
                       </div>

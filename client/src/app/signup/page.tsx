@@ -18,9 +18,7 @@ import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { signIn } from "next-auth/react";
 import { useSession } from "next-auth/react";
-import User from "@/Models/userModels";
 
 export default function SignupPage() {
   const router = useRouter();
@@ -30,11 +28,11 @@ export default function SignupPage() {
     password: "",
   });
 
-  const { data: session, status } = useSession();
+  /* const { data: session, status } = useSession();
   console.log(session);
-  console.log(status);
+  console.log(status); */
 
-  useEffect(() => {
+  /* useEffect(() => {
     if (session?.user?.email !== undefined && session?.user?.email) {
       setUser({
         username: session?.user?.name ?? "",
@@ -43,11 +41,11 @@ export default function SignupPage() {
       });
       router.push("/signup");
     }
-  }, [session, router]);
+  }, [session, router]); */
 
   const [loading, isLoading] = useState(false);
 
-  const onSignup = async () => {
+  /* const onSignup = async () => {
     try {
       isLoading(true);
       const response = await axios.post("/api/auth/signup", user);
@@ -73,7 +71,20 @@ export default function SignupPage() {
     } finally {
       isLoading(false);
     }
-  };
+  }; */
+
+  const onSignup = async () => {
+    try {
+      isLoading(true);
+      const response = await axios.post("/api/auth/signup", user);
+      console.log("Signup success", response.data);
+      router.push("/login");
+    } catch (error: any) {
+      console.log("Signup failed", error.message);
+    } finally {
+      isLoading(false);
+    }
+  }
 
   useEffect(() => {
     if (
@@ -148,7 +159,7 @@ export default function SignupPage() {
                 </CardDescription>
               </CardHeader>
               <CardContent className="grid gap-4">
-                <div className="grid grid-cols-2 gap-6">
+                {/* <div className="grid grid-cols-2 gap-6">
                   <Button
                     variant="outline"
                     type="button"
@@ -215,7 +226,7 @@ export default function SignupPage() {
                       Or continue with
                     </span>
                   </div>
-                </div>
+                </div> */}
                 <div className="grid gap-2">
                   <Label htmlFor="email">UserName</Label>
                   <Input

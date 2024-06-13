@@ -8,7 +8,7 @@ interface IconProps {
 
 export const Icons: React.FC<IconProps> = ({ imageLink, className }) => (
   <div className={className}>
-    <Image src={imageLink} alt="Icon" width={undefined} height={undefined} />
+    <Image src={imageLink} alt="Icon" fill />
   </div>
 );
 

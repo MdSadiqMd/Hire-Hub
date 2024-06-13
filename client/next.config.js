@@ -23,16 +23,21 @@ const nextConfig = {
         protocol: "https",
         hostname: "picsum.photos",
       },
+      {
+        protocol: "https",
+        hostname: "encrypted-tbn0.gstatic.com",
+      },
     ],
   },
 };
 
-module.exports =nextConfig, {
-  webpack: (config) => {
-    config.resolve.fallback = {
-      "mongodb-client-encryption": false,
-      aws4: false,
-    };
-    return config;
-  },
-};
+(module.exports = nextConfig),
+  {
+    webpack: (config) => {
+      config.resolve.fallback = {
+        "mongodb-client-encryption": false,
+        aws4: false,
+      };
+      return config;
+    },
+  };

@@ -8,14 +8,13 @@ connectDB();
 
 export async function POST(request: NextRequest) {
   try {
-    console.log("Request Body:", request.body); 
+    console.log("Request Body:", request.body);
     const reqBody = await request.json();
     const { email, password } = reqBody;
     console.log(reqBody);
 
     // Check if the user exists or not
     const user = await User.findOne({ email });
-    
     if (!user) {
       return NextResponse.json({ error: "User not Exist" }, { status: 200 });
     }
