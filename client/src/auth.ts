@@ -8,9 +8,9 @@ import GithubProvider from "next-auth/providers/github";
 import GoogleProvider from "next-auth/providers/google";
 import connectDB from "./db/config";
 import { compare } from "bcryptjs";
-import UserModel from "./Models/userModels";
+import userModel from "./Models/userModels";
 
-let User: typeof UserModel;
+let User: typeof userModel;
 if (typeof window === "undefined") {
   User = require("./Models/userModels").default;
 }

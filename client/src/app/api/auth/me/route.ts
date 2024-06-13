@@ -1,7 +1,12 @@
 import { getDataFromToken } from "@/helpers/getDataFromToken";
 import { NextRequest, NextResponse } from "next/server";
-import User from "@/Models/userModels";
 import connectDB from "@/db/config";
+import userModel from '@/Models/userModels'
+
+let User: typeof userModel;
+if (typeof window === "undefined") {
+  User = require("./Models/userModels").default;
+}
 
 connectDB();
 

@@ -1,7 +1,12 @@
 import connectDB from "@/db/config";
-import User from "@/Models/userModels";
 import { NextRequest, NextResponse } from "next/server";
 import bcryptjs from "bcryptjs";
+import userModel from '@/Models/userModels'
+
+let User: typeof userModel;
+if (typeof window === "undefined") {
+  User = require("./Models/userModels").default;
+}
 
 connectDB();
 
