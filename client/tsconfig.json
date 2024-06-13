@@ -28,16 +28,18 @@
     ],
     "paths": {
       "@/*": [
-        "./src/*"
+        "src/*"
       ]
-    }
+    },
+    "baseUrl": "."
   },
   "include": [
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts",
-    "src/app/api/jobs/[id]/route.ts"
+    "src/app/api/jobs/[id]/route.ts",
+    "src/app/api/auth/signup/route.ts"
   ],
   "exclude": [
     "node_modules"
