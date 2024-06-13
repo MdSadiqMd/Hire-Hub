@@ -30,7 +30,7 @@ const LoginPage = () => {
       });
     }
     router.push("/jobs");
-  }, [session]);
+  }, [session, router, status]);
 
   const [isLoading, setIsLoading] = useState(false);
 

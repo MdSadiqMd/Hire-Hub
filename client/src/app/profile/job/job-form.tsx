@@ -1,6 +1,5 @@
 "use client";
 
-import Link from "next/link";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useFieldArray, useForm } from "react-hook-form";
 import { CalendarIcon, CaretSortIcon, CheckIcon } from "@radix-ui/react-icons";
@@ -33,7 +32,6 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { toast } from "@/components/ui/use-toast";
 
 const workType = [
   { value: "Remote", label: "Remote" },
@@ -126,20 +124,8 @@ export function JobForm() {
         console.log(data);
         const res = await axios.post("/api/addJob", { data: data });
         console.log(res);
-        toast({
-          title: "Success",
-          description: "Job added successfully",
-          status: "success",
-          duration: 5000,
-        });
       } catch (error) {
         console.error("An error occurred:", error);
-        toast({
-          title: "Error",
-          description: "Failed to add job",
-          status: "error",
-          duration: 5000,
-        });
       }
     }
   }
@@ -228,8 +214,8 @@ export function JobForm() {
                     >
                       {field.value
                         ? workType.find(
-                            (workType) => workType.value === field.value
-                          )?.label
+                          (workType) => workType.value === field.value
+                        )?.label
                         : "Select Work Type"}
                       <CaretSortIcon className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                     </Button>

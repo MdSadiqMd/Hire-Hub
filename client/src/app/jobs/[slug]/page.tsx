@@ -217,7 +217,7 @@ const Page: FC<PageProps> = ({ params }) => {
             At Hire Hub, we want to emphasize that we never promise interviews
             in exchange for money. Unfortunately, there are fraudsters out there
             who may request a registration fee or a refundable fee under false
-            pretenses. It's crucial to be vigilant and cautious to avoid falling
+            pretenses. It&apos;s crucial to be vigilant and cautious to avoid falling
             victim to such scams.
           </p>
         </div>

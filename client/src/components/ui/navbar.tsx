@@ -9,6 +9,7 @@ import { toast } from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import { useDebounce } from "use-debounce";
 import { ModeToggle } from "@/components/ui/toggleButton";
+import Image from "next/image";
 
 export const initialNavigation = [
   { name: "Home", href: "/home", current: false },
@@ -96,10 +97,12 @@ export const Navbar: React.FC<{ search?: string }> = ({ search }) => {
                   </div>
                   <div className="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
                     <div className="flex flex-shrink-0 items-center">
-                      <img
+                      <Image
                         className="h-8 w-auto"
                         src="/logo.svg"
                         alt="Your Company"
+                        width={undefined}
+                        height={undefined}
                       />
                     </div>
                     <div className="hidden sm:ml-6 sm:block">
@@ -181,10 +184,12 @@ export const Navbar: React.FC<{ search?: string }> = ({ search }) => {
                         <Menu.Button className="relative flex rounded-full bg-gray-300 dark:bg-gray-700 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-00">
                           <span className="absolute -inset-1.5" />
                           <span className="sr-only">Open user menu</span>
-                          <img
+                          <Image
                             className="h-8 w-8 rounded-full"
                             src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcREl1TQtDYX5h2D_zEWAcR7uZge3w8w-BVjd-4QqFc4ZncS05EcIP7oVgvJWHY7ETxPp8Y&usqp=CAU"
                             alt=""
+                            width={undefined}
+                            height={undefined}
                           />
                         </Menu.Button>
                       </div>

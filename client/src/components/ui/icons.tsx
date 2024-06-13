@@ -1,4 +1,5 @@
-import * as React from "react";
+import Image from 'next/image';
+import * as React from 'react';
 
 interface IconProps {
   imageLink: string;
@@ -7,7 +8,7 @@ interface IconProps {
 
 export const Icons: React.FC<IconProps> = ({ imageLink, className }) => (
   <div className={className}>
-    <img src={imageLink} alt="Icon" />
+    <Image src={imageLink} alt="Icon" width={undefined} height={undefined} />
   </div>
 );
 

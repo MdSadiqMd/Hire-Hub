@@ -202,9 +202,8 @@ const Page: NextPage<PageProps> = ({ searchParams }) => {
             <div className="absolute  h-full w-100% bg-#020817/50 backdrop-blur-sm lg:backdrop-blur-none lg:w-full lg:sticky">
               <div className="flex lg:border-gray-1200 border-2 border-solid border-red lg:border-0">
                 <div
-                  className={`h-[100vw] md:h-[50vw] bg-white dark:bg-gray-900 text-gray-700 dark:text-gray-300 p-[8px] w-[90vw] lg:w-[80vw] overflow-y-auto flex flex-col m-4  rounded-xl ${
-                    !sideBar ? "block" : "hidden"
-                  }`}
+                  className={`h-[100vw] md:h-[50vw] bg-white dark:bg-gray-900 text-gray-700 dark:text-gray-300 p-[8px] w-[90vw] lg:w-[80vw] overflow-y-auto flex flex-col m-4  rounded-xl ${!sideBar ? "block" : "hidden"
+                    }`}
                 >
                   {sideBarClose && (
                     <button
