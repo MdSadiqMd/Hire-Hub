@@ -20,6 +20,23 @@ type AuthorizeCredentials = {
   password: string;
 };
 
+const authorize: any = async (credentials: any) => {
+  const { email, password } = credentials as AuthorizeCredentials;
+  if (!email || !password) {
+    throw new CredentialsSignin("Please provide both email & password");
+  }
+  await connectDB();
+  const user = await User.findOne({ email }).select("+password");
+  if (!user || !user.password) {
+    throw new CredentialsSignin("Invalid email or password");
+  }
+  const isMatch = await compare(password, user.password);
+  if (!isMatch) {
+    throw new CredentialsSignin("Invalid email or password");
+  }
+  return { email: user.email, password: user.password, id: user._id };
+};
+
 export const { handlers, signIn, signOut, auth } = NextAuth({
   providers: [
     GoogleProvider({
@@ -36,22 +53,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         email: { label: "Email", type: "email" },
         password: { label: "Password", type: "password" },
       },
-      authorize: async (credentials) => {
-        const { email, password } = credentials as AuthorizeCredentials;
-        if (!email || !password) {
-          throw new CredentialsSignin("Please provide both email & password");
-        }
-        await connectDB();
-        const user = await User.findOne({ email }).select("+password");
-        if (!user || !user.password) {
-          throw new CredentialsSignin("Invalid email or password");
-        }
-        const isMatch = await compare(password, user.password);
-        if (!isMatch) {
-          throw new CredentialsSignin("Invalid email or password");
-        }
-        return { email: user.email, password: user.password, id: user._id };
-      },
+      authorize,
     }),
   ],
   pages: {
