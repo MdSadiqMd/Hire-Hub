@@ -1,11 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import connectDB from "@/db/config";
-import jobModel from '@/Models/jobModels'
-
-let Job: typeof jobModel;
-if (typeof window === "undefined") {
-  Job = require("./Models/jobModels").default;
-}
+import Job from "@/Models/jobModels";
 
 export async function POST(req: NextRequest) {
   try {

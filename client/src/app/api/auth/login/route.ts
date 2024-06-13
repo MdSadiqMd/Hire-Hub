@@ -2,12 +2,7 @@ import connectDB from "@/db/config";
 import { NextRequest, NextResponse } from "next/server";
 import bcryptjs from "bcryptjs";
 import jwt from "jsonwebtoken";
-import userModel from '@/Models/userModels'
-
-let User: typeof userModel;
-if (typeof window === "undefined") {
-  User = require("./Models/userModels").default;
-}
+import User from "@/Models/userModels";
 
 connectDB();
 

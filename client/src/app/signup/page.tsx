@@ -20,12 +20,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { signIn } from "next-auth/react";
 import { useSession } from "next-auth/react";
-import userModel from '@/Models/userModels'
-
-let User: typeof userModel;
-if (typeof window === "undefined") {
-  User = require("./Models/userModels").default;
-}
+import User from "@/Models/userModels";
 
 export default function SignupPage() {
   const router = useRouter();
