@@ -3,36 +3,41 @@ import NextAuth, {
   User as NextAuthUser,
   Account as NextAuthAccount,
 } from "next-auth";
-import Credentials from "next-auth/providers/credentials";
-import Github from "next-auth/providers/github";
-import Google from "next-auth/providers/google";
-import connectDB from "@/db/config";
+import CredentialsProvider from "next-auth/providers/credentials";
+import GithubProvider from "next-auth/providers/github";
+import GoogleProvider from "next-auth/providers/google";
+import connectDB from "./db/config";
 import { compare } from "bcryptjs";
-import { NextRequest, NextResponse } from "next/server";
-let User: typeof import("./Models/userModels").default;
+import UserModel from "./Models/userModels";
+
+let User: typeof UserModel;
 if (typeof window === "undefined") {
   User = require("./Models/userModels").default;
 }
 
-export const authOptions: any = {
+type AuthorizeCredentials = {
+  email: string;
+  password: string;
+};
+
+export const { handlers, signIn, signOut, auth } = NextAuth({
   providers: [
-    Google({
-      clientId: process.env.GOOGLE_CLIENT_ID,
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+    GoogleProvider({
+      clientId: process.env.GOOGLE_CLIENT_ID as string,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
     }),
-    Github({
-      clientId: process.env.GITHUBCLIENT_ID,
-      clientSecret: process.env.GITHUBCLIENT_SECRET,
+    GithubProvider({
+      clientId: process.env.GITHUBCLIENT_ID as string,
+      clientSecret: process.env.GITHUBCLIENT_SECRET as string,
     }),
-    Credentials({
+    CredentialsProvider({
       name: "Credentials",
       credentials: {
         email: { label: "Email", type: "email" },
         password: { label: "Password", type: "password" },
       },
       authorize: async (credentials) => {
-        const email = credentials?.email as string | undefined;
-        const password = credentials?.password as string | undefined;
+        const { email, password } = credentials as AuthorizeCredentials;
         if (!email || !password) {
           throw new CredentialsSignin("Please provide both email & password");
         }
@@ -58,9 +63,9 @@ export const authOptions: any = {
       account,
     }: {
       user: NextAuthUser;
-      account: NextAuthAccount;
+      account: NextAuthAccount | null;
     }) => {
-      if (account?.provider === "google" || "github") {
+      if (account?.provider === "google") {
         try {
           const { name, email, id } = user;
           await connectDB();
@@ -80,9 +85,4 @@ export const authOptions: any = {
       return false;
     },
   },
-};
-
-export async function auth(req: NextRequest) {
-  const response = await NextAuth(authOptions);
-  return NextResponse.json(response);
-}
+});
