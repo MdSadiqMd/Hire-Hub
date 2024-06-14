@@ -208,7 +208,7 @@ const Page: NextPage<PageProps> = ({ searchParams }) => {
                   {sideBarClose && (
                     <button
                       onClick={toggleSidebar}
-                      className="justify-between text-3xl py-2 px-4 lg:hidden"
+                      className="justify-items-end text-3xl py-2 px-4 lg:hidden"
                     >
                       <b>X</b>
                     </button>

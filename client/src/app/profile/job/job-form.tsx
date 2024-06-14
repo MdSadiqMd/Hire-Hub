@@ -1,5 +1,6 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useFieldArray, useForm } from "react-hook-form";
 import { CalendarIcon, CaretSortIcon, CheckIcon } from "@radix-ui/react-icons";
@@ -32,13 +33,14 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
+import { useState } from "react";
 
 const workType = [
   { value: "Remote", label: "Remote" },
   { value: "On-Site", label: "On-Site" },
   { value: "Freelance", label: "Freelance" },
   { value: "Internship", label: "Internship" },
-  { value: "Contract basis", label: "Contract basis" },
+  { value: "Contract-basis", label: "Contract-basis" },
 ] as const;
 
 const jobFormSchema = z.object({
@@ -48,21 +50,21 @@ const jobFormSchema = z.object({
       message: "Job must be at least 2 characters.",
     })
     .max(30, {
-      message: "job must not be longer than 30 characters.",
+      message: "Job must not be longer than 30 characters.",
     }),
   companyName: z.string({
-    required_error: "Please select an Company.",
+    required_error: "Please enter a company name.",
   }),
   location: z.string({
-    required_error: "Please enter the location of the job",
+    required_error: "Please enter the job location.",
   }),
   email: z
     .string({
-      required_error: "Please select an email to display.",
+      required_error: "Please enter an email address.",
     })
     .email(),
   workType: z.string({
-    required_error: "Please provide work type to display.",
+    required_error: "Please select a work type.",
   }),
   salary: z
     .object({
@@ -71,43 +73,48 @@ const jobFormSchema = z.object({
     })
     .optional(),
   experience: z.string({
-    required_error: "Please provide experience to display.",
+    required_error: "Please enter the experience required.",
   }),
   jobDescription: z
     .string({
-      required_error:
-        "the job Description should me atleast four words and maximum of 160 words",
+      required_error: "Please enter a job description.",
     })
-    .max(160)
-    .min(4),
+    .max(160, {
+      message: "Job description must not exceed 160 words.",
+    })
+    .min(4, {
+      message: "Job description must be at least 4 words.",
+    }),
   educationQualification: z.string({
-    required_error: "Please select an Company.",
+    required_error: "Please enter the educational qualification.",
   }),
   postedAt: z.date({
-    required_error: "A date of birth is required.",
+    required_error: "Please select the job posting date.",
   }),
   skillsRequired: z
     .array(
       z.object({
-        value: z.string().min(2, { message: "Please enter minimum 2 Skills." }),
+        value: z.string().min(2, { message: "Skill must be at least 2 characters." }),
       })
     )
     .optional(),
   companyLogo: z.string({
-    required_error:
-      "the job Description should me atleast four words and maximum of 160 words",
+    required_error: "Please enter the company logo link.",
   }),
 });
 
 type JobFormValues = z.infer<typeof jobFormSchema> & {
   skillsRequired: { value: string }[];
 };
+
 const defaultValues: Partial<JobFormValues> = {
   postedAt: new Date(),
   skillsRequired: [{ value: "Leadership" }, { value: "Java Programming" }],
 };
 
 export function JobForm() {
+  const router = useRouter();
+  const [loading, setLoading] = useState(false);
   const form = useForm<JobFormValues>({
     resolver: zodResolver(jobFormSchema),
     defaultValues,
@@ -119,23 +126,23 @@ export function JobForm() {
   });
 
   async function onSubmit(data: JobFormValues) {
-    if (data) {
-      try {
-        console.log(data);
-        const res = await axios.post("/api/addJob", { data: data });
-        console.log(res);
-      } catch (error) {
-        console.error("An error occurred:", error);
-      }
+    setLoading(true);
+    try {
+      console.log(data);
+      const res = await axios.post("/api/addJob", { data: data });
+      console.log(res);
+      router.push("/jobs");
+    } catch (error) {
+      console.error("An error occurred:", error);
+    } finally {
+      setLoading(false);
     }
   }
 
   return (
     <Form {...form}>
       <form
-        onSubmit={form.handleSubmit((data) => {
-          onSubmit(data);
-        })}
+        onSubmit={form.handleSubmit(onSubmit)}
         className="space-y-8"
       >
         <div className="flex flex-row space-x-9">
@@ -197,9 +204,9 @@ export function JobForm() {
           name="workType"
           render={({ field }) => (
             <FormItem className="flex flex-col">
-              <FormLabel>work Type</FormLabel>
+              <FormLabel>Work Type</FormLabel>
               <FormDescription>
-                This is the work Type that will be used in the dashboard.
+                This is the work type that will be used in the dashboard.
               </FormDescription>
               <Popover>
                 <PopoverTrigger asChild>
@@ -263,7 +270,7 @@ export function JobForm() {
                 <FormControl>
                   <Input
                     placeholder="Enter min salary"
-                    type="number"
+                    type="text"
                     value={field.value ? field.value.toString() : ""}
                     onChange={(e) => field.onChange(e.target.value)}
                   />
@@ -281,7 +288,7 @@ export function JobForm() {
                 <FormControl>
                   <Input
                     placeholder="Enter max salary"
-                    type="number"
+                    type="text"
                     value={field.value ? field.value.toString() : ""}
                     onChange={(e) => field.onChange(e.target.value)}
                   />
@@ -315,7 +322,11 @@ export function JobForm() {
             <FormItem>
               <FormLabel>Job Description</FormLabel>
               <FormControl>
-                <Textarea placeholder="Enter job description" {...field} />
+                <Textarea
+                  placeholder="Enter job description"
+                  className="resize-none"
+                  {...field}
+                />
               </FormControl>
               <FormMessage>{fieldState.error?.message}</FormMessage>
             </FormItem>
@@ -326,9 +337,13 @@ export function JobForm() {
           name="educationQualification"
           render={({ field, fieldState }) => (
             <FormItem>
-              <FormLabel>Education Qualification</FormLabel>
+              <FormLabel>Educational Qualification</FormLabel>
               <FormControl>
-                <Input placeholder="Enter education qualification" {...field} />
+                <Input
+                  placeholder="Enter educational qualification"
+                  type="text"
+                  {...field}
+                />
               </FormControl>
               <FormMessage>{fieldState.error?.message}</FormMessage>
             </FormItem>
@@ -339,14 +354,14 @@ export function JobForm() {
           name="postedAt"
           render={({ field }) => (
             <FormItem className="flex flex-col">
-              <FormLabel>Job Goes Live on</FormLabel>
+              <FormLabel>Posted Date</FormLabel>
               <Popover>
                 <PopoverTrigger asChild>
                   <FormControl>
                     <Button
                       variant={"outline"}
                       className={cn(
-                        "w-[240px] pl-3 text-left font-normal",
+                        "w-[280px] pl-3 text-left font-normal",
                         !field.value && "text-muted-foreground"
                       )}
                     >
@@ -371,6 +386,9 @@ export function JobForm() {
                   />
                 </PopoverContent>
               </Popover>
+              <FormDescription>
+                Select the date you want to post this job.
+              </FormDescription>
               <FormMessage />
             </FormItem>
           )}
@@ -380,9 +398,13 @@ export function JobForm() {
           name="companyLogo"
           render={({ field, fieldState }) => (
             <FormItem>
-              <FormLabel>Company Logo Link</FormLabel>
+              <FormLabel>Company Logo</FormLabel>
               <FormControl>
-                <Input placeholder="Paste company Logo Link" {...field} />
+                <Input
+                  placeholder="Enter company logo link"
+                  type="text"
+                  {...field}
+                />
               </FormControl>
               <FormMessage>{fieldState.error?.message}</FormMessage>
             </FormItem>
@@ -417,7 +439,9 @@ export function JobForm() {
             Add Skill
           </Button>
         </div>
-        <Button type="submit">Submit</Button>
+        <Button type="submit" disabled={loading}>
+          {loading ? "Submitting..." : "Create Job"}
+        </Button>
       </form>
     </Form>
   );

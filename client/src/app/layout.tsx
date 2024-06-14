@@ -4,6 +4,7 @@ import "./globals.css";
 import { ThemeProvider } from "@/components/ui/theme-provider";
 import AuthProvider from "@/lib/AuthProvider";
 import AdSense from "@/components/ui/adsense";
+import Navbar from "@/components/ui/navbar";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -30,6 +31,7 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
+          <Navbar />
           <AuthProvider>{children}</AuthProvider>
         </ThemeProvider>
       </body>

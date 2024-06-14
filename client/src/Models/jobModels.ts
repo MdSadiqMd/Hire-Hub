@@ -1,8 +1,8 @@
-import mongoose, { Document, Schema, Model } from 'mongoose';
+import mongoose, { Document, Schema, Model } from "mongoose";
 
 interface JobInterface extends Document {
   jobtitle: string;
-  companyName:string;
+  companyName: string;
   location: string;
   salary: number[];
   skillsRequired: string[];
@@ -28,7 +28,7 @@ const jobSchema = new Schema<JobInterface>(
       unique: true,
       validate: {
         validator: (value: string) => /^[a-zA-Z0-9\s]*$/.test(value),
-        message: 'Title can only contain alphanumeric characters and spaces.',
+        message: "Title can only contain alphanumeric characters and spaces.",
       },
     },
     companyName: {
@@ -73,8 +73,15 @@ const jobSchema = new Schema<JobInterface>(
     },
     workType: {
       type: String,
-      default: 'true',
-      enum: ['Hybrid', 'Remote','On-Site','Internship'],
+      default: "true",
+      enum: [
+        "Hybrid",
+        "Remote",
+        "On-Site",
+        "Internship",
+        "Freelance",
+        "Contract-basis",
+      ],
     },
     companyLogo: {
       type: String,
@@ -85,6 +92,7 @@ const jobSchema = new Schema<JobInterface>(
   }
 );
 
-const Job: Model<JobInterface> = mongoose.models['jobs'] || mongoose.model('jobs', jobSchema);
+const Job: Model<JobInterface> =
+  mongoose.models["jobs"] || mongoose.model("jobs", jobSchema);
 
 export default Job;

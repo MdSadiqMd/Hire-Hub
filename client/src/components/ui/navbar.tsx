@@ -101,7 +101,8 @@ export const Navbar: React.FC<{ search?: string }> = ({ search }) => {
                         className="h-8 w-auto"
                         src="/logo.svg"
                         alt="Your Company"
-                        fill
+                        width={20}
+                        height={20}
                       />
                     </div>
                     <div className="hidden sm:ml-6 sm:block">
