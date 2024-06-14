@@ -5,7 +5,7 @@ export default function NotFound() {
   return (
     <div>
       <div className="flex flex-col items-center justify-center min-h-screen mt-7">
-        <Link href="/home" className="font-serif font-medium text-2xl">
+        <Link href="/" className="font-serif font-medium text-2xl">
           Return <span className="text-blue-600">Home</span>
         </Link>
         <Image

@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect, Fragment } from "react";
 import { Disclosure, Menu, Transition } from "@headlessui/react";
-import { BellIcon, MenuIcon, XIcon } from "@heroicons/react/outline";
+import { MenuIcon, XIcon } from "@heroicons/react/outline";
 import axios from "axios";
 import Link from "next/link";
 import { toast } from "react-hot-toast";
@@ -12,7 +12,7 @@ import { ModeToggle } from "@/components/ui/toggleButton";
 import Image from "next/image";
 
 export const initialNavigation = [
-  { name: "Home", href: "/home", current: false },
+  { name: "Home", href: "/", current: false },
   { name: "Jobs", href: "/jobs", current: false },
   { name: "Post a Job", href: "/profile/job", current: false },
   { name: "Profile", href: "/profile", current: false },

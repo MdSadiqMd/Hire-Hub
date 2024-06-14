@@ -21,6 +21,7 @@ export default function RootLayout({
   return (
     <html lang="en" className="system">
       <head>
+      <link rel="icon" href="/logo.svg" sizes="any" />
         <AdSense pId="ca-pub-8144091131283360" />
       </head>
       <body className={inter.className}>
