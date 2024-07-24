@@ -5,7 +5,6 @@ import { Disclosure, Menu, Transition } from "@headlessui/react";
 import { MenuIcon, XIcon } from "@heroicons/react/outline";
 import axios from "axios";
 import Link from "next/link";
-import { toast } from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import { useDebounce } from "use-debounce";
 import { ModeToggle } from "@/components/ui/toggleButton";
@@ -22,7 +21,7 @@ export function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(" ");
 }
 
-export const Navbar: React.FC<{ search?: string }> = ({ search }) => {
+export const Navbar: React.FC<{ search?: string; }> = ({ search }) => {
   const [isSearchBarVisible, setIsSearchBarVisible] = useState<Boolean>(true);
   const [searchText, setSearchText] = useState("");
   const [navigation, setNavigation] = useState(initialNavigation);
@@ -61,11 +60,10 @@ export const Navbar: React.FC<{ search?: string }> = ({ search }) => {
   const logout = async () => {
     try {
       await axios.get("api/auth/signout");
-      toast.success("Logout Successful");
+      window.location.reload();
       router.push("/signup");
     } catch (error: any) {
       console.log(error.message);
-      toast.error(error.message);
     }
   };
 
