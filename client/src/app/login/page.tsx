@@ -86,30 +86,42 @@ const LoginPage = () => {
                 }
               />
             </div>
+            <Button
+              className="w-full"
+              type="submit"
+              disabled={isLoading}
+            >
+              Sign in
+            </Button>
+            <div className="mt-1 text-center text-sm">
+              Not have an account?{" "}
+              <Link href="/signup" className="underline">
+                Create Account
+              </Link>
+            </div>
           </CardContent>
-          <CardFooter>
-            <Button className="w-full" type="submit" disabled={isLoading}>Sign in</Button>
-          </CardFooter>
         </form>
-        <div>
-          <p className="px-8 py-5 text-center text-sm text-muted-foreground">
-            By clicking continue, you agree to our{" "}
-            <Link
-              href="/terms"
-              className="underline underline-offset-4 hover:text-primary"
-            >
-              Terms of Service
-            </Link>{" "}
-            and{" "}
-            <Link
-              href="/privacy"
-              className="underline underline-offset-4 hover:text-primary"
-            >
-              Privacy Policy
-            </Link>
-            .
-          </p>
-        </div>
+        <CardFooter>
+          <div>
+            <p className="px-8 py-0.25 text-center text-sm text-muted-foreground">
+              By clicking continue, you agree to our{" "}
+              <Link
+                href="/terms"
+                className="underline underline-offset-4 hover:text-primary"
+              >
+                Terms of Service
+              </Link>{" "}
+              and{" "}
+              <Link
+                href="/privacy"
+                className="underline underline-offset-4 hover:text-primary"
+              >
+                Privacy Policy
+              </Link>
+              .
+            </p>
+          </div>
+        </CardFooter>
       </Card>
     </>
   );
