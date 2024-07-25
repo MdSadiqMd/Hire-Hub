@@ -3,18 +3,18 @@ import Link from 'next/link';
 
 const TermsAndConditions: React.FC = () => {
     return (
-        <div className="bg-gray-100 dark:bg-gray-800 min-h-screen px-8 py-8 rounded-2xl">
-            <div className="container mx-auto">
+        <div className="bg-gray-100 dark:bg-gray-800 min-h-screen m-6 rounded-2xl">
+            <div className="container m-8 px-4 py-8">
                 <h1 className="text-3xl font-bold mb-4 dark:text-white">Terms and Conditions</h1>
 
                 <p className="mb-4 dark:text-gray-300">
-                    These terms and conditions outline the rules and regulations for the use of Hire Hub's Website.
+                    These terms and conditions outline the rules and regulations for the use of Hire Hub&apos;s Website.
                 </p>
 
                 <h2 className="text-2xl font-bold mb-2 dark:text-white">Introduction</h2>
 
                 <p className="mb-4 dark:text-gray-300">
-                    By accessing this website, we assume you accept these terms and conditions in full. Do not continue to use Hire Hub's website if you do not accept all of the terms and conditions stated on this page.
+                    By accessing this website, we assume you accept these terms and conditions in full. Do not continue to use Hire Hub&apos;s website if you do not accept all of the terms and conditions stated on this page.
                 </p>
 
                 <h2 className="text-2xl font-bold mb-2 dark:text-white">License</h2>
@@ -33,7 +33,7 @@ const TermsAndConditions: React.FC = () => {
                 <h2 className="text-2xl font-bold mb-2 dark:text-white">User Comments</h2>
 
                 <p className="mb-4 dark:text-gray-300">
-                    Certain parts of this website offer the opportunity for users to post and exchange opinions, information, material and data ('Comments') in areas of the website. Hire Hub does not screen, edit, publish or review Comments prior to their appearance on the website and Comments do not reflect the views or opinions of Hire Hub, its agents or affiliates. Comments reflect the view and opinion of the person who posts such view or opinion. To the extent permitted by applicable laws Hire Hub shall not be responsible or liable for the Comments or for any loss cost, liability, damages or expenses caused and or suffered as a result of any use of and/or posting of and/or appearance of the Comments on this website.
+                    Certain parts of this website offer the opportunity for users to post and exchange opinions, information, material and data (&apos;Comments&apos;) in areas of the website. Hire Hub does not screen, edit, publish or review Comments prior to their appearance on the website and Comments do not reflect the views or opinions of Hire Hub, its agents or affiliates. Comments reflect the view and opinion of the person who posts such view or opinion. To the extent permitted by applicable laws Hire Hub shall not be responsible or liable for the Comments or for any loss cost, liability, damages or expenses caused and or suffered as a result of any use of and/or posting of and/or appearance of the Comments on this website.
                 </p>
 
                 <h2 className="text-2xl font-bold mb-2 dark:text-white">Hyperlinking to our Content</h2>

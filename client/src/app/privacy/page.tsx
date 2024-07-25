@@ -3,8 +3,8 @@ import Link from 'next/link';
 
 const PrivacyPolicy: React.FC = () => {
     return (
-        <div className="bg-gray-100 dark:bg-gray-800 min-h-screen px-8 py-8 rounded-2xl">
-            <div className="container mx-auto">
+        <div className="bg-gray-100 dark:bg-gray-800 min-h-screen m-6 rounded-2xl">
+            <div className="container m-8 px-4 py-8">
                 <h1 className="text-3xl font-bold mb-4 dark:text-white">Privacy Policy</h1>
 
                 <p className="mb-4 dark:text-gray-300">
@@ -45,7 +45,7 @@ const PrivacyPolicy: React.FC = () => {
                 <h2 className="text-2xl font-bold mb-2 dark:text-white">Cookies</h2>
 
                 <p className="mb-4 dark:text-gray-300">
-                    A cookie is a small file that asks permission to be placed on your computer's hard drive. Once you agree, the file is added, and the cookie helps analyze web traffic or lets you know when you visit a particular site. Cookies allow web applications to respond to you as an individual. The web application can tailor its operations to your needs, likes, and dislikes by gathering and remembering information about your preferences.
+                    A cookie is a small file that asks permission to be placed on your computer&apos;s hard drive. Once you agree, the file is added, and the cookie helps analyze web traffic or lets you know when you visit a particular site. Cookies allow web applications to respond to you as an individual. The web application can tailor its operations to your needs, likes, and dislikes by gathering and remembering information about your preferences.
                 </p>
 
                 <p className="mb-4 dark:text-gray-300">
